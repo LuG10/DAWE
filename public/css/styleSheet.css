@@ -1,5 +1,11 @@
+html {
+    cursor: url("../imagenes/cursor.png"), auto;
+    min-height: 100%;
+}
+
 body{
     background-image: url(../imagenes/fondo_hojas.jpeg);
+
 }
 
 header{
@@ -32,7 +38,7 @@ ul a:hover {
     text-decoration: underline;
     background-color: #9ac9d6;
 	font-size: 17px;
-    cursor: url("../imagenes/cursor_gotaagua.png"), auto;
+    cursor: url("../imagenes/cursor_pulsado.png"), auto;
 }
 
 
@@ -47,3 +53,4 @@ ul a:hover {
 footer{
  background-color: rgb(250, 235, 215, 0.8);
 }
+
