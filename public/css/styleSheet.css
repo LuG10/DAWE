@@ -1,5 +1,5 @@
 body{
-    background-image: url(../imagenes/fondo.jpg);
+    background-image: url(../imagenes/fondo_hojas.jpeg);
 }
 
 header{
@@ -32,6 +32,7 @@ ul a:hover {
     text-decoration: underline;
     background-color: #9ac9d6;
 	font-size: 17px;
+    cursor: url("../imagenes/cursor_gotaagua.png"), auto;
 }
 
 
