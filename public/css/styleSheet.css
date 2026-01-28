@@ -1,3 +1,48 @@
 body{
     background-image: url(../imagenes/fondo.jpg);
 }
+
+header{
+    color: black;
+}
+
+nav{
+    background-color: antiquewhite;
+    border-radius: 0.5rem;
+    height: 30px;
+
+}
+
+ul{
+    list-style: none;
+	display: flex;
+	height: 20px;
+}
+
+li{
+    padding: 0 10px;
+	font-weight: bold;
+}
+
+ul a { 
+    color: black;
+}
+
+ul a:hover { 
+    text-decoration: underline;
+    background-color: #9ac9d6;
+	font-size: 17px;
+}
+
+
+
+.marcoPrin {
+    display: table;
+    padding: 15px;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+footer{
+ background-color: rgb(250, 235, 215, 0.8);
+}
