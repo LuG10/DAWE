@@ -1,0 +1,1 @@
+//Se deben generar, por lo menos, 3 instancias de cada clase de producto
