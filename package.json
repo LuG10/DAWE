@@ -1,0 +1,24 @@
+{
+  "name": "dawe",
+  "version": "1.0.0",
+  "description": "En este proyecto se desarrollará una página web para una floristería con el objetivo de aplicar de forma práctica los conocimientos adquiridos sobre diseño y desarrollo web. La aplicación permitirá mostrar los distintos productos y servicios que ofrece la tienda, como ramos de flores, plantas y regalos, de una manera visualmente atractiva y fácil de usar para el usuario.",
+  "main": "index.js",
+  "scripts": {
+    "start": "serve ./public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuG10/DAWE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/LuG10/DAWE/issues"
+  },
+  "homepage": "https://github.com/LuG10/DAWE#readme",
+  "devDependencies": {
+    "serve": "^14.2.5"
+  }
+}

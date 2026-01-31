@@ -29,61 +29,17 @@
 				<div>
 					<h2 id="titulo-producto">Todos los productos</h2>
 				</div>
-				<table class="table text-center ">
-					<tr>
-						<td>
-							<img src="imagenes/flores/rosa azul.jpg" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Rosa azul</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-						<td>
-							<img src="imagenes/flores/rosa amarilla.jpg" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Rosa amarilla</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-						<td>
-							<img src="imagenes/flores/rosa roja.jpg" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Rosa Roja</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<img src="imagenes/flores/rosa rosa.png" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Rosa rosa</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-						<td>
-							<img src="imagenes/flores/lirio rojo.jpg" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Lirio Rojo</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-						<td>
-							<img src="" alt="imagenes/sinfoto.png"  width="100" height="120">
-							<h3>Rosa Violeta</h3>
-							<div>2€</div>
-							<div>Campo extra</div>
-							<div>Descripcion que ahora no voy a poner</div>
-						</td>
-					</tr>
+				<table class="table text-center" id="tablaProductos">
+					<tbody>
+					</tbody>
 				</table>
 			</main>
 
 			<aside class="col-md-4">
-				<form method="POST" action="js/_______.js">
+				<form id="FormularioProd">
 					<h2>Añadir Productos</h2>
 
-					<select id="categoria" name="categoria">
+					<select id="categoria" name="categoria" class="form-control mb-2">
 						<option value="flores">flores</option>
 						<option value="ramos">ramos</option>
 						<option value="plantas">plantas</option>
@@ -91,15 +47,16 @@
 						<option value="regalos">regalos</option>
 					</select>
 
-					<input type="text" name="ProductName" placeholder="Nombre"/>
-					<input type="int" name="ProductPrice" placeholder="Precio">
-					<textarea name="description">
-
-					</textarea>
-					<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
-					<input type="drag&drops">
-					drag&drops
-					<button>Enviar</button>
+					<input type="text" id="NombreProducto" name="NombreProducto" placeholder="Nombre" class="form-control mb-2"/>
+					<input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" class="form-control mb-2">
+					<textarea id="descripcion" name="descripcion" placeholder="Descripción" class="form-control mb-2"></textarea>
+					
+					<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" class="form-control mb-2"/>
+					<div id="dragDrop" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)" class="form-control mb-2"></div>
+					<button type="submit" class="form-control mb-2">Enviar</button>
+				</form>
+				<script src="js/añadirProductos.js"></script>
+				<script src="js/drag&drop.js"></script>
 			</aside>
 
 

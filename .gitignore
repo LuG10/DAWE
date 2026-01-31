@@ -1,0 +1,11 @@
+# Node modules (no se suben al repositorio)
+node_modules/
+package.json
+package-lock.json
+
+# Archivos temporales de IDE (opcional)
+.vscode/
+.idea/
+
+# Archivos sensibles / secretos
+.env
