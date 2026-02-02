@@ -1,8 +1,8 @@
 import { listaProductos } from './tienda.js';
 
 // 6 productos por página
-const PRODUCTOS_POR_PAGINA = 6;
-let paginaActual = 1;
+export const PRODUCTOS_POR_PAGINA = 6;
+export let paginaActual = 1;
 
 document.addEventListener('DOMContentLoaded', () => {
     renderizarTienda(listaProductos);

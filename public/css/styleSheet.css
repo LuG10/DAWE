@@ -9,11 +9,11 @@ body{
 }
 
 header{
-    color: black;
+    color: rgb(0, 0, 0);
 }
 
 nav{
-    background-color: antiquewhite;
+    background-color: rgb(250, 235, 215);
     border-radius: 0.5rem;
     height: 30px;
 
@@ -31,12 +31,12 @@ li{
 }
 
 ul a { 
-    color: black;
+    color: rgb(0, 0, 0);
 }
 
 ul a:hover { 
     text-decoration: underline;
-    background-color: #9ac9d6;
+    background-color: rgb(154, 201, 214);
 	font-size: 17px;
     cursor: url("../imagenes/cursor_pulsado.png"), auto;
 }
@@ -61,7 +61,7 @@ table {
 
 td, th {
   padding: 8px;
-  border: 1px solid black;
+  border: 1px solid rgb(0, 0, 0);
 }
 
 #FormularioProd > * {
@@ -103,3 +103,4 @@ td, th {
     font-weight: bold;
     color: green;
 }
+
