@@ -57,7 +57,7 @@
                     <input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" class="form-control mb-2" required>
                     <textarea id="descripcion" name="descripcion" placeholder="Descripción" class="form-control mb-2" required></textarea>
                     
-                    <input type="text" id="atributoExtra" placeholder="Atributo Extra (Color, Ubicación...)" class="form-control mb-2">
+                    <div id="contenedorExtra" style="display: none;"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder="Atributo extra" class="form-control mb-2"></div>
 
                     <input type="file" id="inputImagen" name="avatar" accept="image/png, image/jpeg, image/jpg" class="form-control mb-2"/>
                     
@@ -68,7 +68,7 @@
                 
                 </aside>
 
-        <footer class="text-black text-center p-3 mt-4">
+        <footer class="text-black text-center ">
             Floristería Flora 
         </footer>
 
@@ -93,5 +93,6 @@
     
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/añadirProductos.js"></script>
+    <script type="module" src="js/atributoExtra.js"> </script>
 </body>
 </html>
