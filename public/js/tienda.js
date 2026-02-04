@@ -68,6 +68,19 @@ export function anadirAlCarrito(idProducto) {
     
     // Opcional: Para depurar y ver que funciona
     console.log("Estado del carrito:", carrito);
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+}
+//método para actualizar la cantidad de un producto en el carrito  rollo cuando cambias con las flechas
+export function actualizarCantidadCarrito(idProducto, nuevaCantidad) {
+    if (carrito[idProducto]) {
+        if (nuevaCantidad >= 1 && nuevaCantidad <= 20) {
+            carrito[idProducto].cantidad = nuevaCantidad;
+        } else {
+            alert("La cantidad debe estar entre 1 y 20.");
+        }
+    } else {
+        console.error("El producto no está en el carrito:", idProducto);
+    }
 }
 /**
  * 4. FACTORÍA DE PRODUCTOS (Requisito 5.3)

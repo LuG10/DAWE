@@ -1,4 +1,4 @@
-import { listaProductos } from './tienda.js';
+import { listaProductos, anadirAlCarrito, carrito, actualizarCantidadCarrito} from './tienda.js';
 
 // 6 productos por página
 export const PRODUCTOS_POR_PAGINA = 6;
@@ -25,11 +25,11 @@ export function renderizarTienda(productos) {
         else if (producto.ubicacion) extraInfo = `Ubicación: ${producto.ubicacion}`;
         else if (producto.material) extraInfo = `Material: ${producto.material}`;
         else if (producto.categoria) extraInfo = `Categoría: ${producto.categoria}`;
-
+        console.log(producto.id)
         const htmlProducto = `
         <div class="col">
-            <div class="card h-100 shadow-sm">
-
+            <div class="card h-100 shadow-sm position-relative">
+                <button class="btn-carrito" data-id="${producto.id}"></button>
                 <img src="${producto.imagen || 'imagenes/sinfoto.png'}"
                      class="card-img-top"
                      alt="${producto.nombre}"
@@ -60,6 +60,30 @@ export function renderizarTienda(productos) {
     });
 
     actualizarPaginacion(productos.length);
+
+    document.querySelectorAll('.btn-carrito').forEach(boton => {
+    boton.addEventListener('click', () => {
+        const idProducto = boton.dataset.id;
+        anadirAlCarrito(idProducto);
+        actualizarCarrito();
+
+        //para que nos salga el texto de producto añadido:
+        const mensaje = document.createElement('div');
+        mensaje.classList.add('anadido-carrito-mensaje');
+        mensaje.textContent = 'Añadido al carrito :)';
+        boton.parentElement.appendChild(mensaje);
+        console.log("mensaje añadido");
+        //forzamos porque si no no funciona
+        mensaje.offsetHeight;
+        mensaje.classList.add('visible');
+        console.log("antes del timeout");
+        setTimeout(() => {
+            mensaje.classList.remove('visible'); //esto es para que no se vea transparente
+            setTimeout(() => mensaje.remove(), 300);
+        }, 1500);
+        console.log("Producto añadido al carrito:", idProducto);
+    });
+});
 }
 
 function actualizarPaginacion(total) {
@@ -83,4 +107,49 @@ function actualizarPaginacion(total) {
             renderizarTienda(listaProductos);
         });
     });
+}
+function actualizarCarrito() {
+    const contenedor = document.getElementById("contenidoCarrito");
+    const totalSpan = document.getElementById("totalCarrito");
+   contenedor.innerHTML = "";
+   let total = 0;
+   let hayProductos = false;
+
+   for (const id in carrito) {
+     const item = carrito[id];
+     hayProductos = true;
+
+     const subtotal = item.precio * item.cantidad;
+     total += subtotal;
+     contenedor.innerHTML += `
+      <div class="d-flex mb-3 align-items-center">
+        <img src="${item.imagen}" width="60" class="me-2">
+        <div class="flex-grow-1">
+          <strong>${item.nombre}</strong><br>
+          ${item.precio} € x 
+          <input type="number" min="0" max="20" value="${item.cantidad}" class="cantidadCarrito" data-id="${id}">
+          = <strong>${subtotal} €</strong>
+        </div>
+      </div>
+    `;
+  }
+
+  if (!hayProductos) {
+    contenedor.innerHTML = `<p class="text-center text-muted">El carrito está vacío</p>`;
+  }
+
+  totalSpan.textContent = total + "€";
+  actualizarCarrito
+  // Añadir event listeners a los inputs de cantidad
+   document.querySelectorAll(".cantidadCarrito").forEach(input => {
+    input.addEventListener("change", (e) => {
+      const id = e.target.dataset.id;
+      let cantidad = parseInt(e.target.value);
+
+      if (isNaN(cantidad)) cantidad = 0;
+
+      actualizarCantidadCarrito(id, cantidad);
+      actualizarCarrito();
+    });
+  });
 }

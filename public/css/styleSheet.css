@@ -36,7 +36,7 @@ ul a {
 
 ul a:hover { 
     text-decoration: underline;
-    background-color: rgb(154, 201, 214);
+    background-color: rgba(223, 241, 171, 0.8);
 	font-size: 17px;
     cursor: url("../imagenes/cursor_pulsado.png"), auto;
 }
@@ -103,4 +103,57 @@ td, th {
     font-weight: bold;
     color: green;
 }
+.btn-carrito {
+  background-image: url("../imagenes/carro32.png");
+  background-repeat: no-repeat;
+  background-position: center;
+
+  position: absolute;
+  top: 10px;        /* distancia desde arriba */
+  right: 10px;      /* a la derecha de la imagen */
+  
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  
+  font-size: 20px;
+  background-color:  rgb(250, 235, 215, 0.8);
+  
+  border: none;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-carrito:hover {
+  background-color: rgba(223, 241, 171, 0.8);
+  cursor: url("../imagenes/cursor_pulsado.png"), auto;
+
+}
+.anadido-carrito-mensaje{
+  position: absolute;
+  top: 50px;
+  right: 10px;
+
+  background-color: rgba(216, 138, 206, 0.9);
+  /*letra:*/
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-weight: 600;
+
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.anadido-carrito-mensaje.visible {
+  opacity: 1;
+}
+
 
