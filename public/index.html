@@ -34,7 +34,28 @@
                 </div>
                 
                 <div id="contenedorProductos" class="row row-cols-3 g-4">
+                </div>
+
+                <div id="modal" class="modal" style="display: none;">
+                    <div class="modal-contenido">
+                        <h2 id="tituloModal"></h2>
+                        <hr>
+                        <div class="info-cuerpo">
+                            <div class="row"> 
+                                <div class="col-md-4">
+                                    <img id="modal-imagen" src="" alt="">
+                                </div>
+                                <div class="col-md-8">
+                                    <h3 class="text-center" id="NombreProductoModal"></h3>
+                                    <p><strong>Precio: </strong><span id="PrecioProductoModal"></span></p>
+                                    <p><strong>Campo extra: </strong><span id="ExtraProductoModal"></span></p>
+                                    <p><strong>Descripcion: </strong><span id="Descripcion"></span></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
 
                 <nav class="mt-4">
                     <ul id="paginacion" class="pagination pagination-sm justify-content-center"></ul>

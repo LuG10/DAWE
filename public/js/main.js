@@ -28,7 +28,7 @@ export function renderizarTienda(productos) {
         console.log(producto.id)
         const htmlProducto = `
         <div class="col">
-            <div class="card h-100 shadow-sm position-relative">
+            <div class="card h-100 shadow-sm position-relative" onclick="abrirModal('${producto.nombre}', '${producto.precio}', '${extraInfo}', '${producto.descripcion}', '${producto.imagen}')">
                 <button class="btn-carrito" data-id="${producto.id}"></button>
                 <img src="${producto.imagen || 'imagenes/sinfoto.png'}"
                      class="card-img-top"
@@ -153,3 +153,30 @@ function actualizarCarrito() {
     });
   });
 }
+
+
+window.abrirModal = function(nombre, precio, extra, descripcion, url) {
+    const modal = document.getElementById("modal");
+    precio = precio +"€"
+    document.getElementById("NombreProductoModal").innerText = nombre;
+    document.getElementById("PrecioProductoModal").innerText = precio;
+    document.getElementById("ExtraProductoModal").innerText = extra;
+    document.getElementById("Descripcion").innerText = descripcion;
+    document.getElementById('modal-imagen').src = url;
+
+    modal.style.display = "flex";
+};
+
+
+window.cerrarModal = function() {
+    const modal = document.getElementById("modal");
+    modal.style.display = "none";
+};
+
+
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+});
