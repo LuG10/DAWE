@@ -85,29 +85,68 @@ export function renderizarTienda(productos) {
     });
 });
 }
-
 function actualizarPaginacion(total) {
     const paginacion = document.getElementById('paginacion');
     paginacion.innerHTML = '';
 
     const totalPaginas = Math.ceil(total / PRODUCTOS_POR_PAGINA);
+    
+    // 1. Calcular cuántos productos se muestran en la página actual
+    const productosEnEstaPagina = (paginaActual === totalPaginas) 
+        ? (total % PRODUCTOS_POR_PAGINA || PRODUCTOS_POR_PAGINA) 
+        : PRODUCTOS_POR_PAGINA;
 
-    for (let i = 1; i <= totalPaginas; i++) {
-        const activo = i === paginaActual ? 'active' : '';
-        paginacion.innerHTML += `
-            <li class="page-item ${activo}">
-                <a class="page-link" href="#">${i}</a>
-            </li>`;
+    const infoTexto = document.createElement('p');
+    infoTexto.textContent = `Mostrando ${productosEnEstaPagina} de ${total} productos.`;
+    paginacion.appendChild(infoTexto);
+
+    // Contenedor para los botones 
+    const nav = document.createElement('ul');
+    nav.className = 'pagination-container'; 
+
+    // 3. Botón "Anterior"
+    if (paginaActual > 1) {
+        nav.appendChild(crearBotonPaginacion('Anterior', paginaActual - 1));
     }
 
-    document.querySelectorAll('#paginacion a').forEach((a, index) => {
-        a.addEventListener('click', e => {
+    // 4. Botones numéricos
+    for (let i = 1; i <= totalPaginas; i++) {
+        const li = crearBotonPaginacion(i, i, i === paginaActual);
+        nav.appendChild(li);
+    }
+
+    // 5. Botón "Siguiente"
+    if (paginaActual < totalPaginas) {
+        nav.appendChild(crearBotonPaginacion('Siguiente', paginaActual + 1));
+    }
+
+    paginacion.appendChild(nav);
+}
+
+function crearBotonPaginacion(texto, paginaDestino, esActivo = false) {
+    const li = document.createElement('li');
+    li.className = `page-item ${esActivo ? 'active' : ''}`;
+    
+    const a = document.createElement('a');
+    a.className = 'page-link';
+    a.href = '#';
+    a.textContent = texto;
+
+    //SOLO "Anterior" y "Siguiente" cambian de página
+    if (texto === 'Anterior' || texto === 'Siguiente') {
+        a.addEventListener('click', (e) => {
             e.preventDefault();
-            paginaActual = index + 1;
+            paginaActual = paginaDestino;
             renderizarTienda(listaProductos);
         });
-    });
+    } else {
+        a.addEventListener('click', (e) => e.preventDefault());
+    }
+
+    li.appendChild(a);
+    return li;
 }
+
 function actualizarCarrito() {
     const contenedor = document.getElementById("contenidoCarrito");
     const totalSpan = document.getElementById("totalCarrito");

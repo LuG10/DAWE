@@ -31,7 +31,7 @@ export const listaProductos = [
     // --- ACCESORIOS ---
     new Accesorio("Jarrón de Cerámica", 20.00, "Jarrón clásico de cerámica blanca.", "imagenes/accesorios/jarron.png", "Grande"),
     new Accesorio("Maceta", 10.00, "Maceta de cerámica pintada a mano.", "imagenes/accesorios/maceta.jpg", "Pequeño"),
-    new Accesorio("Herramientas de Jardinería", 16.50, "Set de herramientas básicas para jardinería.", "imagenes/accesorios/herramientas.png", "Pequeño"),
+    new Accesorio("Herramientas de Jardinería", 16.50, "Set de herramientas básicas para jardinería.", "imagenes/accesorios/herramientas.jpg", "Pequeño"),
 ];
 
 // 3. CARRITO (Inicialmente vacío)
