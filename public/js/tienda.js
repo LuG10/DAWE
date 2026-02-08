@@ -68,8 +68,16 @@ export function anadirAlCarrito(idProducto) {
     
     // Opcional: Para depurar y ver que funciona
     console.log("Estado del carrito:", carrito);
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    console.
+    log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 }
+
+export function eliminarDelCarrito(idProducto) {
+    if (carrito[idProducto]) {
+        delete carrito[idProducto];
+    }
+}
+
 //método para actualizar la cantidad de un producto en el carrito  rollo cuando cambias con las flechas
 export function actualizarCantidadCarrito(idProducto, nuevaCantidad) {
     if (carrito[idProducto]) {

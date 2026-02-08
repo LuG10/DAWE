@@ -144,6 +144,19 @@ td, th {
     cursor: url("../imagenes/cursor_pulsado.png"), auto;
 
 }
+
+.btn-close{
+    font-size: 0.7rem; 
+    opacity: 0.4;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    background-color: transparent; 
+    cursor: url("../imagenes/cursor_pulsado.png"), auto;
+}
+
 .anadido-carrito-mensaje{
     position: absolute;
     top: 50px;

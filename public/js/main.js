@@ -1,6 +1,5 @@
-import { listaProductos, anadirAlCarrito, carrito, actualizarCantidadCarrito} from './tienda.js';
+import { listaProductos, anadirAlCarrito, eliminarDelCarrito, carrito, actualizarCantidadCarrito} from './tienda.js';
 
-// 6 productos por página
 export const PRODUCTOS_POR_PAGINA = 6;
 export let paginaActual = 1;
 
@@ -28,12 +27,13 @@ export function renderizarTienda(productos) {
         console.log(producto.id)
         const htmlProducto = `
         <div class="col">
-            <div class="card h-100 shadow-sm position-relative" onclick="abrirModal('${producto.nombre}', '${producto.precio}', '${extraInfo}', '${producto.descripcion}', '${producto.imagen}')">
+            <div class="card h-100 shadow-sm position-relative">
                 <button class="btn-carrito" data-id="${producto.id}"></button>
                 <img src="${producto.imagen || 'imagenes/sinfoto.png'}"
                      class="card-img-top"
                      alt="${producto.nombre}"
-                     style="height: 200px; object-fit: cover;">
+                     style="height: 200px; object-fit: cover;"
+                     onclick="abrirModal('${producto.nombre}', '${producto.precio}', '${extraInfo}', '${producto.descripcion}', '${producto.imagen}')">
 
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title nombre-producto">
@@ -62,7 +62,7 @@ export function renderizarTienda(productos) {
     actualizarPaginacion(productos.length);
 
     document.querySelectorAll('.btn-carrito').forEach(boton => {
-    boton.addEventListener('click', () => {
+    boton.addEventListener('click', (e) => {
         const idProducto = boton.dataset.id;
         anadirAlCarrito(idProducto);
         actualizarCarrito();
@@ -110,16 +110,23 @@ function actualizarPaginacion(total) {
     }
 
     // 4. Botones numéricos
-    for (let i = 1; i <= totalPaginas; i++) {
+    let inicioRango = Math.max(1, paginaActual - Math.floor(5 / 2));
+    let finRango = inicioRango + 5 - 1;
+
+    if (finRango > totalPaginas) {
+        finRango = totalPaginas;
+        inicioRango = Math.max(1, finRango - 5 + 1);
+    }
+
+    for (let i = inicioRango; i <= finRango; i++) {
         const li = crearBotonPaginacion(i, i, i === paginaActual);
         nav.appendChild(li);
-    }
+}
 
     // 5. Botón "Siguiente"
     if (paginaActual < totalPaginas) {
         nav.appendChild(crearBotonPaginacion('Siguiente', paginaActual + 1));
     }
-
     paginacion.appendChild(nav);
 }
 
@@ -132,17 +139,13 @@ function crearBotonPaginacion(texto, paginaDestino, esActivo = false) {
     a.href = '#';
     a.textContent = texto;
 
-    //SOLO "Anterior" y "Siguiente" cambian de página
-    if (texto === 'Anterior' || texto === 'Siguiente') {
-        a.addEventListener('click', (e) => {
-            e.preventDefault();
-            paginaActual = paginaDestino;
-            renderizarTienda(listaProductos);
-        });
-    } else {
-        a.addEventListener('click', (e) => e.preventDefault());
-    }
-
+    //cambian de página con cualquier boton de la paginacion
+    a.addEventListener('click', (e) => {
+        e.preventDefault();
+        paginaActual = paginaDestino;
+        renderizarTienda(listaProductos);
+    });
+    
     li.appendChild(a);
     return li;
 }
@@ -169,6 +172,10 @@ function actualizarCarrito() {
           <input type="number" min="0" max="20" value="${item.cantidad}" class="cantidadCarrito" data-id="${id}">
           = <strong>${subtotal} €</strong>
         </div>
+        <button type="button" class="btn-close ms-2" aria-label="Close" 
+            style="font-size: 0.6rem; opacity: 0.5;" 
+            onclick="eliminarItem('${id}')">
+        </button>
       </div>
     `;
   }
@@ -192,6 +199,14 @@ function actualizarCarrito() {
     });
   });
 }
+
+
+window.eliminarItem = function(id) {
+    eliminarDelCarrito(id);
+    actualizarCarrito();
+};
+
+
 
 
 window.abrirModal = function(nombre, precio, extra, descripcion, url) {
