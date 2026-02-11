@@ -68,8 +68,6 @@ export function anadirAlCarrito(idProducto) {
     
     // Opcional: Para depurar y ver que funciona
     console.log("Estado del carrito:", carrito);
-    console.
-    log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 }
 
 export function eliminarDelCarrito(idProducto) {
@@ -81,10 +79,14 @@ export function eliminarDelCarrito(idProducto) {
 //método para actualizar la cantidad de un producto en el carrito  rollo cuando cambias con las flechas
 export function actualizarCantidadCarrito(idProducto, nuevaCantidad) {
     if (carrito[idProducto]) {
-        if (nuevaCantidad >= 1 && nuevaCantidad <= 20) {
+        if (nuevaCantidad <= 20) {
             carrito[idProducto].cantidad = nuevaCantidad;
-        } else {
-            alert("La cantidad debe estar entre 1 y 20.");
+        } 
+        else if (nuevaCantidad === 0) {
+            /////ELIMINAR DEL CARRITO SI LA CANTIDAD ES 0
+        }
+        else {
+            alert("Como máximo puedes tener 20 unidades de un mismo producto.");
         }
     } else {
         console.error("El producto no está en el carrito:", idProducto);
@@ -123,4 +125,9 @@ export function crearProducto(tipo, nombre, precio, descripcion, imagen, atribut
     // Añadimos a la tienda y devolvemos el objeto
     listaProductos.push(nuevoProducto);
     return nuevoProducto;
+}
+// 5. Buscar productos por nombre (Requisito 5.4)
+export function buscarProductos(query) {
+    const queryLower = query.toLowerCase();
+    return listaProductos.filter(producto => producto.nombre.toLowerCase().includes(queryLower));
 }

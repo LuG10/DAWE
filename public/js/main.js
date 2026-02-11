@@ -1,4 +1,4 @@
-import { listaProductos, anadirAlCarrito, eliminarDelCarrito, carrito, actualizarCantidadCarrito} from './tienda.js';
+import { listaProductos, anadirAlCarrito, eliminarDelCarrito, carrito, actualizarCantidadCarrito, buscarProductos} from './tienda.js';
 
 export const PRODUCTOS_POR_PAGINA = 6;
 export let paginaActual = 1;
@@ -200,7 +200,6 @@ function actualizarCarrito() {
   });
 }
 
-
 window.eliminarItem = function(id) {
     eliminarDelCarrito(id);
     actualizarCarrito();
@@ -233,4 +232,17 @@ window.addEventListener('click', function(event) {
     if (event.target === modal) {
         cerrarModal();
     }
+});
+
+//BUSCAR PRODUCTOS POR NOMBRE
+
+function buscarProductosEnTienda(query) {
+    const resultados = buscarProductos(query);
+    paginaActual = 1; // Reiniciar a la primera página al buscar
+    renderizarTienda(resultados);
+}
+
+document.getElementById("buscador").addEventListener("input", (e) => {
+    const query = e.target.value;
+    buscarProductosEnTienda(query);
 });
