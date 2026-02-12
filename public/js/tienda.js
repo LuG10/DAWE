@@ -79,12 +79,12 @@ export function eliminarDelCarrito(idProducto) {
 //método para actualizar la cantidad de un producto en el carrito  rollo cuando cambias con las flechas
 export function actualizarCantidadCarrito(idProducto, nuevaCantidad) {
     if (carrito[idProducto]) {
-        if (nuevaCantidad <= 20) {
+        if (nuevaCantidad == 0){
+            eliminarDelCarrito(idProducto)
+        } 
+        else if (nuevaCantidad <= 20) {
             carrito[idProducto].cantidad = nuevaCantidad;
         } 
-        else if (nuevaCantidad === 0) {
-            /////ELIMINAR DEL CARRITO SI LA CANTIDAD ES 0
-        }
         else {
             alert("Como máximo puedes tener 20 unidades de un mismo producto.");
         }

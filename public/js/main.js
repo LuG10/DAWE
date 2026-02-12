@@ -242,7 +242,12 @@ function buscarProductosEnTienda(query) {
     renderizarTienda(resultados);
 }
 
+
+const titulo = document.getElementById("titulo-producto");
+
 document.getElementById("buscador").addEventListener("input", (e) => {
     const query = e.target.value;
+    titulo.textContent = `Buscando por: ${query}`;
     buscarProductosEnTienda(query);
+
 });
