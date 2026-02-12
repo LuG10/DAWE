@@ -76,11 +76,11 @@
                     </select>
 
                     <input type="text" id="NombreProducto" name="NombreProducto" placeholder="Nombre" class="form-control mb-2" required/>
-                    <input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" class="form-control mb-2" required>
+                    <input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" class="form-control mb-2" value="0" required>
                     <textarea id="descripcion" name="descripcion" placeholder="Descripción" class="form-control mb-2" required></textarea>  
                     <div id="contenedorExtra" style="display: none;"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder="Atributo extra" class="form-control mb-2"></div>
                     <input type="file" id="fileselect" multiple class="form-control mb-2"> 
-                    <div id="dropbox" class="form-control mb-2 text-center text-muted" style="height: 50px;"> arrastra aquí los ficheros</div> 
+                    <div id="dropbox" type="file" class="form-control mb-2 text-center text-muted" style="height: 50px;"> arrastra aquí los ficheros</div> 
                     <button type="submit" class="form-control mb-2 btn btn-primary">Enviar</button>
                 </form>
                 

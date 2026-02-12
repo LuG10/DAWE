@@ -1,11 +1,12 @@
 import { crearProducto, listaProductos } from './tienda.js';
 import { renderizarTienda, paginaActual, PRODUCTOS_POR_PAGINA } from './main.js';
 
+
 var fileselect = document.getElementById("fileselect");
 var dropbox = document.getElementById("dropbox");
 const form = document.getElementById("FormularioProd");
 
-let imagenSeleccionada = null;
+let archivoSeleccionado = null;
 
 dropbox.addEventListener("dragenter", dragOver); 
 dropbox.addEventListener("dragexit", dragOver); 
@@ -16,18 +17,23 @@ fileselect.addEventListener("change", gestorFicheros);
 function dragOver(evt) {
   evt.stopPropagation();
   evt.preventDefault(); 
-  evt.target.className = (evt.type == "dragover" ? "hover" : ""); 
+  if (dropbox.classList.contains("archivo-cargado")) return; 
+  dropbox.classList.toggle("hover", evt.type === "dragover");
 }
+
 
 function gestorFicheros(e) {
   dragOver(e);
   var files = e.target.files || e.dataTransfer.files;
-  imagenSeleccionada = files[-1].name
+  archivoSeleccionado = files[files.length - 1];
   mostrarIconoArchivo();
 }
 
 function mostrarIconoArchivo(fle) {
-  previewContainer.innerHTML = "";
+  dropbox.classList.add("archivo-cargado");
+  dropbox.classList.remove("hover");
+
+  dropbox.innerHTML = "";
 
   const fileBadge = document.createElement("div");
   fileBadge.className = "d-flex align-items-center p-2 border rounded bg-light";
@@ -37,12 +43,12 @@ function mostrarIconoArchivo(fle) {
     <span style="font-size: 2rem; margin-right: 10px;">📄</span>
     <div>
       <small class="d-block text-muted">Archivo seleccionado:</small>
-      <strong>${imagenSeleccionada}</strong>
+      <strong>${archivoSeleccionado.name}</strong>
     </div>
-    <button type="button" class="btn-close ms-3" onclick="resetFile()" aria-label="Close"></button>
+    <button type="button" class="btn-close ms-3" id="fileDrag" onclick="resetFile()" aria-label="Close" style="z-index: 9999;"></button>
   `;
 
-  previewContainer.appendChild(fileBadge);
+  dropbox.appendChild(fileBadge);
 }
 
 
@@ -54,7 +60,7 @@ form.addEventListener("submit", function (e) {
   const precio = document.getElementById("precioProducto").value;
   const descripcion = document.getElementById("descripcion").value;
   const atributoExtra = document.getElementById("atributoExtra").value;
-  const imagen = "imagen/"+ tipo + "/" + imagenSeleccionada;
+  const imagen = URL.createObjectURL(archivoSeleccionado);
 
   if (!tipo || !nombre || !precio || !descripcion || !imagen){
     return;
@@ -62,5 +68,17 @@ form.addEventListener("submit", function (e) {
   
   crearProducto(tipo, nombre, precio, descripcion, imagen, atributoExtra);
   renderizarTienda(listaProductos);
-  form.reset();
+  form.reset(); 
+  dropbox.innerHTML = "";
+  archivoSeleccionado = null;
 });
+
+
+function resetFile() {
+  dropbox.classList.remove("archivo-cargado");  
+  dropbox.className = "dropbox"
+  dropbox.innerHTML = "Arrastra aquí los ficheros";
+  fileselect.value = "";
+}
+
+window.resetFile = resetFile;
