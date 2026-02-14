@@ -67,7 +67,8 @@ form.addEventListener("submit", function (e) {
   }
   
   crearProducto(tipo, nombre, precio, descripcion, imagen, atributoExtra);
-  renderizarTienda(listaProductos);
+  
+  izarTienda(listaProductos);
   form.reset(); 
   dropbox.innerHTML = "";
   archivoSeleccionado = null;

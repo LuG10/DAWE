@@ -13,7 +13,4 @@ export class Ramo extends Producto {
         this.#tipoRamo = tipoRamo;
     }
 
-    // Getter y Setter para el atributo extra
-    get tipoRamo() { return this.#tipoRamo; }
-    set tipoRamo(valor) { this.#tipoRamo = valor; }
 }

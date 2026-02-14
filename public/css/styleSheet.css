@@ -305,6 +305,51 @@ td, th {
 
 
 
+#ramoPersonalizado {
+    max-height: 350px;          /* límite del dropbox */
+    min-height: 200px;
+    overflow-y: auto;           /* scroll si se llena */
+    padding: 8px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;                   /* espacio entre cards */
+}
+
+#ramoPersonalizado .card {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+#ramoPersonalizado img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+#ramoPersonalizado .flex-grow-1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* corta nombres largos */
+}
+
+#ramoPersonalizado .cantidadRamo {
+    width: 50px;          /* que no se estire demasiado */
+    font-size: 0.85rem;
+    padding: 2px 4px;
+}
+
+#ramoPersonalizado .btn-group button {
+    font-size: 0.75rem;
+    padding: 2px 4px;
+}
+
 
 
 

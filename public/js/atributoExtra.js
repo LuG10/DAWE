@@ -29,5 +29,4 @@ function comprobarClase() {
 
 document.addEventListener("DOMContentLoaded", comprobarClase);
 
-
 selector.addEventListener("change", comprobarClase);

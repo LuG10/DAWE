@@ -1,4 +1,5 @@
 import { listaProductos, anadirAlCarrito, eliminarDelCarrito, carrito, actualizarCantidadCarrito, buscarProductos} from './tienda.js';
+import { modoRamo } from "./generarRamo.js";
 
 export const PRODUCTOS_POR_PAGINA = 6;
 export let paginaActual = 1;
@@ -27,8 +28,8 @@ export function renderizarTienda(productos) {
         console.log(producto.id)
         const htmlProducto = `
         <div class="col">
-            <div class="card h-100 shadow-sm position-relative">
-                <button class="btn-carrito" data-id="${producto.id}"></button>
+            <div class="card h-100 shadow-sm position-relative producto ${modoRamo ? 'ramo-mode' : ''}" draggable="${modoRamo ? 'true' : 'false'}" data-id="${producto.id}">
+                ${modoRamo ? '' : `<button class="btn-carrito" data-id="${producto.id}"></button>`}
                 <img src="${producto.imagen || 'imagenes/sinfoto.png'}"
                      class="card-img-top"
                      alt="${producto.nombre}"
@@ -150,7 +151,7 @@ function crearBotonPaginacion(texto, paginaDestino, esActivo = false) {
     return li;
 }
 
-function actualizarCarrito() {
+export function actualizarCarrito() {
     const contenedor = document.getElementById("contenidoCarrito");
     const totalSpan = document.getElementById("totalCarrito");
    contenedor.innerHTML = "";
