@@ -188,7 +188,7 @@ td, th {
     cursor: url("../imagenes/cursor_pulsado.png"), auto;
 }
 
-.anadido-carrito-mensaje{
+.mensaje-flash{
     position: absolute;
     top: 50px;
     right: 10px;
@@ -208,7 +208,7 @@ td, th {
     transition: opacity 0.3s ease;
 }
 
-.anadido-carrito-mensaje.visible {
+.mensaje-flash.visible {
     opacity: 1;
 }
 
@@ -350,7 +350,21 @@ td, th {
     padding: 2px 4px;
 }
 
-
+/*FUNCIONALIDAD 2: CUPÓN DE DESCUENTO -- estilo del mensaje de aviso para informar de la existencia del cupón*/
+.cuponInfo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.cuponCond {
+    font-size: 0.9rem;
+    font-style: italic;
+    display: block; /*debajo*/
+    font-size: 0.8rem; 
+    opacity: 0.8;
+    margin-top: 4px;
+}
 
 
 
