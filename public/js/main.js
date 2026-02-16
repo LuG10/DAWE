@@ -3,7 +3,8 @@ import { modoRamo } from "./generarRamo.js";
 
 export const PRODUCTOS_POR_PAGINA = 6;
 export let paginaActual = 1;
-
+let cuponAplicado = false;
+let totalCarrito= 0;
 document.addEventListener('DOMContentLoaded', () => {
     renderizarTienda(listaProductos);
 });
@@ -70,7 +71,7 @@ export function renderizarTienda(productos) {
 
         //para que nos salga el texto de producto añadido:
         const mensaje = document.createElement('div');
-        mensaje.classList.add('anadido-carrito-mensaje');
+        mensaje.classList.add('mensaje-flash');
         mensaje.textContent = 'Añadido al carrito :)';
         boton.parentElement.appendChild(mensaje);
         console.log("mensaje añadido");
@@ -164,6 +165,7 @@ export function actualizarCarrito() {
 
      const subtotal = item.precio * item.cantidad;
      total += subtotal;
+     totalCarrito = total;
      contenedor.innerHTML += `
       <div class="d-flex mb-3 align-items-center">
         <img src="${item.imagen}" width="60" class="me-2">
@@ -185,9 +187,12 @@ export function actualizarCarrito() {
     contenedor.innerHTML = `<p class="text-center text-muted">El carrito está vacío</p>`;
   }
 
-  totalSpan.textContent = total + "€";
-  actualizarCarrito
-  // Añadir event listeners a los inputs de cantidad
+    if (cuponAplicado && total >= 150) {
+            total = total * 0.80; //aplicamos 20%
+    }
+    total= total.toFixed(2);
+    totalSpan.textContent = total + "€";
+    // Añadir event listeners a los inputs de cantidad
    document.querySelectorAll(".cantidadCarrito").forEach(input => {
     input.addEventListener("change", (e) => {
       const id = e.target.dataset.id;
@@ -250,5 +255,54 @@ document.getElementById("buscador").addEventListener("input", (e) => {
     const query = e.target.value;
     titulo.textContent = `Buscando por: ${query}`;
     buscarProductosEnTienda(query);
+
+});
+
+//FUNCIONALIDAD 2: CUPÓN DE DESCUENTO -- listener del botón para cerrar aviso y para aplicar el cupón
+document.addEventListener('DOMContentLoaded', () => {
+
+    //cerrar aviso
+    const cerrarAviso = document.getElementById("cerrarAviso");
+    if (cerrarAviso) {
+        cerrarAviso.addEventListener("click", () => {
+            document.getElementById("avisoCupon").style.display = "none";
+        });
+    }
+
+    //aplicar cupón
+    const botonCupon = document.getElementById("aplicarCupon");
+    if (botonCupon) {
+        botonCupon.addEventListener("click", () => {
+
+            const cuponInput = document.getElementById("cuponDescuento");
+            const cupon = cuponInput.value.trim();
+
+            if (cupon === "FLORA20" && !cuponAplicado && totalCarrito >= 150) {
+
+                cuponAplicado = true;
+                actualizarCarrito();
+
+                const mensaje = document.createElement('div');
+                mensaje.classList.add('mensaje-flash');
+                mensaje.textContent = 'Cupón aplicado correctamente :)';
+
+                cuponInput.parentElement.appendChild(mensaje);
+
+                mensaje.offsetHeight;
+                mensaje.classList.add('visible');
+
+                setTimeout(() => {
+                    mensaje.classList.remove('visible');
+                    setTimeout(() => mensaje.remove(), 300);
+                }, 1500);
+
+                console.log("Cupón aplicado correctamente:", cupon);
+
+            } else {
+                console.log("Cupón incorrecto");
+            }
+
+        });
+    }
 
 });

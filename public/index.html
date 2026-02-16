@@ -33,6 +33,10 @@
                     <h2 id="titulo-producto">Buscando por: </h2>
                     <input type="text" id="buscador" class="form-control w-25" placeholder="Buscar productos...">
                 </div>
+                <div id="avisoCupon" class="alert alert-success d-flex justify-content-between">
+                     <span class="cuponInfo">Usando FLORA20 obtienes un 20% de descuento en tu compra !!! </span>
+                     <span class="cuponCond">Válido a partir de 150€</span>
+                     <button id="cerrarAviso" class="btn-close"></button> </div>
                 
                 <div id="contenedorProductos" class="row row-cols-3 g-4">
                 </div>
@@ -134,6 +138,8 @@
         </div>
         <div class="mt-3 border-top pt-2">
             <h4>Total: <span id="totalCarrito">0€</span></h4>
+            <input type="text" id="cuponDescuento" name="cuponDescuento" placeholder="Añade tu cupón de descuento" class="form-control mb-2" required/>
+            <button id="aplicarCupon" class="btn btn-success w-100">Aplicar cupón</button>
         </div>
       </div>
     </div>
