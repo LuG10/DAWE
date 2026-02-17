@@ -1,8 +1,9 @@
 import { RamoPersonalizado } from './clases/RamoPersonalizado.js';
 import { listaProductos } from './tienda.js';
-import { renderizarTienda, actualizarCarrito } from './main.js';
+import { renderizarTienda, actualizarCarrito, resetearPagina } from './main.js';
 import { Flor } from './clases/Flor.js';
 import { carrito } from "./tienda.js";
+
 
 export let modoRamo = false;
 
@@ -29,9 +30,10 @@ btn_carrito.addEventListener("click", añadirCarrito)
 //------------------listener para qe las flores se consideren arrastrables---------------//
 
 document.addEventListener("dragstart", e => { 
-    if (e.target.classList.contains("producto") && modoRamo) { 
-        e.dataTransfer.setData("idFlor", e.target.dataset.id); 
-    } 
+    if (!modoRamo) return;
+    const card = e.target.closest(".producto");
+    if (!card) return;
+    e.dataTransfer.setData("idFlor", card.dataset.id);
 });
 
 function dragOver(evt) {
@@ -57,6 +59,7 @@ function anadirFlor(e){
 
 function comenzarRamo(){
     modoRamo = true;
+    resetearPagina();
     btn.style.display = "none"
     form.style.display = "none"
     const flores = listaProductos.filter(p => p instanceof Flor);

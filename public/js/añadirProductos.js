@@ -29,7 +29,7 @@ function gestorFicheros(e) {
   mostrarIconoArchivo();
 }
 
-function mostrarIconoArchivo(fle) {
+function mostrarIconoArchivo() {
   dropbox.classList.add("archivo-cargado");
   dropbox.classList.remove("hover");
 

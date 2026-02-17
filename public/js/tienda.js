@@ -4,6 +4,7 @@ import { Flor } from './clases/Flor.js';
 import { Planta } from './clases/Planta.js';
 import { Regalo } from './clases/Regalo.js';
 import { Accesorio } from './clases/Accesorio.js';
+import { modoRamo } from "./generarRamo.js";
 
 // 2. LISTA DE PRODUCTOS (Base de datos inicial)
 // Creamos instancias manualmente como pide el PDF (3 de cada tipo mínimo)
@@ -129,5 +130,10 @@ export function crearProducto(tipo, nombre, precio, descripcion, imagen, atribut
 // 5. Buscar productos por nombre (Requisito 5.4)
 export function buscarProductos(query) {
     const queryLower = query.toLowerCase();
-    return listaProductos.filter(producto => producto.nombre.toLowerCase().includes(queryLower));
+    if (modoRamo) {
+        const flores = listaProductos.filter(p => p instanceof Flor);
+        return flores.filter(producto => producto.nombre.toLowerCase().includes(queryLower));
+    } else{
+        return listaProductos.filter(producto => producto.nombre.toLowerCase().includes(queryLower));
+    }
 }

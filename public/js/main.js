@@ -1,5 +1,7 @@
 import { listaProductos, anadirAlCarrito, eliminarDelCarrito, carrito, actualizarCantidadCarrito, buscarProductos} from './tienda.js';
 import { modoRamo } from "./generarRamo.js";
+import { Flor } from './clases/Flor.js';
+
 
 export const PRODUCTOS_POR_PAGINA = 6;
 export let paginaActual = 1;
@@ -145,11 +147,20 @@ function crearBotonPaginacion(texto, paginaDestino, esActivo = false) {
     a.addEventListener('click', (e) => {
         e.preventDefault();
         paginaActual = paginaDestino;
-        renderizarTienda(listaProductos);
+        if (modoRamo) {
+            const flores = listaProductos.filter(p => p instanceof Flor);
+            renderizarTienda(flores);
+        } else {
+            renderizarTienda(listaProductos);
+        }
     });
     
     li.appendChild(a);
     return li;
+}
+
+export function resetearPagina() {
+    paginaActual = 1;
 }
 
 export function actualizarCarrito() {
@@ -244,7 +255,7 @@ window.addEventListener('click', function(event) {
 
 function buscarProductosEnTienda(query) {
     const resultados = buscarProductos(query);
-    paginaActual = 1; // Reiniciar a la primera página al buscar
+    paginaActual = 1; 
     renderizarTienda(resultados);
 }
 
@@ -262,12 +273,12 @@ document.getElementById("buscador").addEventListener("input", (e) => {
 document.addEventListener('DOMContentLoaded', () => {
 
     //cerrar aviso
-    const cerrarAviso = document.getElementById("cerrarAviso");
-    if (cerrarAviso) {
-        cerrarAviso.addEventListener("click", () => {
-            document.getElementById("avisoCupon").style.display = "none";
-        });
-    }
+    //const cerrarAviso = document.getElementById("cerrarAviso");
+    //if (cerrarAviso) {
+        //cerrarAviso.addEventListener("click", () => {
+            //document.getElementById("avisoCupon")?.remove();
+        //});
+    //}
 
     //aplicar cupón
     const botonCupon = document.getElementById("aplicarCupon");

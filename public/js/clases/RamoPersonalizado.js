@@ -49,9 +49,11 @@ export class RamoPersonalizado extends Producto{
     }
 
     precio() {
-    return this.#flores.reduce((total, item) => {
-        return total + (item.flor.precio * 1.10 * item.cantidad);
-    }, 0);
+    return Math.round(
+        this.#flores.reduce((total, item) =>
+            total + (item.flor.precio * 1.10 * item.cantidad), 0
+        ) * 100
+    ) / 100;
 }
 
     get flores() { return this.#flores; }
