@@ -199,10 +199,26 @@ export function actualizarCarrito() {
   }
 
     if (cuponAplicado && total >= 150) {
-            total = total * 0.80; //aplicamos 20%
+        const precioConDescuento = total * 0.80; // Calculamos el 20%
+        
+        // Usamos innerHTML para meter etiquetas span con estilos
+        // text-decoration-line-through: Tacha el texto
+        // text-muted: Lo pone gris
+        // me-2: Añade un pequeño margen a la derecha
+        totalSpan.innerHTML = `
+            <span class="text-decoration-line-through text-muted me-2">
+                ${total.toFixed(2)}€
+            </span>
+            <span>
+                ${precioConDescuento.toFixed(2)}€
+            </span>
+        `;
+    } else {
+        // Si no hay cupón o no llega al mínimo, se muestra normal
+        total = total.toFixed(2);
+        totalSpan.textContent = total + "€";
     }
-    total= total.toFixed(2);
-    totalSpan.textContent = total + "€";
+   
     // Añadir event listeners a los inputs de cantidad
    document.querySelectorAll(".cantidadCarrito").forEach(input => {
     input.addEventListener("change", (e) => {
@@ -280,40 +296,73 @@ document.addEventListener('DOMContentLoaded', () => {
         //});
     //}
 
-    //aplicar cupón
+   // Aplicar cupón
     const botonCupon = document.getElementById("aplicarCupon");
     if (botonCupon) {
         botonCupon.addEventListener("click", () => {
-
             const cuponInput = document.getElementById("cuponDescuento");
-            const cupon = cuponInput.value.trim();
+            const cupon = cuponInput.value.trim().toUpperCase(); // Convertimos a mayúsculas para evitar errores
 
-            if (cupon === "FLORA20" && !cuponAplicado && totalCarrito >= 150) {
+            // 1. Definimos las condiciones de éxito
+            const esCodigoCorrecto = (cupon === "FLORA20");
+            const compraMinimaAlcanzada = (totalCarrito >= 150);
+            const noHaSidoUsado = (!cuponAplicado);
 
+            // 2. Comprobamos si TODO está bien
+            if (esCodigoCorrecto && noHaSidoUsado && compraMinimaAlcanzada) {
+                
                 cuponAplicado = true;
                 actualizarCarrito();
-
-                const mensaje = document.createElement('div');
-                mensaje.classList.add('mensaje-flash');
-                mensaje.textContent = 'Cupón aplicado correctamente :)';
-
-                cuponInput.parentElement.appendChild(mensaje);
-
-                mensaje.offsetHeight;
-                mensaje.classList.add('visible');
-
-                setTimeout(() => {
-                    mensaje.classList.remove('visible');
-                    setTimeout(() => mensaje.remove(), 300);
-                }, 1500);
-
+                mostrarMensajeFlash(cuponInput, '¡Cupón aplicado! -20%', 'exito');
                 console.log("Cupón aplicado correctamente:", cupon);
 
             } else {
-                console.log("Cupón incorrecto");
-            }
+                // 3. Si falla, averiguamos POR QUÉ y preparamos el mensaje
+                let mensajeError = "";
 
+                if (!esCodigoCorrecto) {
+                    mensajeError = "El código del cupón no es válido";
+                } 
+                else if (!noHaSidoUsado) {
+                    mensajeError = "¡Ya has aplicado este cupón!";
+                } 
+                else if (!compraMinimaAlcanzada) {
+                    mensajeError = "El pedido debe ser superior a 150€ para aplicar el cupón";
+                }
+
+                // 4. Mostramos el mensaje de error
+                mostrarMensajeFlash(cuponInput, mensajeError, 'error');
+            }
         });
+    }
+
+    function mostrarMensajeFlash(elementoPadre, texto, tipo) {
+        // Buscamos si ya hay un mensaje para borrarlo (evita que se acumulen)
+        const mensajeAnterior = elementoPadre.parentElement.querySelector('.mensaje-flash');
+        if (mensajeAnterior) mensajeAnterior.remove();
+
+        const mensaje = document.createElement('div');
+        mensaje.classList.add('mensaje-flash');
+        
+        // Si es error, añadimos la clase .error del CSS nuevo
+        if (tipo === 'error') {
+            mensaje.classList.add('error');
+        }
+
+        mensaje.textContent = texto;
+        
+        // Lo añadimos al padre del input (para que salga cerca)
+        elementoPadre.parentElement.appendChild(mensaje);
+
+        // Animación de entrada
+        mensaje.offsetHeight; // Forzar reflow
+        mensaje.classList.add('visible');
+
+        // Eliminar después de 3 segundos
+        setTimeout(() => {
+            mensaje.classList.remove('visible');
+            setTimeout(() => mensaje.remove(), 300);
+        }, 3000);
     }
 
 });

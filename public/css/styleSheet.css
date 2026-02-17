@@ -315,6 +315,7 @@ td, th {
     display: flex;
     flex-direction: column;
     gap: 6px;                   /* espacio entre cards */
+   
 }
 
 #ramoPersonalizado .card {
@@ -323,6 +324,7 @@ td, th {
     padding: 4px;
     gap: 6px;
     font-size: 0.85rem;
+  
 }
 
 #ramoPersonalizado img {
@@ -366,10 +368,71 @@ td, th {
     margin-top: 4px;
 }
 
+/* --- ESTILOS BOTONES PERSONALIZADOS (uiverse.io) --- */
+#FormularioProd button[type="submit"],
+#aplicarCupon {
+    appearance: none;
+    background-color: transparent;
+    border: 0.125em solid #0b561e;
+    border-radius: 0.9375em;
+    box-sizing: border-box;
+    color: #000000;
+    
+    /* CAMBIO 1: Usamos tu cursor personalizado en lugar del puntero estándar */
+    cursor: url("../imagenes/cursor_pulsado.png"), auto; 
+    
+    display: inline-block;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 10px 0;
+    min-height: 3.75em;
+    min-width: 0;
+    outline: none;
+    padding: 1em 2.3em;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+    width: 100%; 
+}
 
+#FormularioProd button[type="submit"]:disabled,
+#aplicarCupon:disabled {
+    pointer-events: none;
+}
 
+#FormularioProd button[type="submit"]:hover,
+#aplicarCupon:hover {
+    /* Color letras al pasar el ratón */
+    color: #000000; 
+    
+    background-color: #FAEBD7; 
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+    border-color: #ECF0ED;
+    
+    /* Aseguramos que el cursor se mantenga también en el hover */
+    cursor: url("../imagenes/cursor_pulsado.png"), auto;
+}
 
+/* Nota: Si al poner las letras negras (color: #000) no se ven bien porque el fondo 
+   (background-color: #1A1A1A) también es negro, puedes quitar la línea 
+   'background-color' de arriba o cambiarla a 'transparent' o un color claro. */
 
+#FormularioProd button[type="submit"]:active,
+#aplicarCupon:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
 
-
+/* Estilo específico para mensajes de error */
+.mensaje-cupon.error {
+    background-color: rgba(220, 53, 69, 0.9); /* Rojo semitransparente */
+    color: white;
+}
 
