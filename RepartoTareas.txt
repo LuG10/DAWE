@@ -1,0 +1,14 @@
+Lucía:
+    - Añadir producto
+    - Funcionalidad extra: ramo personalizado
+    - Descripción extendida del producto
+    - Layout
+Maira:
+    -Paginación
+    -Clases
+    -Funcionalidad extra: cupón de descuento
+Ana:
+    -Carro de la compra
+    -Funcionalidad extra
+    -Buscador
+    -Favicono
