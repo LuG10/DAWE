@@ -280,7 +280,11 @@ const titulo = document.getElementById("titulo-producto");
 
 document.getElementById("buscador").addEventListener("input", (e) => {
     const query = e.target.value;
-    titulo.textContent = `Buscando por: ${query}`;
+    if (query == ""){
+        titulo.textContent = `Todos los productos`;
+    }else{
+        titulo.textContent = `Buscando por: ${query}`;  
+    }
     buscarProductosEnTienda(query);
 
 });

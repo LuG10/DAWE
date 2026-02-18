@@ -30,7 +30,7 @@
         <div class="row"> 
             <main class="col-md-7">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 id="titulo-producto">Buscando por: </h2>
+                    <h2 id="titulo-producto">Todos los productos</h2>
                     <input type="text" id="buscador" class="form-control w-25" placeholder="Buscar productos...">
                 </div>
                 <div id="avisoCupon" class="alert alert-success d-flex justify-content-between">
@@ -51,7 +51,7 @@
                                 <div class="col-md-4">
                                     <img id="modal-imagen" src="" alt="">
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 detalle-scroll">
                                     <h3 class="text-center" id="NombreProductoModal"></h3>
                                     <p><strong>Precio: </strong><span id="PrecioProductoModal"></span></p>
                                     <p><strong>Campo extra: </strong><span id="ExtraProductoModal"></span></p>
@@ -71,8 +71,9 @@
             <aside class="col-md-5">
                 <form id="FormularioProd">
                     <h2>Añadir Productos</h2>
-
+                    <div id="categoriaAviso" class="text-danger mb-2" style="display:none;"> Debes escoger una categoría válida. </div>
                     <select id="categoria" name="categoria" class="form-control mb-2">
+                        <option value="Todo">Escoge un tipo</option>
                         <option value="Flor">Flores</option>
                         <option value="Ramo">Ramos</option>
                         <option value="Planta">Plantas</option>
@@ -86,6 +87,7 @@
                     <div id="contenedorExtra" style="display: none;"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder="Atributo extra" class="form-control mb-2"></div>
                     <input type="file" id="fileselect" multiple class="form-control mb-2"> 
                     <div id="dropbox" type="file" class="form-control mb-2 text-center text-muted" style="height: 50px;"> arrastra aquí los ficheros</div> 
+                    <div id="errorArchivo" class="alert alert-danger mt-2" style="display:none;"></div>
                     <button type="submit" class="form-control mb-2 btn btn-primary">Enviar</button>
                 </form>
                 

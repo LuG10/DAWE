@@ -151,21 +151,16 @@ td, th {
     background-image: url("../imagenes/carro32.png");
     background-repeat: no-repeat;
     background-position: center;
-
     position: absolute;
-    top: 10px;        /* distancia desde arriba */
-    right: 10px;      /* a la derecha de la imagen */
-    
+    top: 10px;        
+    right: 10px;     
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    
     font-size: 20px;
     background-color:  rgb(250, 235, 215, 0.8);
-    
     border: none;
     cursor: pointer;
-    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,6 +207,9 @@ td, th {
     opacity: 1;
 }
 
+.input-error { 
+    border: 2px solid red !important; 
+}
 
 .modal {
     display: none;
@@ -229,12 +227,25 @@ td, th {
     color: rgb(0, 0, 0);
     border-radius: 15px;
     padding: 20px;
-    max-width: 700px;
-    width: 70%;
-    text-align: left;
-    position: relative;
-    overflow-y: auto;
+    width: 500px;
+    height: 300px;  
+    max-width: 90%;   
     max-height: 90vh;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-cuerpo {
+    flex: 1;       
+    display: flex;
+    min-height: 0
+}
+
+.info-cuerpo .row {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
 }
 
 .modal-contenido  h3{
@@ -243,13 +254,23 @@ td, th {
     text-align: center;
 }
 
-
-
 .modal-contenido img {
-    width: 60%;
-    margin-bottom: 15px;
+    width: 100%;
+    height: auto;           
+    object-fit: contain;    
     border-radius: 10px;
-    text-align: center;
+}
+
+.detalle-scroll {
+     flex: 1; 
+     overflow-y: auto; 
+     overflow-x: hidden; 
+     min-height: 0;
+     min-width: 0;
+     max-height: 100%;
+     white-space: normal; 
+     word-wrap: break-word; 
+     overflow-wrap: break-word;
 }
 
 .tituloModal {

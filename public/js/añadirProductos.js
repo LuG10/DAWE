@@ -7,6 +7,7 @@ var dropbox = document.getElementById("dropbox");
 const form = document.getElementById("FormularioProd");
 
 let archivoSeleccionado = null;
+let timeoutError = null;
 
 dropbox.addEventListener("dragenter", dragOver); 
 dropbox.addEventListener("dragexit", dragOver); 
@@ -23,9 +24,25 @@ function dragOver(evt) {
 
 
 function gestorFicheros(e) {
-  dragOver(e);
+  e.preventDefault();
+  e.stopPropagation();
+
   var files = e.target.files || e.dataTransfer.files;
-  archivoSeleccionado = files[files.length - 1];
+  if (files.length > 1) { 
+    dropbox.classList.remove("hover");
+    mostrarError("Solo puedes subir un archivo."); 
+    return; 
+  }
+
+  const file = files[0];
+
+  if (!file.type.match(/image\/(jpeg|jpg|png)/)) { 
+    dropbox.classList.remove("hover");
+    mostrarError("Formato no válido. Solo se permiten JPG, JPEG o PNG."); 
+    return; 
+  }
+
+  archivoSeleccionado =  file;
   mostrarIconoArchivo();
 }
 
@@ -45,7 +62,7 @@ function mostrarIconoArchivo() {
       <small class="d-block text-muted">Archivo seleccionado:</small>
       <strong>${archivoSeleccionado.name}</strong>
     </div>
-    <button type="button" class="btn-close ms-3" id="fileDrag" onclick="resetFile()" aria-label="Close" style="z-index: 9999;"></button>
+    <button type="button" class="btn-close ms-3" onclick="resetFile()" aria-label="Close"></button>
   `;
 
   dropbox.appendChild(fileBadge);
@@ -55,20 +72,35 @@ function mostrarIconoArchivo() {
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
-  const tipo = document.getElementById("categoria").value;
+  const aviso = document.getElementById("categoriaAviso");
+  const categoria = document.getElementById("categoria");
+  const tipo = categoria.value;
   const nombre = document.getElementById("NombreProducto").value;
   const precio = document.getElementById("precioProducto").value;
   const descripcion = document.getElementById("descripcion").value;
   const atributoExtra = document.getElementById("atributoExtra").value;
-  const imagen = URL.createObjectURL(archivoSeleccionado);
+  const imagen = "imagenes/sinfoto.png";
 
-  if (!tipo || !nombre || !precio || !descripcion || !imagen){
+
+  if (!archivoSeleccionado == null){
+    imagen = URL.createObjectURL(archivoSeleccionado);
+  }
+
+  if (tipo==="Todo"){
+     categoria.classList.add("input-error"); 
+     aviso.style.display = "block"; 
+     return;
+  }
+  categoria.classList.remove("input-error"); 
+  aviso.style.display = "none";
+
+  if (!nombre || !precio || !descripcion){
     return;
   }
   
   crearProducto(tipo, nombre, precio, descripcion, imagen, atributoExtra);
   
-  izarTienda(listaProductos);
+  renderizarTienda(listaProductos);
   form.reset(); 
   dropbox.innerHTML = "";
   archivoSeleccionado = null;
@@ -83,3 +115,15 @@ function resetFile() {
 }
 
 window.resetFile = resetFile;
+
+
+
+
+
+function mostrarError(msg) { 
+  const errorBox = document.getElementById("errorArchivo"); 
+  errorBox.textContent = msg; 
+  errorBox.style.display = "block"; 
+  clearTimeout(timeoutError); 
+  timeoutError = setTimeout(() => { errorBox.style.display = "none"; }, 3000); 
+}
