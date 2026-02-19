@@ -57,7 +57,7 @@ footer{
     position:fixed;
     left: 0;
     bottom: 0;
-    height: 40px; /* Un poquito más de altura para legibilidad */
+    height: 40px; 
     width: 100%;
     background-color: rgb(250, 235, 215, 0.8);
     z-index: 10;
