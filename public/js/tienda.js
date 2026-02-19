@@ -18,7 +18,7 @@ import { modoRamo } from "./main.js";
 export const listaProductos = [
 
     // ---------------- RAMOS ----------------
-    new Ramo("Ramo de Rosas", 35.00, "Ramo clásico de 12 rosas rojas y blancas frescas.", "imagenes/ramos/ramo rosas.jpg", "Natural"),
+    new Ramo("Ramo de Rosas", 35.00, "Nuestro ramo clásico de 12 rosas rojas y blancas frescas es una elección elegante y atemporal que transmite sentimientos profundos con una combinación de colores llena de significado. Las rosas rojas simbolizan el amor, la pasión y la admiración, mientras que las rosas blancas representan pureza, respeto y sinceridad. Juntas crean un contraste armonioso y sofisticado que lo convierte en el detalle perfecto para cualquier ocasión especial.", "imagenes/ramos/ramo rosas.jpg", "Natural"),
     new Ramo("Ramo de Tulipanes", 28.50, "Ramo de 24 tulipanes amarillos.", "imagenes/ramos/ramotulipanes.jpg", "Natural"),
     new Ramo("Centro Floral Seco", 40.00, "Decoración duradera con flores temporada de verano.", "imagenes/ramos/centrofloressecas.jpg", "Seco"),
 
