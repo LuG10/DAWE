@@ -9,6 +9,6 @@ Maira:
     -Funcionalidad extra: cupón de descuento
 Ana:
     -Carro de la compra
-    -Funcionalidad extra
+    -Funcionalidad extra: cupón de descuento
     -Buscador
     -Favicono
