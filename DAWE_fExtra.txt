@@ -1,0 +1,30 @@
+﻿DAWE: funcionalidades extra
+
+
+Grupo01: Floristería Flora
+
+
+Ana Victoria Cernatescu 
+Maira Gabriela Herbas 
+Lucía Gutiérrez 
+
+
+Funcionalidad 1
+
+
+La primera funcionalidad es el ramo personalizado. Lo vamos a plantear para que esté dentro del aside. Inicialmente la web se vera como en las especificaciones en el archivo del proyecto salvo por un botón extra (generar ramo). Una vez se pulse ese botón la web mostraran en el apartado de productos unicamente los productos de clase Flor y en la parte del aside, se ocultará la función de añadir un nuevo producto y en su defecto se observara un nuevo contenedor con las que muestra las características del ramo que va a personalizar el usuario. Este contenedor estar compuesto por un un dragbox para añadir las flores que deseas tener el el ramo, un contador de flores añadidas, y un marcador del precio final del ramo. 
+
+El contenedor en primera instancia se encontrara vacío, con 0 flores y precio 0. Para añadir las flores, es suficiente con arrastrar la carta de la flor deseada ubicada a la izquierda del aside. Con eso la flor se añade al ramo y se actualizan tanto el precio del ramo como la cantidad de flores que contiene. El ramo solo podrá contener un máximo de 20 flores y el precio del ramo sera la suma del 110% del precio original de cada flor añadida.(para añadir más flores del mismo tipo se ha añadido un campo donde se especifica la cantidad.
+
+Una vez terminado el ramo se pulsa el botón de aceptar que se encuentra en la zona inferior del contenedor y este se almacenara en el carrito con el precio establecido. En caso de querer eliminar el ramo que estabas generando pulsa el boton de rechazar y volverás al menú original
+
+El ramo personalizado será una nueva clase cuyo atributo será una lista de Flores.
+
+
+Funcionalidad 2
+
+
+Nuestra segunda funcionalidad trata de que en el carrito se pueda aplicar un cupón de descuento del 20% a partir del total de 150€. El cliente lo sabrá porque al meterse a la página saldrá un aviso debajo del encabezado “Todos los productos” informando del cupón y la condición, si se desea, se podrá quitar el aviso dando a la X. Dentro del carrito habrá un campo para introducir el cupón y el descuento se aplicará sobre el TOTAL de la cesta. 
+
+
+La información del cupón (es decir, el String) estará almacenada en la función actualizarCarrito() de main.js.

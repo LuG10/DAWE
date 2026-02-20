@@ -1,8 +1,10 @@
 Lucía:
-    - Añadir producto
+    - Formulario para añadir nuevas clases
+    	- Dragdrop 
+    	- Aparición del campo funcionalidad extra
     - Funcionalidad extra: ramo personalizado
     - Descripción extendida del producto
-    - Layout
+    - Layout de la web
 Maira:
     -Paginación
     -Clases
