@@ -9,38 +9,28 @@ Este proyecto no solo busca reforzar los conceptos técnicos aprendidos en clase
 
 ## Elementos que se venden en la tienda:
 
-### 💐 Flores y ramos
-Ramos de flores naturales  
-Ramos de flores secas  
+### 💐 Ramos
+Ramos de rosas  
+Ramos de tulipanes 
 Centros florales  
-Coronas funerarias  
 
 ### 🌹 Flores individuales
 Rosas  
 Tulipanes  
 Lirios  
-Girasoles  
-Orquídeas  
-Claveles  
 
 ### 🪴 Plantas
 Plantas de interior  
 Plantas de exterior  
-Plantas con flor  
-Plantas aromáticas  
 Bonsáis  
-Suculentas y cactus  
-Plantas artificiales  
 
 ### 🎁 Regalos complementarios
 Peluches  
-Chocolates  
 Bombones  
-Botellas de vino o cava  
+Botellas de vino 
 
 ### 🏺 Accesorios
 Jarrones  
 Macetas decorativas  
-Tierra y fertilizantes  
 Herramientas de jardinería pequeñas  
 
