@@ -1,36 +1,16 @@
-# Desarrollo de Aplicaciones Web Enriquecidas (DAWE)🌐
+# React + Vite
 
-En este proyecto se desarrollará una página web para una floristería con el objetivo de aplicar de forma práctica los conocimientos adquiridos sobre diseño y desarrollo web. La aplicación permitirá mostrar los distintos productos y servicios que ofrece la tienda, como ramos de flores, plantas y regalos, de una manera visualmente atractiva y fácil de usar para el usuario.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Para la implementación del sitio web se utilizarán las tecnologías HTML y CSS para la estructura y el diseño de las páginas, junto con el framework Bootstrap, que facilitará la creación de una interfaz adaptable a diferentes dispositivos (ordenadores, tablets y móviles). De esta forma, se pretende conseguir una web moderna, funcional y responsive.
+Currently, two official plugins are available:
 
-Este proyecto no solo busca reforzar los conceptos técnicos aprendidos en clase, sino también fomentar el trabajo en equipo, la planificación del desarrollo y la creación de una experiencia de usuario adecuada para un entorno real como es una tienda online.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## React Compiler
 
-## Elementos que se venden en la tienda:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### 💐 Ramos
-Ramos de rosas  
-Ramos de tulipanes 
-Centros florales  
+## Expanding the ESLint configuration
 
-### 🌹 Flores individuales
-Rosas  
-Tulipanes  
-Lirios  
-
-### 🪴 Plantas
-Plantas de interior  
-Plantas de exterior  
-Bonsáis  
-
-### 🎁 Regalos complementarios
-Peluches  
-Bombones  
-Botellas de vino 
-
-### 🏺 Accesorios
-Jarrones  
-Macetas decorativas  
-Herramientas de jardinería pequeñas  
-
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
