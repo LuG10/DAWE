@@ -1,37 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import appLogo from '/favicon.svg'
-import PWABadge from './PWABadge.jsx'
-import './App.css'
+// src/App.jsx
+import PWABadge from './PWABadge.jsx';
+import Cabecera from './componentes/Cabecera.jsx';
+import MenuNavegacion from './componentes/MenuNavegacion.jsx';
+import EscaparateProductos from './componentes/EscaparateProductos.jsx';
+import FormularioNuevosProductos from './componentes/FormularioNuevosProductos.jsx';
+import Carrito from './componentes/Carrito.jsx';
+import Pie from './componentes/Pie.jsx';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={appLogo} className="logo" alt="DAWE logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>DAWE</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* Pasamos el título por props como pide el PDF */}
+      <Cabecera titulo="Floristeria Flora" />
+      <MenuNavegacion />
+      
+      <main className="contenedor-principal">
+        {/* Aquí agrupamos las secciones principales de la tienda */}
+        <EscaparateProductos />
+        <FormularioNuevosProductos />
+        <Carrito />
+      </main>
+
+      {/* Pasamos el contenido por props al pie */}
+      <Pie contenido="© 2026 Floristeria Flora. Todos los derechos reservados." />
+      
       <PWABadge />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
