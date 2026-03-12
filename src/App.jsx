@@ -1,4 +1,3 @@
-// src/App.jsx
 import PWABadge from './PWABadge.jsx';
 import Cabecera from './componentes/Cabecera.jsx';
 import MenuNavegacion from './componentes/MenuNavegacion.jsx';

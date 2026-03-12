@@ -7,7 +7,6 @@ import { Flor } from './clases/Flor.js';
 import { Planta } from './clases/Planta.js';
 import { Regalo } from './clases/Regalo.js';
 import { Accesorio } from './clases/Accesorio.js';
-import { modoRamo } from "./main.js";
 
 // ======================================================
 // ITERACIÓN 2: constantes para la tienda
@@ -15,7 +14,7 @@ import { modoRamo } from "./main.js";
 
 export const DIVISA = '€';
 export const MAX_COPIAS = 20; 
-
+export const modoRamo = false;
 // ======================================================
 // LISTA DE PRODUCTOS (Base de datos inicial)
 // ======================================================
