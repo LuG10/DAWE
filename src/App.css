@@ -1,58 +1,464 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+html {
+    cursor: url("../public/imagenes/cursor.png"), auto;
+    min-height: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+body{
+    background-image: url(../public/imagenes/fondo_hojas.jpeg);
+    
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header{
+    color: rgb(0, 0, 0);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+nav{
+    background-color: rgb(250, 235, 215);
+    border-radius: 0.5rem;
+    height: 30px;
+
+}
+
+ul{
+    list-style: none;
+	display: flex;
+	height: 20px;
+}
+
+li{
+    padding: 0 10px;
+	font-weight: bold;
+}
+
+ul a { 
+    color: rgb(0, 0, 0);
+}
+
+ul a:hover { 
+    text-decoration: underline;
+    background-color: rgba(223, 241, 171, 0.8);
+	font-size: 17px;
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+
+
+.marcoPrin {
+    display: block;
+    padding: 15px;
+    border-radius: 10px;
+    overflow: auto;
+    padding-bottom: 100px; 
+
+}
+
+footer{
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    height: 40px; 
+    width: 100%;
+    background-color: rgb(250, 235, 215, 0.8);
+    z-index: 10;
+}
+footer a{
+    justify-content: center; 
+    align-items: center;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 12px;
+}
+
+td, th {
+    padding: 8px;
+    border: 1px solid rgb(0, 0, 0);
+}
+
+#FormularioProd > * {
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+
+#dropbox { 
+    width: 100%; 
+    height: 150px; 
+    border-radius: 10px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    font-weight: bold; 
+    color: rgb(0, 0, 0); 
+    margin-top: 10px; 
+    background-color: rgb(255, 255, 255); 
+    border-color: rgb(102, 102, 102, 0.2);
+    overflow: hidden; 
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+    font-weight: 400;
+}
+
+#dropbox.hover {
+    background-color: rgb(207, 207, 207); 
+    border-color: rgb(0, 0, 0)}
+
+#dropbox.archivo-cargado { 
+    position: relative; 
+} 
+
+#dropbox.archivo-cargado::before { 
+    content: ""; 
+    position: absolute; 
+    inset: 0; 
+    pointer-events: none; 
+}
+
+#dropbox.archivo-cargado > * { 
+    position: relative; 
+    z-index: 2; 
+    pointer-events: auto; 
+    cursor: url("../public/imagenes/cursor.png"), auto;
+}
+#dropbox.archivo-cargado .btn-close { 
+    color: rgb(255, 0, 0);
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+#fileDrag {
+    pointer-events: auto;
+}
+
+.nombre-producto {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.descripcion-producto {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.precio-producto {
+    font-weight: bold;
+    color: green;
+}
+.btn-carrito {
+    background-image: url("../public/imagenes/carro32.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 10px;        
+    right: 10px;     
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color:  rgb(250, 235, 215, 0.8);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-carrito:hover {
+    background-color: rgba(223, 241, 171, 0.8);
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+
+}
+
+.btn-close{
+    font-size: 0.7rem; 
+    opacity: 0.4;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.btn-close:hover {
+    opacity: 1;
+    background-color: transparent; 
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+.mensaje-flash{
+    position: absolute;
+    top: 50px;
+    right: 10px;
+
+    background-color: rgba(216, 138, 206, 0.9);
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 600;
+
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.mensaje-flash.visible {
+    opacity: 1;
+}
+
+.input-error { 
+    border: 2px solid red !important; 
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: rgb(250, 235, 215, 0.3);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-contenido {
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    height: 300px;  
+    max-width: 90%;   
+    max-height: 90vh;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-cuerpo {
+    flex: 1;       
+    display: flex;
+    min-height: 0
+}
+
+.info-cuerpo .row {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+}
+
+.modal-contenido  h3{
+    background: rgb(250, 235, 215);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.modal-contenido img {
+    width: 100%;
+    height: auto;           
+    object-fit: contain;    
+    border-radius: 10px;
+}
+
+.detalle-scroll {
+     flex: 1; 
+     overflow-y: auto; 
+     overflow-x: hidden; 
+     min-height: 0;
+     min-width: 0;
+     max-height: 100%;
+     white-space: normal; 
+     word-wrap: break-word; 
+     overflow-wrap: break-word;
+}
+
+.tituloModal {
+    text-align: center;
 }
 
 .card {
-  padding: 2em;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    z-index: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
 }
 
-.read-the-docs {
-  color: #888;
+.card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent, 
+        var(--color-boton),   
+        #ffffff, 
+        var(--color-enlace),  
+        transparent
+    );
+    animation: rotate-glow 4s linear infinite;
+    z-index: -2;
 }
 
-/*PONER FONDO*/
-body {
-  /* Ruta a tu imagen en la carpeta public */
-  background-image: url('/imagenes/fondo_hojas.jpeg'); 
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 3px; 
+    background: rgba(255, 255, 255, 0.95); 
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+
+
+#ramoPersonalizado {
+    max-height: 350px;       
+    min-height: 200px;
+    overflow-y: auto;       
+    padding: 8px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;            
+   
+}
+
+#ramoPersonalizado .card {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    gap: 6px;
+    font-size: 0.85rem;
   
-  /* PROPIEDADES PARA EL PATRÓN (MOSAICO) */
-  background-repeat: repeat;       /* Hace que la imagen se repita en horizontal y vertical */
-  background-size: auto;           /* Mantiene el tamaño original de la imagen del patrón */
-  background-position: top left;   /* Empieza el patrón desde la esquina superior izquierda */
-  background-attachment: fixed;    /* El fondo se queda quieto mientras haces scroll */
-
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
 }
+
+#ramoPersonalizado img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+#ramoPersonalizado .flex-grow-1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+}
+
+#ramoPersonalizado .cantidadRamo {
+    width: 50px;         
+    font-size: 0.85rem;
+    padding: 2px 4px;
+}
+
+#ramoPersonalizado .btn-group button {
+    font-size: 0.75rem;
+    padding: 2px 4px;
+}
+
+.cuponInfo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.cuponCond {
+    font-size: 0.9rem;
+    font-style: italic;
+    display: block; 
+    font-size: 0.8rem; 
+    opacity: 0.8;
+    margin-top: 4px;
+}
+
+/* --- ESTILOS BOTONES PERSONALIZADOS (uiverse.io) --- */
+#FormularioProd button[type="submit"],
+#aplicarCupon {
+    appearance: none;
+    background-color: transparent;
+    border: 0.125em solid #0b561e;
+    border-radius: 0.9375em;
+    box-sizing: border-box;
+    color: #000000;
+    
+    /* CAMBIO 1: Usamos tu cursor personalizado en lugar del puntero estándar */
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto; 
+    
+    display: inline-block;
+    font-family: Roobert, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: normal;
+    margin: 10px 0;
+    min-height: 3.75em;
+    min-width: 0;
+    outline: none;
+    padding: 1em 2.3em;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+    width: 100%; 
+}
+
+#FormularioProd button[type="submit"]:disabled,
+#aplicarCupon:disabled {
+    pointer-events: none;
+}
+
+#FormularioProd button[type="submit"]:hover,
+#aplicarCupon:hover {
+    color: #000000; 
+    
+    background-color: #FAEBD7; 
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+    border-color: #ECF0ED;
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+#FormularioProd button[type="submit"]:active,
+#aplicarCupon:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.mensaje-cupon.error {
+    background-color: rgba(220, 53, 69, 0.9);
+    color: white;
+}
+
+#btnRamoPersonalizado:hover {
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+#btnCancelarRamo:hover {
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+#btnGuardarRamo:hover {
+    cursor: url("../public/imagenes/cursor_pulsado.png"), auto;
+}
+
+
+

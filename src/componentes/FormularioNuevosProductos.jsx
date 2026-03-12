@@ -35,7 +35,7 @@ function FormularioNuevosProductos() {
         <div>
           <label>Escoge un tipo</label>
           {/* El atributo disabled bloquea el campo si estaOffline es true */}
-          <select disabled={estaOffline}>
+          <select className="form-control mb-2" disabled={estaOffline}>
             <option>Flor</option>
             <option>Planta</option>
             <option>Ramo</option>
@@ -44,7 +44,7 @@ function FormularioNuevosProductos() {
         
         <div>
           <label>Nombre</label>
-          <input type="text" disabled={estaOffline} />
+          <input type="text" className="form-control mb-2" disabled={estaOffline} />
         </div>
         
         <div>
@@ -54,7 +54,7 @@ function FormularioNuevosProductos() {
         
         <div>
           <label>Descripción</label>
-          <textarea disabled={estaOffline}></textarea>
+          <textarea className="form-control mb-2" disabled={estaOffline}></textarea>
         </div>
 
         {/* --- ZONA DRAG & DROP --- */}
@@ -80,7 +80,7 @@ function FormularioNuevosProductos() {
           </FileUploader>
         </div>
 
-        <button type="submit" disabled={estaOffline} style={{ marginTop: '15px' }}>
+        <button type="submit" className="btn btn-primary form-control mb-2" disabled={estaOffline} style={{ marginTop: '15px' }}>
           Subir producto
         </button>
       </form>

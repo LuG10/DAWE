@@ -9,23 +9,32 @@ import './App.css';
 
 function App() {
   return (
-    <>
-      {/* Pasamos el título por props como pide el PDF */}
-      <Cabecera titulo="Floristeria Flora" />
+    // Devolvemos el contenedor principal que centra todo
+    <div className="container border-top border-bottom marcoPrin min-vh-100 d-flex flex-column">
+      
+      <Cabecera titulo="Floristería Flora" />
       <MenuNavegacion />
       
-      <main className="contenedor-principal">
-        {/* Aquí agrupamos las secciones principales de la tienda */}
-        <EscaparateProductos />
-        <FormularioNuevosProductos />
-        <Carrito />
-      </main>
+      {/* Usamos las columnas de Bootstrap que tenías en la iteración 1 */}
+      <div className="row flex-grow-1 mt-4">
+        
+        {/* Columna Izquierda (7 huecos): Escaparate (que ahora lleva dentro el buscador) */}
+        <main className="col-md-7">
+          <EscaparateProductos />
+        </main>
 
-      {/* Pasamos el contenido por props al pie */}
+        {/* Columna Derecha (5 huecos): Formulario */}
+        <aside className="col-md-5">
+          <FormularioNuevosProductos />
+        </aside>
+
+      </div>
+
+      <Carrito />
       <Pie contenido="© 2026 Floristeria Flora. Todos los derechos reservados." />
       
       <PWABadge />
-    </>
+    </div>
   );
 }
 
