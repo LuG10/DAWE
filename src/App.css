@@ -40,3 +40,19 @@
 .read-the-docs {
   color: #888;
 }
+
+/*PONER FONDO*/
+body {
+  /* Ruta a tu imagen en la carpeta public */
+  background-image: url('/imagenes/fondo_hojas.jpeg'); 
+  
+  /* PROPIEDADES PARA EL PATRÓN (MOSAICO) */
+  background-repeat: repeat;       /* Hace que la imagen se repita en horizontal y vertical */
+  background-size: auto;           /* Mantiene el tamaño original de la imagen del patrón */
+  background-position: top left;   /* Empieza el patrón desde la esquina superior izquierda */
+  background-attachment: fixed;    /* El fondo se queda quieto mientras haces scroll */
+
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
