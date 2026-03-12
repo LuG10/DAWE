@@ -492,7 +492,7 @@ form.addEventListener("submit", function (e) {
   const precio = document.getElementById("precioProducto").value;
   const descripcion = document.getElementById("descripcion").value;
   const atributoExtra = document.getElementById("atributoExtra").value;
-  const imagen = "imagenes/sinfoto.png";
+  let imagen = "public/imagenes/sinfoto.png";
 
 
   if (!archivoSeleccionado !== null){

@@ -1,11 +1,25 @@
-# Node modules (no se suben al repositorio)
-node_modules/
-package.json
-package-lock.json
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Archivos temporales de IDE (opcional)
-.vscode/
-.idea/
+node_modules
+dist
+dist-ssr
+dev-dist
+*.local
 
-# Archivos sensibles / secretos
-.env
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

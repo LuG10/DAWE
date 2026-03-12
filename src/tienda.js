@@ -1,5 +1,5 @@
 // ======================================================
-// 1. IMPORTACIONES
+//IMPORTACIONES
 // ======================================================
 
 import { Ramo } from './clases/Ramo.js';
@@ -7,11 +7,16 @@ import { Flor } from './clases/Flor.js';
 import { Planta } from './clases/Planta.js';
 import { Regalo } from './clases/Regalo.js';
 import { Accesorio } from './clases/Accesorio.js';
-import { modoRamo } from "./main.js";
-
 
 // ======================================================
-// 2. LISTA DE PRODUCTOS (Base de datos inicial)
+// ITERACIÓN 2: constantes para la tienda
+// ======================================================
+
+export const DIVISA = '€';
+export const MAX_COPIAS = 20; 
+export const modoRamo = false;
+// ======================================================
+// LISTA DE PRODUCTOS (Base de datos inicial)
 // ======================================================
 // Creamos instancias manualmente como pide el PDF (3 de cada tipo mínimo)
 
@@ -43,69 +48,8 @@ export const listaProductos = [
     new Accesorio("Herramientas de Jardinería", 16.50, "Set de herramientas básicas para jardinería.", "imagenes/accesorios/herramientas.jpg", "Pequeño")
 ];
 
-
 // ======================================================
-// 3. CARRITO (Inicialmente vacío)
-// ======================================================
-
-export const carrito = {};
-
-
-// ======================================================
-// 4. FUNCIONES DEL CARRITO
-// ======================================================
-
-export function anadirAlCarrito(idProducto) {
-    const producto = listaProductos.find(p => p.id === idProducto);
-
-    if (!producto) {
-        console.error("Producto no encontrado con ID:", idProducto);
-        return;
-    }
-
-    if (carrito[idProducto]) {
-        if (carrito[idProducto].cantidad < 20) {
-            carrito[idProducto].cantidad++;
-        } else {
-            alert("No puedes añadir más de 20 copias de este producto.");
-        }
-    } else {
-        carrito[idProducto] = {
-            nombre: producto.nombre,
-            precio: producto.precio,
-            imagen: producto.imagen,
-            cantidad: 1
-        };
-    }
-
-    console.log("Estado del carrito:", carrito);
-}
-
-
-export function eliminarDelCarrito(idProducto) {
-    if (carrito[idProducto]) {
-        delete carrito[idProducto];
-    }
-}
-
-
-export function actualizarCantidadCarrito(idProducto, nuevaCantidad) {
-    if (carrito[idProducto]) {
-        if (nuevaCantidad == 0) {
-            eliminarDelCarrito(idProducto);
-        } else if (nuevaCantidad <= 20) {
-            carrito[idProducto].cantidad = nuevaCantidad;
-        } else {
-            alert("Como máximo puedes tener 20 unidades de un mismo producto.");
-        }
-    } else {
-        console.error("El producto no está en el carrito:", idProducto);
-    }
-}
-
-
-// ======================================================
-// 5. FACTORÍA DE PRODUCTOS (Requisito 5.3)
+// FACTORÍA DE PRODUCTOS 
 // ======================================================
 
 export function crearProducto(tipo, nombre, precio, descripcion, imagen, atributoExtra) {
@@ -140,7 +84,7 @@ export function crearProducto(tipo, nombre, precio, descripcion, imagen, atribut
 
 
 // ======================================================
-// 6. BUSCADOR DE PRODUCTOS (Requisito 5.4)
+//  BUSCADOR DE PRODUCTOS 
 // ======================================================
 
 export function buscarProductos(query) {
@@ -157,4 +101,31 @@ export function buscarProductos(query) {
             producto.nombre.toLowerCase().includes(queryLower)
         );
     }
+}
+// ======================================================
+// ITERACIÓN 2: funciones localstorage para el carrito
+// ======================================================
+
+// Guarda el objeto JS como un string en localStorage usando 'producto_' + ID
+export function guardarEnCarrito(producto) {
+    localStorage.setItem('producto_' + producto.id, JSON.stringify(producto));
+}
+
+// Borra un producto por su ID del localStorage
+export function borrarDelCarrito(id) {
+    localStorage.removeItem('producto_' + id);
+}
+
+// Carga todo el carrito desde localStorage en un array
+export function cargarCarrito() {
+    let carritoArray = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        let clave = localStorage.key(i);
+        // Filtramos buscando el substring 'producto_'
+        if (clave.startsWith('producto_')) {
+            let productoStr = localStorage.getItem(clave);
+            carritoArray.push(JSON.parse(productoStr));
+        }
+    }
+    return carritoArray;
 }
