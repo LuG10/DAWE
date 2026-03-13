@@ -7,6 +7,7 @@ import { Flor } from './clases/Flor.js';
 import { Planta } from './clases/Planta.js';
 import { Regalo } from './clases/Regalo.js';
 import { Accesorio } from './clases/Accesorio.js';
+import { Producto } from './Producto.js';
 
 // ======================================================
 // ITERACIÓN 2: constantes para la tienda
@@ -143,3 +144,4 @@ export function cargarCarrito() {
     }
     return carritoArray;
 }
+

@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { listaProductos } from './tienda.js';
+
 import PWABadge from './PWABadge.jsx';
 import Cabecera from './componentes/Cabecera.jsx';
 import MenuNavegacion from './componentes/MenuNavegacion.jsx';
@@ -7,7 +10,10 @@ import Carrito from './componentes/Carrito.jsx';
 import Pie from './componentes/Pie.jsx';
 import './App.css';
 
+
+
 function App() {
+
   return (
     // Devolvemos el contenedor principal que centra todo
     <div className="container border-top border-bottom marcoPrin min-vh-100 d-flex flex-column">
@@ -25,12 +31,12 @@ function App() {
 
         {/* Columna Derecha (5 huecos): Formulario */}
         <aside className="col-md-5">
-          <FormularioNuevosProductos />
+          <FormularioNuevosProductos/>
         </aside>
 
       </div>
 
-      <Carrito />
+      <Carrito/>
       <Pie contenido="© 2026 Floristeria Flora. Todos los derechos reservados." />
       
       <PWABadge />

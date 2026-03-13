@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // IMPORTANTE: He añadido DIVISA aquí para que no dé error
-import { listaProductos, buscarProductos, DIVISA } from '../tienda.js'; 
+import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito } from '../tienda.js'; 
 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
@@ -30,6 +30,21 @@ function EscaparateProductos() {
     setPaginaActual(1); 
   };
 
+  const anadirCarro = (producto) => {
+    const productoConCantidad = { ...producto, cantidad: 1 };
+    setTimeout(() => {
+      window.dispatchEvent(new Event("carritoActualizado"));
+    }, 0);
+  };
+
+  useEffect(() => {
+    const actualizar = () => setProductosFiltrados([...listaProductos]);
+    actualizar();
+    window.addEventListener("productosActualizados", actualizar);
+    return () => window.removeEventListener("productosActualizados", actualizar);
+  }, []);
+
+
 
 
 //---------------------------------------------------------------//
@@ -49,7 +64,7 @@ function EscaparateProductos() {
           <div key={index} className="col">
             <div className="card h-100 shadow-sm position-relative producto">
               
-              <button className="btn-carrito"></button>
+              <button className="btn-carrito" onClick={() => anadirCarro(producto)}></button>
               
               <img 
                 src={`/${producto.imagen || 'imagenes/sinfoto.png'}`} 

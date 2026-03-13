@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 // Importamos la librería que acabamos de instalar en la terminal
 import { FileUploader } from 'react-drag-drop-files';
 
+import { crearProducto } from '../tienda.js'
+
 const tiposArchivo = ["JPG", "PNG", "GIF", "JPEG"];
 // el placebo holder del campo extra del formulario
 const placeholders = {
@@ -14,6 +16,11 @@ const placeholders = {
 };
 
 function FormularioNuevosProductos() {
+  //obtencion de los elementos del formulario
+  const [nombre, setNombre] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [atributoExtra, setAtributoExtra] = useState("");
+
   //estado para que los elemnetos de informacion adicional del formulario cambie 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todo');
   //esto es para establecer la cantidad en le imput del precio del formulario
@@ -38,26 +45,45 @@ function FormularioNuevosProductos() {
     setArchivo(file);
   };
 
+  const añadirElemneto = (e) => {
+    e.preventDefault();
+    const nuevoProducto = crearProducto(
+      categoriaSeleccionada,
+      nombre,
+      precio,
+      descripcion,
+      archivo ? URL.createObjectURL(archivo) : "imagenes/sinfoto.png",
+      atributoExtra
+    );
+    window.dispatchEvent(new Event("productosActualizados"));
+    setNombre("");
+    setDescripcion("");
+    setAtributoExtra("");
+    setPrecio(0);
+    setArchivo(null);
+    setCategoriaSeleccionada("Todo");
+  };
+
   return (
     <aside className="formulario-lateral">
 
       {/* Todo el formulario se oscurecerá si está offline gracias al estilo */}
-      <form style={{ opacity: estaOffline ? 0.6 : 1 }}>
-          <h2>Añadir Productos</h2>
-          {/* El atributo disabled bloquea el campo si estaOffline es true */}
-          <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
-              <option value="Todo">Escoge un tipo</option>
-              <option value="Flor">Flores</option>
-              <option value="Ramo">Ramos</option>
-              <option value="Planta">Plantas</option>
-              <option value="Accesorio">Accesorios</option>
-              <option value="Regalo">Regalos</option>
-          </select>
-        <input type="text" id="NombreProducto" name="NombreProducto" placeholder="Nombre" className="form-control mb-2" disabled={estaOffline} required/>
-        <input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" className="form-control mb-2" defaultValue={0}  onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>
-        <textarea id="descripcion" name="descripcion" placeholder="Descripción" className="form-control mb-2" required disabled={estaOffline}></textarea>  
+      <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemneto}>
+        <h2>Añadir Productos</h2>
+        {/* El atributo disabled bloquea el campo si estaOffline es true */}
+        <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
+            <option value="Todo">Escoge un tipo</option>
+            <option value="Flor">Flores</option>
+            <option value="Ramo">Ramos</option>
+            <option value="Planta">Plantas</option>
+            <option value="Accesorio">Accesorios</option>
+            <option value="Regalo">Regalos</option>
+        </select>
+        <input type="text" name="NombreProducto" placeholder="Nombre" className="form-control mb-2" value={nombre} onChange={(e) => setNombre(e.target.value)} disabled={estaOffline} required/>
+        <input type="number"  name="precioProducto" placeholder="Precio" className="form-control mb-2" defaultValue={0}  onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción" className="form-control mb-2" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required disabled={estaOffline}></textarea>  
         {(categoriaSeleccionada !== 'Todo') && (
-          <div id="contenedorExtra"> <input type="text" id="atributoExtra" name="atributoExtra"  placeholder={placeholders[categoriaSeleccionada]} className="form-control mb-2" disabled={estaOffline}/></div>
+          <div id="contenedorExtra"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder={placeholders[categoriaSeleccionada]} className="form-control mb-2"  value={atributoExtra} onChange={(e) => setAtributoExtra(e.target.value)}disabled={estaOffline}/></div>
         )}        
 
         {/* --- ZONA DRAG & DROP --- */}
