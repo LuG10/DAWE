@@ -44,53 +44,61 @@ function Carrito() {
   const totalFinal = totalSinDescuento - cantidadDescontada;
 
   return (
-    <section id="carrito" className="carrito-contenedor">
-      <h2>Cesta de la compra</h2>
-      
-      {productosCarrito.length === 0 ? (
-        <p>Tu carrito está vacío.</p>
-      ) : (
-        <>
-          <ul>
-            {productosCarrito.map((producto) => (
-              <li key={producto.id} className="item-carrito">
-                <img src={producto.imagen} alt={producto.nombre} width="50" />
-                <div>
-                  <p><strong>{producto.nombre}</strong></p>
-                  <p>{producto.precio} € x {producto.cantidad || 1}</p>
-                </div>
-                <button onClick={() => manejarBorrado(producto.id)}>Eliminar</button>
-              </li>
-            ))}
-          </ul>
+    <div className="offcanvas offcanvas-end" tabIndex="-1" id="carritoOffcanvas" aria-labelledby="carritoLabel">
+      {/* --- HEADER --- */}
+      <div className="offcanvas-header">
+        <h5 className="offcanvas-title" id="carritoLabel">
+          Carrito de la compra
+        </h5>
+        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
 
-          {/* --- NUEVA INTERFAZ DEL CUPÓN Y TOTALES --- */}
-          <div className="seccion-totales" style={{ marginTop: '20px', borderTop: '2px solid #ccc', paddingTop: '10px' }}>
-            <div className="zona-cupon">
-              <label htmlFor="cupon">¿Tienes un cupón?</label>
-              <input 
-                type="text" 
-                id="cupon"
-                placeholder="Ej. DAWE10" 
-                value={codigoCupon}
-                onChange={(e) => setCodigoCupon(e.target.value)}
-              />
-              <button onClick={manejarAplicarCupon}>Aplicar</button>
-              {/* Mostramos si el cupón fue exitoso o falló */}
-              {mensajeCupon && <p style={{ fontSize: '0.9em', color: descuento > 0 ? 'green' : 'red' }}>{mensajeCupon}</p>}
-            </div>
+      {/* --- BODY --- */}
+      <div id="contenidoCarrito">
+        {productosCarrito.length === 0 ? (
+          <p className="text-center text-muted">Tu carrito está vacío.</p>
+        ) : (
+          productosCarrito.map((item) => (
+            <div key={item.id} className="d-flex mb-3 align-items-center item-carrito">
+              <img src={item.imagen} width="60" className="me-2" alt={item.nombre} />
 
-            <div className="resumen-precios" style={{ textAlign: 'right', marginTop: '10px' }}>
-              <p>Subtotal: {totalSinDescuento.toFixed(2)} €</p>
-              {descuento > 0 && (
-                <p style={{ color: 'green' }}>Descuento (10%): -{cantidadDescontada.toFixed(2)} €</p>
-              )}
-              <h3>Total: {totalFinal.toFixed(2)} €</h3>
+              <div className="flex-grow-1">
+                <strong>{item.nombre}</strong><br />
+                {item.precio} € x{" "}
+                <input type="number" min="0" max="20" value={item.cantidad} className="cantidadCarrito" onChange={(e) => manejarCambioCantidad(item.id, e.target.value)}
+                />
+                {" "} = <strong>{(item.precio * item.cantidad).toFixed(2)} €</strong>
+              </div>
+
+              <button type="button" className="btn-close ms-2" style={{ fontSize: '0.6rem', opacity: 0.5 }} onClick={() => manejarBorrado(item.id)}
+              ></button>
             </div>
-          </div>
-        </>
-      )}
-    </section>
+          ))
+        )}
+      </div>
+
+      {/* --- CUPÓN Y TOTALES --- */}
+      <div className="mt-3 border-top pt-2">
+        <h4>Total: <span> {totalFinal.toFixed(2)} €</span></h4>
+        <input type="text" id="cupon" name="cuponDescuento" placeholder="Añade tu cupón de descuento" value={codigoCupon} className="form-control mb-2" onChange={(e) => setCodigoCupon(e.target.value)}/>
+        <button id="aplicarCupon" className="btn btn-success w-100" onClick={manejarAplicarCupon}>Aplicar cupón</button>
+
+
+        {mensajeCupon && (
+          <p style={{ fontSize: '0.9em', color: descuento > 0 ? 'green' : 'red' }}>
+            {mensajeCupon}
+          </p>
+        )}
+
+        <div className="resumen-precios text-end mt-2">
+          <p>Subtotal: {totalSinDescuento.toFixed(2)} €</p>
+          {descuento > 0 && (
+            <p style={{ color: 'green' }}>Descuento: -{(totalSinDescuento * descuento).toFixed(2)} €</p>
+          )}
+          <h3>Total: {totalFinal.toFixed(2)} €</h3>
+        </div>
+      </div>
+    </div>
   );
 }
 

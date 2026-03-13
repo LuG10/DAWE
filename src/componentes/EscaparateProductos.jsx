@@ -6,6 +6,11 @@ import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
 
+
+//---------------------------------------------------------------//
+//           Funciones realizadas en este Componente             //
+//---------------------------------------------------------------//
+
 function EscaparateProductos() {
   const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -25,14 +30,18 @@ function EscaparateProductos() {
     setPaginaActual(1); 
   };
 
+
+
+//---------------------------------------------------------------//
+//                   Devolucion del componente                   //
+//---------------------------------------------------------------//
+
   return (
     <section id="escaparate">
       
       {/* Agrupamos título y buscador en la misma línea como en la iteración 1 */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-         <h2 id="titulo-producto">Todos los productos</h2>
-         <BuscadorProductos realizarBusqueda={manejarBusqueda} />
-      </div>
+      <BuscadorProductos realizarBusqueda={manejarBusqueda} />
+
 
       {/* Recuperamos la CUADRÍCULA BOOTSTRAP para las tarjetas */}
       <div id="contenedorProductos" className="row row-cols-1 row-cols-md-3 g-4">
@@ -66,16 +75,15 @@ function EscaparateProductos() {
       </div>
 
       {/* Paginación con margen superior */}
-      <div className="mt-4">
-        <Paginacion 
-          paginaActual={paginaActual} 
-          totalPaginas={totalPaginas} 
-          productosMostrados={productosMostrados.length} 
-          totalProductos={totalProductos} 
-          cambiarPagina={setPaginaActual} 
-        />
-      </div>
-
+      
+      <Paginacion 
+        paginaActual={paginaActual} 
+        totalPaginas={totalPaginas} 
+        productosMostrados={productosMostrados.length} 
+        totalProductos={totalProductos} 
+        cambiarPagina={setPaginaActual} 
+      />
+      
       {productoSeleccionado && (
         <DetallesProducto 
           producto={productoSeleccionado} 

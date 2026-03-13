@@ -4,8 +4,20 @@ import { useState, useEffect } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 
 const tiposArchivo = ["JPG", "PNG", "GIF", "JPEG"];
+// el placebo holder del campo extra del formulario
+const placeholders = {
+  Flor: "Color",
+  Ramo: "Tipo de ramo",
+  Planta: "Ubicación",
+  Accesorio: "Tamaño",
+  Regalo: "Comida o bebida"
+};
 
 function FormularioNuevosProductos() {
+  //estado para que los elemnetos de informacion adicional del formulario cambie 
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('Todo');
+  //esto es para establecer la cantidad en le imput del precio del formulario
+  const [precio, setPrecio] = useState(0);
   // Volvemos a detectar el estado offline para bloquear el formulario
   const [estaOffline, setEstaOffline] = useState(!navigator.onLine);
   // Estado para guardar la imagen que se arrastre
@@ -28,34 +40,25 @@ function FormularioNuevosProductos() {
 
   return (
     <aside className="formulario-lateral">
-      <h2>Añadir productos</h2>
-      
+
       {/* Todo el formulario se oscurecerá si está offline gracias al estilo */}
       <form style={{ opacity: estaOffline ? 0.6 : 1 }}>
-        <div>
-          <label>Escoge un tipo</label>
+          <h2>Añadir Productos</h2>
           {/* El atributo disabled bloquea el campo si estaOffline es true */}
-          <select className="form-control mb-2" disabled={estaOffline}>
-            <option>Flor</option>
-            <option>Planta</option>
-            <option>Ramo</option>
+          <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
+              <option value="Todo">Escoge un tipo</option>
+              <option value="Flor">Flores</option>
+              <option value="Ramo">Ramos</option>
+              <option value="Planta">Plantas</option>
+              <option value="Accesorio">Accesorios</option>
+              <option value="Regalo">Regalos</option>
           </select>
-        </div>
-        
-        <div>
-          <label>Nombre</label>
-          <input type="text" className="form-control mb-2" disabled={estaOffline} />
-        </div>
-        
-        <div>
-          <label>Precio</label>
-          <input type="number" disabled={estaOffline} />
-        </div>
-        
-        <div>
-          <label>Descripción</label>
-          <textarea className="form-control mb-2" disabled={estaOffline}></textarea>
-        </div>
+        <input type="text" id="NombreProducto" name="NombreProducto" placeholder="Nombre" className="form-control mb-2" disabled={estaOffline} required/>
+        <input type="number" id="precioProducto" name="precioProducto" placeholder="Precio" className="form-control mb-2" defaultValue={0}  onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción" className="form-control mb-2" required disabled={estaOffline}></textarea>  
+        {(categoriaSeleccionada !== 'Todo') && (
+          <div id="contenedorExtra"> <input type="text" id="atributoExtra" name="atributoExtra"  placeholder={placeholders[categoriaSeleccionada]} className="form-control mb-2" disabled={estaOffline}/></div>
+        )}        
 
         {/* --- ZONA DRAG & DROP --- */}
         {/* Si estamos offline, ponemos el fondo gris claro como pide el PDF */}
@@ -80,9 +83,7 @@ function FormularioNuevosProductos() {
           </FileUploader>
         </div>
 
-        <button type="submit" className="btn btn-primary form-control mb-2" disabled={estaOffline} style={{ marginTop: '15px' }}>
-          Subir producto
-        </button>
+        <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
       </form>
     </aside>
   );

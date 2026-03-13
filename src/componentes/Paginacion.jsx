@@ -6,44 +6,88 @@ function Paginacion({
   totalProductos, 
   cambiarPagina 
 }) {
-  
   // Si la búsqueda no devuelve ningún producto, mostramos un mensaje alternativo
   if (totalProductos === 0) {
     return (
-      <div className="paginacion">
+      <div className="pagination-container pagination pagination-sm justify-content-center">
         <p>No hay productos para mostrar.</p>
       </div>
     );
   }
 
+  //---------------------------------------------------------------//
+  //              Botones centrales de la paginacion               //
+  //---------------------------------------------------------------//
+
+  const maxBotones = 5;
+  let inicioRango = Math.max(1, paginaActual - Math.floor(maxBotones / 2));
+  let finRango = inicioRango + maxBotones - 1;
+
+  if (finRango > totalPaginas) {
+    finRango = totalPaginas;
+    inicioRango = Math.max(1, finRango - maxBotones + 1);
+  }
+
+  const botonesCentrales = [];
+  for (let i = inicioRango; i <= finRango; i++) {
+    botonesCentrales.push(
+       <li key={i} className={`page-item ${i === paginaActual ? 'active' : ''}`}>
+        <a className="page-link"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            cambiarPagina(i);
+          }}
+        >
+          {i}
+        </a>
+      </li>
+    );
+  }
+ 
+
   return (
-    <div className="paginacion-contenedor">
-      {/* Mensaje que muestra el número de productos mostrados y el total */}
-      <p className="resumen-productos">
-        Mostrando {productosMostrados} de {totalProductos} productos
-      </p>
+    <nav className="mt-4 paginacion-container">
+      <ul className="pagination-container pagination pagination-sm justify-content-center">
+        <p>
+          Mostrando {productosMostrados} de {totalProductos} productos
+        </p>
+        {/* Botón anterior: solo se muestra si no estamos en la primera página */}
+        {paginaActual > 1 && (
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                cambiarPagina(paginaActual - 1);
+              }}
+            >
+              Anterior
+            </a>
+          </li>
+        )}
 
-      {/* Botones de paginación */}
-      <div className="controles-paginacion">
-        <button 
-          onClick={() => cambiarPagina(paginaActual - 1)}
-          disabled={paginaActual === 1} // Se deshabilita si estamos en la primera página
-        >
-          Anterior
-        </button>
+        {/* Botones numéricos */}
+        {botonesCentrales}
 
-        <span className="indicador-pagina">
-          Página {paginaActual} de {totalPaginas}
-        </span>
-
-        <button 
-          onClick={() => cambiarPagina(paginaActual + 1)}
-          disabled={paginaActual === totalPaginas} // Se deshabilita si estamos en la última página
-        >
-          Siguiente
-        </button>
-      </div>
-    </div>
+        {/* Botón siguiente: solo se muestra si no estamos en la última página */}
+        {paginaActual < totalPaginas && (
+          <li className="page-item">
+            <a
+              className="page-link"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                cambiarPagina(paginaActual + 1);
+              }}
+            >
+              Siguiente
+            </a>
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 }
 

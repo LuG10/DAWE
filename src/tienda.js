@@ -124,7 +124,21 @@ export function cargarCarrito() {
         // Filtramos buscando el substring 'producto_'
         if (clave.startsWith('producto_')) {
             let productoStr = localStorage.getItem(clave);
-            carritoArray.push(JSON.parse(productoStr));
+            try {
+                let producto = JSON.parse(productoStr);
+
+                // Filtrar productos inválidos o vacíos
+                if (producto && typeof producto === "object" && producto.id && producto.precio && producto.cantidad > 0) {
+                    carritoArray.push(producto);
+                } else {
+                    // Si está corrupto, lo borramos del localStorage
+                    localStorage.removeItem(clave);
+                }
+
+            } catch (e) {
+                // Si el JSON está roto, lo borramos
+                localStorage.removeItem(clave);
+            }
         }
     }
     return carritoArray;
