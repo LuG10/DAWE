@@ -62,26 +62,28 @@ function FormularioNuevosProductos() {
 
         {/* --- ZONA DRAG & DROP --- */}
         {/* Si estamos offline, ponemos el fondo gris claro como pide el PDF */}
-        <div style={{ 
-          backgroundColor: estaOffline ? 'lightgray' : 'transparent',
-          marginTop: '15px',
-          padding: '10px',
-          border: '1px dashed #ccc'
-        }}>
-          <FileUploader 
+        <FileUploader 
             handleChange={manejarCambioArchivo} 
             name="file" 
             types={tiposArchivo}
-            disabled={estaOffline} // Se deshabilita si no hay conexión
-            hoverTitle="Suelta la imagen" // Mensaje que aparece AL ARRASTRAR por encima
-          >
-            {/* Diseño personalizado del recuadro, no dejamos el de defecto */}
-            <div className="zona-drag-drop">
-              <p>Seleccionar archivo o suelta la imagen aquí</p>
-              {archivo ? <p>Archivo: {archivo.name}</p> : <p>Sin archivos seleccionados</p>}
+            disabled={estaOffline}
+            hoverTitle="Suelta la imagen"
+            classes="file-uploader-container"
+        >
+            <div className={`zona-drag-drop ${estaOffline ? 'offline' : ''}`}>
+                {archivo ? (
+                  <div className='d-flex align-items-center p-2 border rounded bg-light' > 
+                  <span style={{ fontSize: "2rem", marginRight: "10px" }}>📄</span>
+                    <div>
+                      <small className="d-block text-muted">Archivo seleccionado:</small>
+                      <strong>{archivo.name}</strong>
+                    </div>
+                  </div>
+                ) : (
+                    <p>Seleccionar archivo o suelta la imagen aquí</p>
+                )}
             </div>
-          </FileUploader>
-        </div>
+        </FileUploader>
 
         <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
       </form>
