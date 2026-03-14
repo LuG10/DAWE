@@ -25,20 +25,16 @@ function Carrito() {
 
   // --- NUEVA LÓGICA: APLICAR EL CUPÓN ---
   const manejarAplicarCupon = () => {
-    // Definimos que nuestro código secreto es "DAWE10"
-    if (codigoCupon.trim().toUpperCase() === 'DAWE10') {
-      setDescuento(0.10); // Aplicamos un 10% de descuento
-      setMensajeCupon('¡Cupón aplicado correctamente! (-10%)');
+    // Definimos que nuestro código secreto es "FLORA20"
+    if (codigoCupon.trim().toUpperCase() === 'FLORA20') {
+      setDescuento(0.20); // Aplicamos un 20% de descuento
+      setMensajeCupon('¡Cupón aplicado correctamente! (-20%)');
     } else {
       setDescuento(0); // Quitamos el descuento si se equivoca
       setMensajeCupon('Código no válido o caducado.');
     }
   };
 
-
-
-
-//HECHAREL UN VISTAZO
   const manejarCambioCantidad = (id, nuevaCantidad) => {
     const cantidad = Number(nuevaCantidad);
 
@@ -58,17 +54,9 @@ function Carrito() {
     localStorage.setItem('producto_' + id, JSON.stringify(productoActualizado));
   };
 
-
-  
-
-
   // --- NUEVA LÓGICA: CALCULAR TOTALES ---
-  // Sumamos el precio de todos los productos
   const totalSinDescuento = productosCarrito.reduce((suma, prod) => suma + (prod.precio * (prod.cantidad || 1)), 0);
-  // Calculamos cuánto dinero le descontamos
-  const cantidadDescontada = totalSinDescuento * descuento;
-  // Calculamos el total final a pagar
-  const totalFinal = totalSinDescuento - cantidadDescontada;
+  const totalFinal = totalSinDescuento * (1 - descuento);
 
   return (
     <div className="offcanvas offcanvas-end" tabIndex="-1" id="carritoOffcanvas" aria-labelledby="carritoLabel">
@@ -97,7 +85,8 @@ function Carrito() {
                 {" "} = <strong>{(item.precio * item.cantidad).toFixed(2)} €</strong>
               </div>
 
-              <button type="button" className="btn-close ms-2" style={{ fontSize: '0.6rem', opacity: 0.5 }} onClick={() => manejarBorrado(item.id)}
+              {/* Se ha cambiado ms-2 por me-3 para mover la X un poco más a la izquierda */}
+              <button type="button" className="btn-close me-3" style={{ fontSize: '0.6rem', opacity: 0.5 }} onClick={() => manejarBorrado(item.id)}
               ></button>
             </div>
           ))
@@ -106,23 +95,28 @@ function Carrito() {
 
       {/* --- CUPÓN Y TOTALES --- */}
       <div className="mt-3 border-top pt-2">
-        <h4>Total: <span> {totalFinal.toFixed(2)} €</span></h4>
         <input type="text" id="cupon" name="cuponDescuento" placeholder="Añade tu cupón de descuento" value={codigoCupon} className="form-control mb-2" onChange={(e) => setCodigoCupon(e.target.value)}/>
         <button id="aplicarCupon" className="btn btn-success w-100" onClick={manejarAplicarCupon}>Aplicar cupón</button>
 
-
         {mensajeCupon && (
-          <p style={{ fontSize: '0.9em', color: descuento > 0 ? 'green' : 'red' }}>
+          <p className="text-center mt-1" style={{ fontSize: '0.8em', color: descuento > 0 ? 'green' : 'red' }}>
             {mensajeCupon}
           </p>
         )}
 
-        <div className="resumen-precios text-end mt-2">
-          <p>Subtotal: {totalSinDescuento.toFixed(2)} €</p>
-          {descuento > 0 && (
-            <p style={{ color: 'green' }}>Descuento: -{(totalSinDescuento * descuento).toFixed(2)} €</p>
+        <div className="resumen-precios text-end mt-2 pe-3">
+          {descuento > 0 ? (
+            <>
+              {/* Precio original tachado en gris */}
+              <p className="mb-0" style={{ textDecoration: 'line-through', color: 'gray', fontSize: '1.1rem' }}>
+                {totalSinDescuento.toFixed(2)} €
+              </p>
+              {/* Precio nuevo debajo CON LA PALABRA TOTAL */}
+              <h3 style={{ color: 'black' }}>Total: {totalFinal.toFixed(2)} €</h3>
+            </>
+          ) : (
+            <h3>Total: {totalSinDescuento.toFixed(2)} €</h3>
           )}
-          <h3>Total: {totalFinal.toFixed(2)} €</h3>
         </div>
       </div>
     </div>

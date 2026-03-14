@@ -1,19 +1,17 @@
+// src/componentes/EscaparateProductos.jsx
 import { useState, useEffect } from 'react';
-// IMPORTANTE: He añadido DIVISA aquí para que no dé error
 import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito, cargarCatalogo } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
 
-
-//---------------------------------------------------------------//
-//           Funciones realizadas en este Componente             //
-//---------------------------------------------------------------//
-
 function EscaparateProductos() {
   const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
   const [paginaActual, setPaginaActual] = useState(1);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  
+  // NUEVO ESTADO: Guarda el ID del producto que acaba de ser clickeado
+  const [mensajeVisibleId, setMensajeVisibleId] = useState(null);
 
   const PRODUCTOS_POR_PAGINA = 6;
   const totalProductos = productosFiltrados.length;
@@ -34,11 +32,19 @@ function EscaparateProductos() {
   };
 
   const anadirCarro = (producto) => {
-    // Si es instancia de clase → toJSON / toPlainObject
     const base = producto.toPlainObject ? producto.toPlainObject() : (producto.toJSON ? producto.toJSON() : { ...producto });
     const productoConCantidad = { ...base, cantidad: 1 };
     guardarEnCarrito(productoConCantidad);
     window.dispatchEvent(new Event("carritoActualizado"));
+
+    // NUEVO: Mostramos el mensaje en esta tarjeta específica
+    setMensajeVisibleId(producto.id);
+    
+    // Lo ocultamos a los 2 segundos
+    setTimeout(() => {
+      // Solo lo borramos si es el mismo (por si hace clic rápido en otro)
+      setMensajeVisibleId((idActual) => idActual === producto.id ? null : idActual);
+    }, 2000); 
   };
 
   useEffect(() => {
@@ -51,12 +57,6 @@ function EscaparateProductos() {
     return () => window.removeEventListener("productosActualizados", actualizar);
   }, []);
 
-
-
-//---------------------------------------------------------------//
-//                   Devolucion del componente                   //
-//---------------------------------------------------------------//
-
   return (
     <section id="escaparate">
       <BuscadorProductos realizarBusqueda={manejarBusqueda} />
@@ -68,6 +68,11 @@ function EscaparateProductos() {
               
               <button className="btn-carrito" onClick={() => anadirCarro(producto)}></button>
               
+              {/* AQUÍ ESTÁ EL MENSAJE: Si el ID coincide con el clickeado, le ponemos la clase "visible" */}
+              <div className={`mensaje-flash ${mensajeVisibleId === producto.id ? 'visible' : ''}`}>
+                Añadido al carrito :)
+              </div>
+
               <img 
                 src={producto.imagen || 'imagenes/sinfoto.png'} 
                 className="card-img-top" 
@@ -80,17 +85,17 @@ function EscaparateProductos() {
                 <p className="fw-bold mb-1">{producto.precio} {DIVISA}</p>
                 <p className="card-text descripcion-producto">{producto.descripcion}</p>
                 
-                <button className="btn btn-primary mt-auto" onClick={() => setProductoSeleccionado(producto)}>
-                  Ver detalles
-                </button>
+                <div className="mt-auto d-flex flex-column gap-2">
+                  <button className="btn btn-primary" onClick={() => setProductoSeleccionado(producto)}>
+                    Ver detalles
+                  </button>
+                </div>
               </div>
 
             </div>
           </div>
         ))}
       </div>
-
-      {/* Paginación con margen superior */}
       
       <Paginacion 
         paginaActual={paginaActual} 
