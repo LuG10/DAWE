@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // Importamos la librería que acabamos de instalar en la terminal
 import { FileUploader } from 'react-drag-drop-files';
 
-import { crearProducto } from '../tienda.js'
+import { crearProducto, guardarElemento} from '../tienda.js'
 
 const tiposArchivo = ["JPG", "PNG", "GIF", "JPEG"];
 // el placebo holder del campo extra del formulario
@@ -44,17 +44,33 @@ function FormularioNuevosProductos() {
   const manejarCambioArchivo = (file) => {
     setArchivo(file);
   };
+   // imagen del formulario, como lo teniamos antes no valia porque se borra al recargar y no se guarda en localstorage
+  const convertirA64 = (archivo) => {
+    return new Promise((resolve, reject) => {
+      const lector = new FileReader();
+      lector.onload = () => resolve(lector.result);
+      lector.onerror = reject;
+      lector.readAsDataURL(archivo);
+    });
+  };
 
-  const añadirElemneto = (e) => {
+  const añadirElemento = async (e) => {
     e.preventDefault();
+    let imagenFinal = "imagenes/sinfoto.png";
+    if (archivo) {
+      imagenFinal = await convertirA64(archivo);
+    }
     const nuevoProducto = crearProducto(
       categoriaSeleccionada,
       nombre,
       precio,
       descripcion,
-      archivo ? URL.createObjectURL(archivo) : "imagenes/sinfoto.png",
+      imagenFinal,
       atributoExtra
     );
+    if (!nuevoProducto) return;
+    const productoPlano = nuevoProducto.toPlainObject();
+    guardarElemento(productoPlano);
     window.dispatchEvent(new Event("productosActualizados"));
     setNombre("");
     setDescripcion("");
@@ -64,15 +80,16 @@ function FormularioNuevosProductos() {
     setCategoriaSeleccionada("Todo");
   };
 
+
   return (
     <aside className="formulario-lateral">
 
       {/* Todo el formulario se oscurecerá si está offline gracias al estilo */}
-      <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemneto}>
+      <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemento}>
         <h2>Añadir Productos</h2>
         {/* El atributo disabled bloquea el campo si estaOffline es true */}
         <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
-            <option value="Todo">Escoge un tipo</option>
+            <option value="">Escoge un tipo</option>
             <option value="Flor">Flores</option>
             <option value="Ramo">Ramos</option>
             <option value="Planta">Plantas</option>

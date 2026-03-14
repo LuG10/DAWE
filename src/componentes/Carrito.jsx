@@ -35,6 +35,33 @@ function Carrito() {
     }
   };
 
+
+
+
+//HECHAREL UN VISTAZO
+  const manejarCambioCantidad = (id, nuevaCantidad) => {
+    const cantidad = Number(nuevaCantidad);
+
+    if (cantidad <= 0) {
+      borrarDelCarrito(id);
+      setProductosCarrito(productosCarrito.filter(producto => producto.id !== id));
+      return;
+    }
+
+    const carritoActualizado = productosCarrito.map(producto =>
+      producto.id === id ? { ...producto, cantidad } : producto
+    );
+
+    setProductosCarrito(carritoActualizado);
+
+    const productoActualizado = carritoActualizado.find(producto => producto.id === id);
+    localStorage.setItem('producto_' + id, JSON.stringify(productoActualizado));
+  };
+
+
+  
+
+
   // --- NUEVA LÓGICA: CALCULAR TOTALES ---
   // Sumamos el precio de todos los productos
   const totalSinDescuento = productosCarrito.reduce((suma, prod) => suma + (prod.precio * (prod.cantidad || 1)), 0);

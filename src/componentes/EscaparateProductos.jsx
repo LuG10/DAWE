@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 // IMPORTANTE: He añadido DIVISA aquí para que no dé error
-import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito } from '../tienda.js'; 
-
+import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito, cargarCatalogo } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
@@ -25,25 +24,32 @@ function EscaparateProductos() {
   const productosMostrados = productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto);
 
   const manejarBusqueda = (texto) => {
-    const resultados = buscarProductos(texto);
+    const creados = cargarCatalogo();
+    const todos = [...listaProductos, ...creados];
+    const resultados = todos.filter(p =>
+      p.nombre.toLowerCase().includes(texto.toLowerCase())
+    );
     setProductosFiltrados(resultados);
-    setPaginaActual(1); 
+    setPaginaActual(1);
   };
 
   const anadirCarro = (producto) => {
-    const productoConCantidad = { ...producto, cantidad: 1 };
-    setTimeout(() => {
-      window.dispatchEvent(new Event("carritoActualizado"));
-    }, 0);
+    // Si es instancia de clase → toJSON / toPlainObject
+    const base = producto.toPlainObject ? producto.toPlainObject() : (producto.toJSON ? producto.toJSON() : { ...producto });
+    const productoConCantidad = { ...base, cantidad: 1 };
+    guardarEnCarrito(productoConCantidad);
+    window.dispatchEvent(new Event("carritoActualizado"));
   };
 
   useEffect(() => {
-    const actualizar = () => setProductosFiltrados([...listaProductos]);
+    const actualizar = () => {
+      const creados = cargarCatalogo();
+      setProductosFiltrados([...listaProductos, ...creados]);
+    };
     actualizar();
     window.addEventListener("productosActualizados", actualizar);
     return () => window.removeEventListener("productosActualizados", actualizar);
   }, []);
-
 
 
 
@@ -53,21 +59,17 @@ function EscaparateProductos() {
 
   return (
     <section id="escaparate">
-      
-      {/* Agrupamos título y buscador en la misma línea como en la iteración 1 */}
       <BuscadorProductos realizarBusqueda={manejarBusqueda} />
 
-
-      {/* Recuperamos la CUADRÍCULA BOOTSTRAP para las tarjetas */}
       <div id="contenedorProductos" className="row row-cols-1 row-cols-md-3 g-4">
-        {productosMostrados.map((producto, index) => (
-          <div key={index} className="col">
+        {productosMostrados.map((producto) => (
+          <div key={producto.id} className="col">
             <div className="card h-100 shadow-sm position-relative producto">
               
               <button className="btn-carrito" onClick={() => anadirCarro(producto)}></button>
               
               <img 
-                src={`/${producto.imagen || 'imagenes/sinfoto.png'}`} 
+                src={producto.imagen || 'imagenes/sinfoto.png'} 
                 className="card-img-top" 
                 alt={producto.nombre} 
                 style={{ height: '200px', objectFit: 'cover' }} 
@@ -78,7 +80,6 @@ function EscaparateProductos() {
                 <p className="fw-bold mb-1">{producto.precio} {DIVISA}</p>
                 <p className="card-text descripcion-producto">{producto.descripcion}</p>
                 
-                {/* Botón Detalles */}
                 <button className="btn btn-primary mt-auto" onClick={() => setProductoSeleccionado(producto)}>
                   Ver detalles
                 </button>

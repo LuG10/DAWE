@@ -54,10 +54,8 @@ export const listaProductos = [
 // ======================================================
 
 export function crearProducto(tipo, nombre, precio, descripcion, imagen, atributoExtra) {
-
     let nuevoProducto;
     const precioNum = parseFloat(precio);
-
     switch (tipo) {
         case 'Ramo':
             nuevoProducto = new Ramo(nombre, precioNum, descripcion, imagen, atributoExtra);
@@ -79,9 +77,9 @@ export function crearProducto(tipo, nombre, precio, descripcion, imagen, atribut
             return null;
     }
 
-    listaProductos.push(nuevoProducto);
     return nuevoProducto;
 }
+
 
 
 // ======================================================
@@ -109,7 +107,16 @@ export function buscarProductos(query) {
 
 // Guarda el objeto JS como un string en localStorage usando 'producto_' + ID
 export function guardarEnCarrito(producto) {
-    localStorage.setItem('producto_' + producto.id, JSON.stringify(producto));
+    const clave = 'producto_' + producto.id;
+    const existente = localStorage.getItem(clave);
+
+    if (existente) {
+        const productoGuardado = JSON.parse(existente);
+        productoGuardado.cantidad = (productoGuardado.cantidad || 1) + 1;
+        localStorage.setItem(clave, JSON.stringify(productoGuardado));
+    } else {
+        localStorage.setItem(clave, JSON.stringify({ ...producto, cantidad: 1 }));
+    }
 }
 
 // Borra un producto por su ID del localStorage
@@ -129,7 +136,8 @@ export function cargarCarrito() {
                 let producto = JSON.parse(productoStr);
 
                 // Filtrar productos inválidos o vacíos
-                if (producto && typeof producto === "object" && producto.id && producto.precio && producto.cantidad > 0) {
+                if (producto && typeof producto === "object" && producto.precio) {
+                    producto.cantidad = producto.cantidad || 1;
                     carritoArray.push(producto);
                 } else {
                     // Si está corrupto, lo borramos del localStorage
@@ -145,3 +153,34 @@ export function cargarCarrito() {
     return carritoArray;
 }
 
+// ======================================================
+// ITERACIÓN 2: funciones localstorage para el fromulario
+// ======================================================
+
+// Guarda el objeto JS como un string en localStorage usando 'producto_' + ID
+export function guardarElemento(producto) {
+    localStorage.setItem('catalogo_' + producto.id, JSON.stringify(producto));
+}
+
+export function cargarCatalogo() {
+  let catalogoArray = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const clave = localStorage.key(i);
+    if (clave.startsWith('catalogo_')) {
+      const productoStr = localStorage.getItem(clave);
+
+      try {
+        const producto = JSON.parse(productoStr);
+
+        if (producto && typeof producto === 'object') {
+          catalogoArray.push(producto);
+        } else {
+          localStorage.removeItem(clave);
+        }
+      } catch {
+        localStorage.removeItem(clave);
+      }
+    }
+  }
+  return catalogoArray;
+}
