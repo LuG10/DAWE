@@ -25,8 +25,9 @@ export class Producto {
   set imagen(v) { this.#imagen = v; }
 
   #generarId(nombre) {
-    return nombre.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
-  }
+  // Ahora el ID será siempre igual para el mismo nombre (ej: "ramo-de-rosas")
+  return nombre.toLowerCase().trim().replace(/\s+/g, '-');
+}
 
   toPlainObject() {
     return {

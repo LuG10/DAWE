@@ -106,17 +106,29 @@ export function buscarProductos(query) {
 // ======================================================
 
 // Guarda el objeto JS como un string en localStorage usando 'producto_' + ID
+// src/tienda.js - Asegúrate de que la función se vea así:
 export function guardarEnCarrito(producto) {
     const clave = 'producto_' + producto.id;
     const existente = localStorage.getItem(clave);
 
     if (existente) {
         const productoGuardado = JSON.parse(existente);
+        // Sumamos 1 a la cantidad existente
         productoGuardado.cantidad = (productoGuardado.cantidad || 1) + 1;
         localStorage.setItem(clave, JSON.stringify(productoGuardado));
     } else {
-        localStorage.setItem(clave, JSON.stringify({ ...producto, cantidad: 1 }));
+        // Si es nuevo, lo guardamos con cantidad 1
+        // Importante: Si 'producto' es una instancia de clase, 
+        // usa producto.toPlainObject() o asegúrate de que tenga las propiedades accesibles.
+        const datos = typeof producto.toPlainObject === 'function' 
+                      ? producto.toPlainObject() 
+                      : producto;
+        
+        localStorage.setItem(clave, JSON.stringify({ ...datos, cantidad: 1 }));
     }
+    
+    // Opcional: Disparar evento para que el componente Carrito.jsx se entere al instante
+    window.dispatchEvent(new Event('carritoActualizado'));
 }
 
 // Borra un producto por su ID del localStorage

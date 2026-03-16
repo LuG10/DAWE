@@ -61,7 +61,7 @@ function EscaparateProductos() {
     <section id="escaparate">
       <BuscadorProductos realizarBusqueda={manejarBusqueda} />
 
-      <div id="contenedorProductos" className="row row-cols-1 row-cols-md-3 g-4">
+      <div id="contenedorProductos" class="row row-cols-3 g-4">
         {productosMostrados.map((producto) => (
           <div key={producto.id} className="col">
             <div className="card h-100 shadow-sm position-relative producto">
@@ -77,7 +77,8 @@ function EscaparateProductos() {
                 src={producto.imagen || 'imagenes/sinfoto.png'} 
                 className="card-img-top" 
                 alt={producto.nombre} 
-                style={{ height: '200px', objectFit: 'cover' }} 
+                style={{ height: '200px', objectFit: 'cover', cursor: 'pointer' }} 
+                onClick={() => setProductoSeleccionado(producto)}
               />
               
               <div className="card-body d-flex flex-column">
@@ -85,11 +86,6 @@ function EscaparateProductos() {
                 <p className="fw-bold mb-1">{producto.precio} {DIVISA}</p>
                 <p className="card-text descripcion-producto">{producto.descripcion}</p>
                 
-                <div className="mt-auto d-flex flex-column gap-2">
-                  <button className="btn btn-primary" onClick={() => setProductoSeleccionado(producto)}>
-                    Ver detalles
-                  </button>
-                </div>
               </div>
 
             </div>

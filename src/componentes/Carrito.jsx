@@ -22,12 +22,16 @@ function Carrito() {
     const carritoActualizado = productosCarrito.filter(producto => producto.id !== id);
     setProductosCarrito(carritoActualizado);
   };
+    // --- NUEVA LÓGICA: CALCULAR TOTALES ---
+  const totalSinDescuento = productosCarrito.reduce((suma, prod) => suma + (prod.precio * (prod.cantidad || 1)), 0);
+  const totalFinal = totalSinDescuento * (1 - descuento);
+
 
   // --- NUEVA LÓGICA: APLICAR EL CUPÓN ---
   const manejarAplicarCupon = () => {
     // Definimos que nuestro código secreto es "FLORA20"
-    if (codigoCupon.trim().toUpperCase() === 'FLORA20') {
-      setDescuento(0.20); // Aplicamos un 20% de descuento
+    if (codigoCupon.trim().toUpperCase() === 'FLORA20'&& totalSinDescuento>=150) { // Solo aplicamos si el total es mayor o igual a 150€
+     setDescuento(0.20); // Aplicamos un 20% de descuento
       setMensajeCupon('¡Cupón aplicado correctamente! (-20%)');
     } else {
       setDescuento(0); // Quitamos el descuento si se equivoca
@@ -53,10 +57,15 @@ function Carrito() {
     const productoActualizado = carritoActualizado.find(producto => producto.id === id);
     localStorage.setItem('producto_' + id, JSON.stringify(productoActualizado));
   };
+  
+  // --- NUEVA LÓGICA: QUITAR CUPÓN SI EL PRECIO BAJA DE 150€ ---
+  useEffect(() => {
+    if (descuento > 0 && totalSinDescuento < 150) {
+      setDescuento(0);
+      setMensajeCupon('Cupón retirado: el pedido debe ser de al menos 150€.');
+    }
+  }, [totalSinDescuento, descuento]);
 
-  // --- NUEVA LÓGICA: CALCULAR TOTALES ---
-  const totalSinDescuento = productosCarrito.reduce((suma, prod) => suma + (prod.precio * (prod.cantidad || 1)), 0);
-  const totalFinal = totalSinDescuento * (1 - descuento);
 
   return (
     <div className="offcanvas offcanvas-end" tabIndex="-1" id="carritoOffcanvas" aria-labelledby="carritoLabel">
