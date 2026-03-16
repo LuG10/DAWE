@@ -9,9 +9,11 @@ import EscaparateProductos from './componentes/EscaparateProductos.jsx';
 import FormularioNuevosProductos from './componentes/FormularioNuevosProductos.jsx';
 import Carrito from './componentes/Carrito.jsx';
 import Pie from './componentes/Pie.jsx';
+import GenerarRamo from './componentes/GenerarRamo.jsx';
 import './App.css';
 
 function App() {
+  const [verSoloFlores, setVerSoloFlores] = useState(false);
 
   return (
     <div className="container border-top border-bottom marcoPrin min-vh-100 d-flex flex-column">
@@ -20,12 +22,13 @@ function App() {
       <MenuNavegacion />
       
       <div className="row flex-grow-1 mt-4">
-        <main className="col-md-7">
-          <EscaparateProductos />
-        </main>
-
+        <EscaparateProductos verSoloFlores={verSoloFlores} />
         <aside className="col-md-5">
-          <FormularioNuevosProductos/>
+          {verSoloFlores ? (
+            <GenerarRamo setVerSoloFlores={setVerSoloFlores} />
+          ) : (
+            <FormularioNuevosProductos setVerSoloFlores={setVerSoloFlores} />
+          )}
         </aside>
       </div>
 

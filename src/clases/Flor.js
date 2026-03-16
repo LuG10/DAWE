@@ -6,7 +6,7 @@ export class Flor extends Producto {
     constructor(nombre, precio, descripcion, imagen, color) {
         // Llamamos al constructor del padre (Producto)
         // Equivalente a Producto.apply(this...) del código antiguo
-        super(nombre, precio, descripcion, imagen);
+        super(nombre, precio, descripcion, imagen, "Flor");
         
         this.#color = color;
     }

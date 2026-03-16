@@ -148,7 +148,7 @@ export function cargarCarrito() {
                 let producto = JSON.parse(productoStr);
 
                 // Filtrar productos inválidos o vacíos
-                if (producto && typeof producto === "object" && producto.precio) {
+                if (producto && typeof producto === "object") {
                     producto.cantidad = producto.cantidad || 1;
                     carritoArray.push(producto);
                 } else {

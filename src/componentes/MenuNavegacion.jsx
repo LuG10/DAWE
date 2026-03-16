@@ -31,16 +31,7 @@ function MenuNavegacion() {
 
       {/* Si estamos offline, mostramos el cartel rojo que pide el PDF */}
       {estaOffline && (
-        <div 
-          className="alerta-offline" 
-          style={{ 
-            backgroundColor: 'red', 
-            color: 'white', 
-            border: '1px solid white', 
-            padding: '5px 10px',
-            fontWeight: 'bold'
-          }}
-        >
+        <div className="alerta-offline" style={{ backgroundColor: 'red', color: 'white', border: '1px solid white', padding: '5px 10px',fontWeight: 'bold'}}>
           Estás offline
         </div>
       )}

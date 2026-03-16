@@ -5,7 +5,7 @@ export class Planta extends Producto {
 
     constructor(nombre, precio, descripcion, imagen, ubicacion) {
       
-        super(nombre, precio, descripcion, imagen);
+        super(nombre, precio, descripcion, imagen, "Planta");
         
                 this.#ubicacion = ubicacion; 
     }

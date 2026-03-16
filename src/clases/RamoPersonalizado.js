@@ -6,7 +6,7 @@ export class RamoPersonalizado extends Producto{
     #maxFlores; 
 
     constructor() { 
-        super("Ramo Personalizado", "0", "ramo diseñdo al gusto del comprador", "imagenes/RamoPersonalizado.png");
+        super("Ramo Personalizado", "0", "ramo diseñdo al gusto del comprador", "imagenes/RamoPersonalizado.png", "Ramo personalizado");
         this.#flores = []; 
         this.#maxFlores = 20; 
     } 
@@ -48,13 +48,12 @@ export class RamoPersonalizado extends Producto{
     }
 
     precio() {
-    return Math.round(
-        this.#flores.reduce((total, item) =>
-            total + (item.flor.precio * 1.10 * item.cantidad), 0
-        ) * 100
-    ) / 100;
-}
+        return Math.round(this.#flores.reduce((total, item) => total + (item.flor.precio * 1.10 * item.cantidad), 0) * 100) / 100;
+    }
 
+    cargarFlores(datos) {
+        this.#flores = datos || [];
+    }
     get flores() { return this.#flores; }
 
 }

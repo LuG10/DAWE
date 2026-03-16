@@ -18,12 +18,15 @@ nav{
     border-radius: 0.5rem;
     min-height: 30px;
     padding-bottom: 5px;
+    height: 20px;
 }
 
 ul{
     list-style: none;
     display: flex;
-    height: 20px;
+    gap: 10px;
+    margin: 0;
+    padding: 0;   
 }
 
 li{
@@ -270,7 +273,7 @@ td, th {
     border: none;
     z-index: 1;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    cursor: url("/imagenes/cursor_pulsado.png"), auto;
+    
 }
 
 .card:hover {
@@ -278,10 +281,14 @@ td, th {
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
-#FormularioProd button[type="submit"],
+.card-img-top:hover {
+  cursor: url("/imagenes/cursor_pulsado.png"), pointer;
+}
+
+.FormularioProd button[type="submit"],
 #aplicarCupon {
     appearance: none;
-    background-color: transparent;
+    background-color: rgb(255, 255, 255);
     border: 0.125em solid #0b561e;
     border-radius: 0.9375em;
     box-sizing: border-box;
@@ -307,13 +314,13 @@ td, th {
     width: 100%; 
 }
 
-#FormularioProd button[type="submit"]:disabled,
+.FormularioProd button[type="submit"]:disabled,
 #aplicarCupon:disabled {
     pointer-events: none;
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-#FormularioProd button[type="submit"]:hover,
+.FormularioProd button[type="submit"]:hover,
 #aplicarCupon:hover {
     color: #000000;
     background-color: #FAEBD7; 
@@ -323,7 +330,7 @@ td, th {
     cursor: url("/imagenes/cursor_pulsado.png"), auto;
 }
 
-#FormularioProd button[type="submit"]:active,
+.FormularioProd button[type="submit"]:active,
 #aplicarCupon:active {
     box-shadow: none;
     transform: translateY(0);

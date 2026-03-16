@@ -8,7 +8,7 @@ export class Ramo extends Producto {
     constructor(nombre, precio, descripcion, imagen, tipoRamo) {
         // Llamamos al constructor del padre (Producto)
         // Equivalente a Producto.apply(this...) del código antiguo
-        super(nombre, precio, descripcion, imagen);
+        super(nombre, precio, descripcion, imagen,  "Ramo");
         
         this.#tipoRamo = tipoRamo;
     }     

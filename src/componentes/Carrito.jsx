@@ -9,6 +9,7 @@ function Carrito() {
   const [codigoCupon, setCodigoCupon] = useState('');
   const [descuento, setDescuento] = useState(0); // 0 significa sin descuento, 0.10 será un 10%
   const [mensajeCupon, setMensajeCupon] = useState('');
+  const [mensajeVisibleId, setMensajeVisibleId] = useState(null);
 
   useEffect(() => {
     const actualizarCarrito = () => setProductosCarrito(cargarCarrito());
@@ -18,9 +19,20 @@ function Carrito() {
   }, []);
 
   const manejarBorrado = (id) => {
-    borrarDelCarrito(id);
-    const carritoActualizado = productosCarrito.filter(producto => producto.id !== id);
-    setProductosCarrito(carritoActualizado);
+    setMensajeVisibleId(id);
+    setTimeout(() => {
+      const carritoActualizado = productosCarrito.filter(producto => producto.id !== id);
+      setProductosCarrito(carritoActualizado);
+      setMensajeVisibleId(null);
+      borrarDelCarrito(id); // También borramos del almacenamiento local
+    }, 2000);
+    
+    
+    // Lo ocultamos a los 2 segundos
+    setTimeout(() => {
+      // Solo lo borramos si es el mismo (por si hace clic rápido en otro)
+      setMensajeVisibleId((idActual) => idActual === id ? null : idActual);
+    }, 2000); 
   };
     // --- NUEVA LÓGICA: CALCULAR TOTALES ---
   const totalSinDescuento = productosCarrito.reduce((suma, prod) => suma + (prod.precio * (prod.cantidad || 1)), 0);
@@ -31,7 +43,7 @@ function Carrito() {
   const manejarAplicarCupon = () => {
     // Definimos que nuestro código secreto es "FLORA20"
     if (codigoCupon.trim().toUpperCase() === 'FLORA20'&& totalSinDescuento>=150) { // Solo aplicamos si el total es mayor o igual a 150€
-     setDescuento(0.20); // Aplicamos un 20% de descuento
+      setDescuento(0.20); // Aplicamos un 20% de descuento
       setMensajeCupon('¡Cupón aplicado correctamente! (-20%)');
     } else {
       setDescuento(0); // Quitamos el descuento si se equivoca
@@ -79,27 +91,28 @@ function Carrito() {
 
       {/* --- BODY --- */}
       <div id="contenidoCarrito">
-        {productosCarrito.length === 0 ? (
-          <p className="text-center text-muted">Tu carrito está vacío.</p>
-        ) : (
-          productosCarrito.map((item) => (
-            <div key={item.id} className="d-flex mb-3 align-items-center item-carrito">
-              <img src={item.imagen} width="60" className="me-2" alt={item.nombre} />
+        {productosCarrito.map((item) => (
+          <div key={item.id} className="d-flex mb-3 align-items-center item-carrito" style={{position:"relative"}}>
+            <img src={item.imagen} width="60" className="me-2" alt={item.nombre} />
 
-              <div className="flex-grow-1">
-                <strong>{item.nombre}</strong><br />
-                {item.precio} € x{" "}
-                <input type="number" min="0" max="20" value={item.cantidad} className="cantidadCarrito" onChange={(e) => manejarCambioCantidad(item.id, e.target.value)}
-                />
-                {" "} = <strong>{(item.precio * item.cantidad).toFixed(2)} €</strong>
-              </div>
-
-              {/* Se ha cambiado ms-2 por me-3 para mover la X un poco más a la izquierda */}
-              <button type="button" className="btn-close me-3" style={{ fontSize: '0.6rem', opacity: 0.5 }} onClick={() => manejarBorrado(item.id)}
-              ></button>
+            <div className="flex-grow-1">
+              <strong>{item.nombre}</strong><br />
+              {item.precio} € x{" "}
+              <input type="number" min="0" max="20" value={item.cantidad} className="cantidadCarrito" onChange={(e) => manejarCambioCantidad(item.id, e.target.value)}/>
+              {" "} = <strong>{(item.precio * item.cantidad).toFixed(2)} €</strong>
             </div>
-          ))
-        )}
+
+            <button type="button" className="btn-close me-3" style={{ fontSize: '0.6rem', opacity: 0.5 }} onClick={() => manejarBorrado(item.id)}></button>
+
+            {/* --- Mensaje dentro del producto --- */}
+            {mensajeVisibleId === item.id && (
+              <div className="mensaje-flash visible">
+                Eliminado del Carrito :)
+              </div>
+            )}
+
+          </div>
+        ))}
       </div>
 
       {/* --- CUPÓN Y TOTALES --- */}

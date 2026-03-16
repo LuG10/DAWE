@@ -5,7 +5,7 @@ export class Regalo extends Producto {
 
     constructor(nombre, precio, descripcion, imagen, comidaBebida) {
       
-        super(nombre, precio, descripcion, imagen);
+        super(nombre, precio, descripcion, imagen, "Regalo");
         
                 this.#comidaBebida = comidaBebida; 
     }

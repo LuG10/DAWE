@@ -4,13 +4,15 @@ export class Producto {
   #precio;
   #descripcion;
   #imagen;
+  #categoria;
 
-  constructor(nombre, precio, descripcion, imagen) {
+  constructor(nombre, precio, descripcion, imagen, categoria) {
     this.#nombre = nombre;
     this.#precio = precio;
     this.#descripcion = descripcion;
     this.#imagen = imagen;
     this.#id = this.#generarId(nombre);
+    this.#categoria = categoria;
   }
 
   get id() { return this.#id; }
@@ -35,7 +37,8 @@ export class Producto {
       nombre: this.#nombre,
       precio: this.#precio,
       descripcion: this.#descripcion,
-      imagen: this.#imagen
+      imagen: this.#imagen,
+      categoria: this.#categoria
     };
   }
 }

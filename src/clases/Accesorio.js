@@ -5,7 +5,7 @@ export class Accesorio extends Producto {
 
     constructor(nombre, precio, descripcion, imagen, tamaño) {
       
-        super(nombre, precio, descripcion, imagen);
+        super(nombre, precio, descripcion, imagen, "Accesorio");
         
                 this.#tamaño = tamaño; 
     }

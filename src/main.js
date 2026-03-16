@@ -627,7 +627,6 @@ function anadirFlor(e){
     if (ramo.agregarFlor(flor)) { 
         actualizarRamoUI(); 
     } 
-
 }
 
 //---------------filtrado de los productos, solo los utilizables en el ramo------------//
