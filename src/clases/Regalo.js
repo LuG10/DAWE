@@ -13,4 +13,5 @@ export class Regalo extends Producto {
     // Getter y Setter para el atributo extra
     get comidaBebida() { return this.#comidaBebida; }
     set comidaBebida(valor) { this.#comidaBebida = valor; }
+
 }

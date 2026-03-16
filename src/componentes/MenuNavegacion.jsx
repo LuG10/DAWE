@@ -23,10 +23,10 @@ function MenuNavegacion() {
   }, []);
 
   return (
-    <nav className="menu-navegacion" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <nav>
       <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#carrito">Cesta de la compra</a></li>
+        <li><a href="#" className="text-decoration-none">Menú</a></li>
+        <li><a href="#carrito" className="text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#carritoOffcanvas">Carro de la compra</a></li>
       </ul>
 
       {/* Si estamos offline, mostramos el cartel rojo que pide el PDF */}

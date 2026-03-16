@@ -4,7 +4,6 @@ export class RamoPersonalizado extends Producto{
 
     #flores; 
     #maxFlores; 
-    #precio;
 
     constructor() { 
         super("Ramo Personalizado", "0", "ramo diseñdo al gusto del comprador", "imagenes/RamoPersonalizado.png");
@@ -57,4 +56,5 @@ export class RamoPersonalizado extends Producto{
 }
 
     get flores() { return this.#flores; }
+
 }

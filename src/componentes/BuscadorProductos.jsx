@@ -17,25 +17,16 @@ function BuscadorProductos({ realizarBusqueda }) {
   };
 
   return (
-    <div className="buscador-contenedor">
-      {/* Título de la sección de búsqueda como pide el PDF */}
-      <h2>Buscar Productos</h2>
-      
-      <div className="campo-busqueda">
-        <label htmlFor="buscador">Nombre del producto: </label>
-        <input 
-          type="text" 
-          id="buscador"
-          placeholder="Ej. Rosa, Bonsái..." 
-          value={textoBusqueda}
-          onChange={manejarCambio} // Conectamos el input con nuestra función
-        />
-      </div>
-      
-      {/* Opcional: Mostrar un mensajito de lo que se está buscando */}
-      {textoBusqueda && (
-        <p>Mostrando resultados para: <strong>{textoBusqueda}</strong></p>
-      )}
+    <div className="d-flex justify-content-between align-items-center mb-3">
+      <h2>{textoBusqueda.trim() === '' ? 'Todos los productos' : `Buscar producto: ${textoBusqueda}`}</h2>
+      <input 
+        type="text" 
+        id="buscador"
+        className="form-control w-25"
+        placeholder="Ej. Rosa, Bonsái..." 
+        value={textoBusqueda}
+        onChange={manejarCambio}
+      />
     </div>
   );
 }

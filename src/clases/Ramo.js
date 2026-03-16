@@ -11,6 +11,6 @@ export class Ramo extends Producto {
         super(nombre, precio, descripcion, imagen);
         
         this.#tipoRamo = tipoRamo;
-    }
+    }     
 
 }

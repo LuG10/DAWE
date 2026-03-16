@@ -1,7 +1,6 @@
-import { useState } from 'react';
-// IMPORTANTE: He añadido DIVISA aquí para que no dé error
-import { listaProductos, buscarProductos, DIVISA } from '../tienda.js'; 
-
+// src/componentes/EscaparateProductos.jsx
+import { useState, useEffect } from 'react';
+import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito, cargarCatalogo } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
@@ -10,6 +9,9 @@ function EscaparateProductos() {
   const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
   const [paginaActual, setPaginaActual] = useState(1);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  
+  // NUEVO ESTADO: Guarda el ID del producto que acaba de ser clickeado
+  const [mensajeVisibleId, setMensajeVisibleId] = useState(null);
 
   const PRODUCTOS_POR_PAGINA = 6;
   const totalProductos = productosFiltrados.length;
@@ -20,33 +22,63 @@ function EscaparateProductos() {
   const productosMostrados = productosFiltrados.slice(indicePrimerProducto, indiceUltimoProducto);
 
   const manejarBusqueda = (texto) => {
-    const resultados = buscarProductos(texto);
+    const creados = cargarCatalogo();
+    const todos = [...listaProductos, ...creados];
+    const resultados = todos.filter(p =>
+      p.nombre.toLowerCase().includes(texto.toLowerCase())
+    );
     setProductosFiltrados(resultados);
-    setPaginaActual(1); 
+    setPaginaActual(1);
   };
+
+  const anadirCarro = (producto) => {
+    const base = producto.toPlainObject ? producto.toPlainObject() : (producto.toJSON ? producto.toJSON() : { ...producto });
+    const productoConCantidad = { ...base, cantidad: 1 };
+    guardarEnCarrito(productoConCantidad);
+    window.dispatchEvent(new Event("carritoActualizado"));
+
+    // NUEVO: Mostramos el mensaje en esta tarjeta específica
+    setMensajeVisibleId(producto.id);
+    
+    // Lo ocultamos a los 2 segundos
+    setTimeout(() => {
+      // Solo lo borramos si es el mismo (por si hace clic rápido en otro)
+      setMensajeVisibleId((idActual) => idActual === producto.id ? null : idActual);
+    }, 2000); 
+  };
+
+  useEffect(() => {
+    const actualizar = () => {
+      const creados = cargarCatalogo();
+      setProductosFiltrados([...listaProductos, ...creados]);
+    };
+    actualizar();
+    window.addEventListener("productosActualizados", actualizar);
+    return () => window.removeEventListener("productosActualizados", actualizar);
+  }, []);
 
   return (
     <section id="escaparate">
-      
-      {/* Agrupamos título y buscador en la misma línea como en la iteración 1 */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-         <h2 id="titulo-producto">Todos los productos</h2>
-         <BuscadorProductos realizarBusqueda={manejarBusqueda} />
-      </div>
+      <BuscadorProductos realizarBusqueda={manejarBusqueda} />
 
-      {/* Recuperamos la CUADRÍCULA BOOTSTRAP para las tarjetas */}
-      <div id="contenedorProductos" className="row row-cols-1 row-cols-md-3 g-4">
-        {productosMostrados.map((producto, index) => (
-          <div key={index} className="col">
+      <div id="contenedorProductos" class="row row-cols-3 g-4">
+        {productosMostrados.map((producto) => (
+          <div key={producto.id} className="col">
             <div className="card h-100 shadow-sm position-relative producto">
               
-              <button className="btn-carrito"></button>
+              <button className="btn-carrito" onClick={() => anadirCarro(producto)}></button>
               
+              {/* AQUÍ ESTÁ EL MENSAJE: Si el ID coincide con el clickeado, le ponemos la clase "visible" */}
+              <div className={`mensaje-flash ${mensajeVisibleId === producto.id ? 'visible' : ''}`}>
+                Añadido al carrito :)
+              </div>
+
               <img 
-                src={`/${producto.imagen || 'imagenes/sinfoto.png'}`} 
+                src={producto.imagen || 'imagenes/sinfoto.png'} 
                 className="card-img-top" 
                 alt={producto.nombre} 
-                style={{ height: '200px', objectFit: 'cover' }} 
+                style={{ height: '200px', objectFit: 'cover', cursor: 'pointer' }} 
+                onClick={() => setProductoSeleccionado(producto)}
               />
               
               <div className="card-body d-flex flex-column">
@@ -54,28 +86,21 @@ function EscaparateProductos() {
                 <p className="fw-bold mb-1">{producto.precio} {DIVISA}</p>
                 <p className="card-text descripcion-producto">{producto.descripcion}</p>
                 
-                {/* Botón Detalles */}
-                <button className="btn btn-primary mt-auto" onClick={() => setProductoSeleccionado(producto)}>
-                  Ver detalles
-                </button>
               </div>
 
             </div>
           </div>
         ))}
       </div>
-
-      {/* Paginación con margen superior */}
-      <div className="mt-4">
-        <Paginacion 
-          paginaActual={paginaActual} 
-          totalPaginas={totalPaginas} 
-          productosMostrados={productosMostrados.length} 
-          totalProductos={totalProductos} 
-          cambiarPagina={setPaginaActual} 
-        />
-      </div>
-
+      
+      <Paginacion 
+        paginaActual={paginaActual} 
+        totalPaginas={totalPaginas} 
+        productosMostrados={productosMostrados.length} 
+        totalProductos={totalProductos} 
+        cambiarPagina={setPaginaActual} 
+      />
+      
       {productoSeleccionado && (
         <DetallesProducto 
           producto={productoSeleccionado} 
