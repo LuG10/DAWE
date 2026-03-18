@@ -55,6 +55,9 @@ function GenerarRamo({setVerSoloFlores}) {
         const idRamo = "ramo_" + Date.now(); 
         const productoConCantidad =  { id: idRamo , nombre: "Ramo Personalizado", precio: ramo.precio(), imagen: "imagenes/RamoPersonalizado.png", cantidad: 1, flores: ramo.flores};
         guardarEnCarrito(productoConCantidad);
+        ramo.restaurar();
+        setFloresRamo([]);
+        localStorage.removeItem("ramoPersonalizado");
         window.dispatchEvent(new Event("carritoActualizado"));
     } 
    
