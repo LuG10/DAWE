@@ -16,7 +16,12 @@ nav{
     border-radius: 0.5rem;
     min-height: 30px;
     padding-bottom: 5px;
-    height: 20px;
+}
+
+.navegador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 ul{
@@ -25,11 +30,6 @@ ul{
     gap: 10px;
     margin: 0;
     padding: 0;   
-}
-
-li{
-    padding: 0 10px;
-    font-weight: bold;
 }
 
 ul a { 
@@ -41,6 +41,45 @@ ul a:hover {
     background-color: rgba(223, 241, 171, 0.8);
     font-size: 17px;
     cursor: url("/imagenes/cursor_pulsado.png"), auto;
+}
+
+li{
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.navegador .alerta-offline{
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 0.5rem;
+    min-height: 30px;
+    padding-bottom: 5px;
+    height: 20px;
+}
+
+.paginacion-container {
+  display: flex;
+  align-items: center;   
+  justify-content: center;
+}
+
+.paginacion-container ul {
+  display: flex;
+  align-items: center;   
+  gap: 10px;           
+}
+
+.pagination-info {
+    display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;     
+  border-radius: 0.25rem;
+  height: 31px;               
+  font-size: 0.875rem;         
+
+  margin: 0 10px 0 0;                           
 }
 
 .marcoPrin {

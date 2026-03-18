@@ -24,6 +24,7 @@ function MenuNavegacion() {
 
   return (
     <nav>
+      <div className='navegador'>
       <ul>
         <li><a href="#" className="text-decoration-none">Menú</a></li>
         <li><a href="#carrito" className="text-decoration-none" data-bs-toggle="offcanvas" data-bs-target="#carritoOffcanvas">Carro de la compra</a></li>
@@ -35,6 +36,7 @@ function MenuNavegacion() {
           Estás offline
         </div>
       )}
+      </div>
     </nav>
   );
 }

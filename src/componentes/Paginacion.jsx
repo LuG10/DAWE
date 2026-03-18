@@ -48,10 +48,10 @@ function Paginacion({
 
   return (
     <nav className="mt-4 paginacion-container">
-      <ul className="pagination-container pagination pagination-sm justify-content-center">
-        <p>
+        <p className="pagination-info">
           Mostrando {productosMostrados} de {totalProductos} productos
         </p>
+      <ul className="pagination-container pagination pagination-sm justify-content-center">
         {/* Botón anterior: solo se muestra si no estamos en la primera página */}
         {paginaActual > 1 && (
           <li className="page-item">
