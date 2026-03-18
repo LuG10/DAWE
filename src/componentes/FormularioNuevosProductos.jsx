@@ -15,6 +15,13 @@ const placeholders = {
   Regalo: "Comida o bebida"
 };
 
+// Pequeño componente para dibujar las estrellas del botón/ Ramo Personalizado
+const EstrellaSVG = ({ className }) => (
+  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path className="fil0" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+  </svg>
+);
+
 function FormularioNuevosProductos({setVerSoloFlores}) {
   //obtencion de los elementos del formulario
   const [nombre, setNombre] = useState("");
@@ -115,7 +122,15 @@ function FormularioNuevosProductos({setVerSoloFlores}) {
 
         <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
       </form>
-        <button className="btn btn-success mt-3" onClick={() => setVerSoloFlores(true)}>Ramo personalizado +</button>
+       <button type="button" className="btn-estrellas" onClick={() => setVerSoloFlores(true)}>
+        Ramo personalizado +
+        <EstrellaSVG className="star-1" />
+        <EstrellaSVG className="star-2" />
+        <EstrellaSVG className="star-3" />
+        <EstrellaSVG className="star-4" />
+        <EstrellaSVG className="star-5" />
+        <EstrellaSVG className="star-6" />
+      </button>
     </div>
   );
 }
