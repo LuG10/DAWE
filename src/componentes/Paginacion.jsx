@@ -1,12 +1,5 @@
 
-function Paginacion({ 
-  paginaActual, 
-  totalPaginas, 
-  productosMostrados, 
-  totalProductos, 
-  cambiarPagina 
-}) {
-  // Si la búsqueda no devuelve ningún producto, mostramos un mensaje alternativo
+function Paginacion({ paginaActual, totalPaginas, productosMostrados, totalProductos, cambiarPagina }) {
   if (totalProductos === 0) {
     return (
       <div className="pagination-container pagination pagination-sm justify-content-center">
@@ -14,10 +7,6 @@ function Paginacion({
       </div>
     );
   }
-
-  //---------------------------------------------------------------//
-  //              Botones centrales de la paginacion               //
-  //---------------------------------------------------------------//
 
   const maxBotones = 5;
   let inicioRango = Math.max(1, paginaActual - Math.floor(maxBotones / 2));
@@ -48,9 +37,9 @@ function Paginacion({
 
   return (
     <nav className="mt-4 paginacion-container">
-        <p className="pagination-info">
-          Mostrando {productosMostrados} de {totalProductos} productos
-        </p>
+      <p className="pagination-info">
+        Mostrando {productosMostrados} de {totalProductos} productos
+      </p>
       <ul className="pagination-container pagination pagination-sm justify-content-center">
         {paginaActual > 1 && (
           <li className="page-item">
