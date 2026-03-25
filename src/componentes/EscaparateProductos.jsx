@@ -1,4 +1,3 @@
-// src/componentes/EscaparateProductos.jsx
 import { useState, useEffect } from 'react';
 import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito, cargarCatalogo } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
@@ -7,21 +6,16 @@ import DetallesProducto from './DetallesProducto.jsx';
 import AvisoCupon from './AvisoCupon.jsx';
 import { Flor } from '../clases/Flor.js';
 
-function EscaparateProductos({verSoloFlores}) {
+function EscaparateProductos({verSoloFlores, paginaActual, cambiarPagina }) {
   const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
-  const [paginaActual, setPaginaActual] = useState(1);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   
-  // NUEVO ESTADO: Guarda el ID del producto que acaba de ser clickeado
   const [mensajeVisibleId, setMensajeVisibleId] = useState(null);
 
   const PRODUCTOS_POR_PAGINA = 6;
 
-
-  // Filtra primero según verSoloFlores
   const productosFiltradosPorCategoria = verSoloFlores ? productosFiltrados.filter(p => p instanceof Flor || p.categoria === "Flor"): productosFiltrados;
 
-  // Luego aplica la paginación
   const indiceUltimoProducto = paginaActual * PRODUCTOS_POR_PAGINA;
   const indicePrimerProducto = indiceUltimoProducto - PRODUCTOS_POR_PAGINA;
   const productosMostrados = productosFiltradosPorCategoria.slice(indicePrimerProducto, indiceUltimoProducto);
@@ -45,12 +39,9 @@ function EscaparateProductos({verSoloFlores}) {
     guardarEnCarrito(productoConCantidad);
     window.dispatchEvent(new Event("carritoActualizado"));
 
-    // NUEVO: Mostramos el mensaje en esta tarjeta específica
     setMensajeVisibleId(producto.id);
     
-    // Lo ocultamos a los 2 segundos
     setTimeout(() => {
-      // Solo lo borramos si es el mismo (por si hace clic rápido en otro)
       setMensajeVisibleId((idActual) => idActual === producto.id ? null : idActual);
     }, 2000); 
   };
@@ -76,7 +67,6 @@ function EscaparateProductos({verSoloFlores}) {
               {!verSoloFlores && (
                 <div>
                   <button className="btn-carrito" onClick={() => anadirCarro(producto)}></button>
-                  {/* AQUÍ ESTÁ EL MENSAJE: Si el ID coincide con el clickeado, le ponemos la clase "visible" */}
                   <div className={`mensaje-flash ${mensajeVisibleId === producto.id ? 'visible' : ''}`}>
                     Añadido al carrito :)
                   </div>
@@ -88,7 +78,6 @@ function EscaparateProductos({verSoloFlores}) {
                 <p className="fw-bold mb-1">{producto.precio} {DIVISA}</p>
                 <p className="card-text descripcion-producto">{producto.descripcion}</p>
               </div>
-
             </div>
           </div>
         ))}
@@ -99,7 +88,7 @@ function EscaparateProductos({verSoloFlores}) {
         totalPaginas={totalPaginas} 
         productosMostrados={productosMostrados.length} 
         totalProductos={totalProductos} 
-        cambiarPagina={setPaginaActual} 
+        cambiarPagina={cambiarPagina} 
       />
       
       {productoSeleccionado && (

@@ -1,57 +1,30 @@
-// src/componentes/FormularioNuevosProductos.jsx
 import { useState, useEffect } from 'react';
-// Importamos la librería que acabamos de instalar en la terminal
 import { FileUploader } from 'react-drag-drop-files';
-
 import { crearProducto, guardarElemento} from '../tienda.js'
 
 const tiposArchivo = ["JPG", "PNG", "GIF", "JPEG"];
-// el placebo holder del campo extra del formulario
-const placeholders = {
-  Flor: "Color",
-  Ramo: "Tipo de ramo",
-  Planta: "Ubicación",
-  Accesorio: "Tamaño",
-  Regalo: "Comida o bebida"
-};
 
-// Pequeño componente para dibujar las estrellas del botón/ Ramo Personalizado
+const placeholders = {Flor: "Color", Ramo: "Tipo de ramo", Planta: "Ubicación", Accesorio: "Tamaño", Regalo: "Comida o bebida"};
+
 const EstrellaSVG = ({ className }) => (
   <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path className="fil0" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
   </svg>
 );
 
-function FormularioNuevosProductos({setVerSoloFlores}) {
-  //obtencion de los elementos del formulario
+function FormularioNuevosProductos({setVerSoloFlores, cambiarPagina}) {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [atributoExtra, setAtributoExtra] = useState("");
-
-  //estado para que los elemnetos de informacion adicional del formulario cambie 
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
-  //esto es para establecer la cantidad en le imput del precio del formulario
   const [precio, setPrecio] = useState(0);
-  // Volvemos a detectar el estado offline para bloquear el formulario
   const [estaOffline, setEstaOffline] = useState(!navigator.onLine);
-  // Estado para guardar la imagen que se arrastre
   const [archivo, setArchivo] = useState(null);
-
-  useEffect(() => {
-    const manejarOffline = () => setEstaOffline(true);
-    const manejarOnline = () => setEstaOffline(false);
-    window.addEventListener('offline', manejarOffline);
-    window.addEventListener('online', manejarOnline);
-    return () => {
-      window.removeEventListener('offline', manejarOffline);
-      window.removeEventListener('online', manejarOnline);
-    };
-  }, []);
 
   const manejarCambioArchivo = (file) => {
     setArchivo(file);
   };
-   // imagen del formulario, como lo teniamos antes no valia porque se borra al recargar y no se guarda en localstorage
+  
   const convertirA64 = (archivo) => {
     return new Promise((resolve, reject) => {
       const lector = new FileReader();
@@ -80,13 +53,21 @@ function FormularioNuevosProductos({setVerSoloFlores}) {
     setCategoriaSeleccionada("");
   };
 
+  useEffect(() => {
+    const manejarOffline = () => setEstaOffline(true);
+    const manejarOnline = () => setEstaOffline(false);
+    window.addEventListener('offline', manejarOffline);
+    window.addEventListener('online', manejarOnline);
+    return () => {
+      window.removeEventListener('offline', manejarOffline);
+      window.removeEventListener('online', manejarOnline);
+    };
+  }, []);
+
   return (
     <div className="FormularioProd">
-
-      {/* Todo el formulario se oscurecerá si está offline gracias al estilo */}
       <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemento}>
         <h2>Añadir productos</h2>
-        {/* El atributo disabled bloquea el campo si estaOffline es true */}
         <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
             <option value="">Escoge un tipo</option>
             <option value="Flor">Flores</option>
@@ -101,9 +82,6 @@ function FormularioNuevosProductos({setVerSoloFlores}) {
         {(categoriaSeleccionada !== '') && (
           <div id="contenedorExtra"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder={placeholders[categoriaSeleccionada]} className="form-control mb-2"  value={atributoExtra} onChange={(e) => setAtributoExtra(e.target.value)}disabled={estaOffline}/></div>
         )}        
-
-        {/* --- ZONA DRAG & DROP --- */}
-        {/* Si estamos offline, ponemos el fondo gris claro como pide el PDF */}
         <FileUploader handleChange={manejarCambioArchivo} name="file" types={tiposArchivo} disabled={estaOffline} hoverTitle="Suelta la imagen" classes="file-uploader-container">
             <div className={`zona-drag-drop ${estaOffline ? 'offline' : ''}`}>
                 {archivo ? (
@@ -122,7 +100,13 @@ function FormularioNuevosProductos({setVerSoloFlores}) {
 
         <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
       </form>
-       <button type="button" className="btn-estrellas" onClick={() => setVerSoloFlores(true)}>
+      <button 
+      type="button" 
+      className="btn-estrellas" 
+      onClick={() => {
+        cambiarPagina(1);
+        setVerSoloFlores(true);
+      }}>
         Ramo personalizado +
         <EstrellaSVG className="star-1" />
         <EstrellaSVG className="star-2" />

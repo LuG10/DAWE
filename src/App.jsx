@@ -14,6 +14,7 @@ import './App.css';
 
 function App() {
   const [verSoloFlores, setVerSoloFlores] = useState(false);
+    const [paginaActual, setPaginaActual] = useState(1);
 
   return (
     <div className="container border-top border-bottom marcoPrin min-vh-100 d-flex flex-column">
@@ -22,12 +23,16 @@ function App() {
       <MenuNavegacion />
       
       <div className="row flex-grow-1 mt-4">
-        <EscaparateProductos verSoloFlores={verSoloFlores} />
+        <EscaparateProductos 
+          verSoloFlores={verSoloFlores}
+          paginaActual={paginaActual}  
+          cambiarPagina={setPaginaActual} 
+        />
         <aside className="col-md-5">
           {verSoloFlores ? (
-            <GenerarRamo setVerSoloFlores={setVerSoloFlores} />
+            <GenerarRamo setVerSoloFlores={setVerSoloFlores} cambiarPagina={setPaginaActual}/>
           ) : (
-            <FormularioNuevosProductos setVerSoloFlores={setVerSoloFlores} />
+            <FormularioNuevosProductos setVerSoloFlores={setVerSoloFlores} cambiarPagina={setPaginaActual}/>
           )}
         </aside>
       </div>

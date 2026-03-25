@@ -1,8 +1,5 @@
-// src/componentes/DetallesProducto.jsx
-
-// Recibimos un "producto" por props para mostrar sus datos
 function DetallesProducto({ producto, cerrarDetalles }) {
-  // Si no hay producto seleccionado, no mostramos nada
+
   if (!producto) return null;
 
   return (

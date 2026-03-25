@@ -52,7 +52,6 @@ function Paginacion({
           Mostrando {productosMostrados} de {totalProductos} productos
         </p>
       <ul className="pagination-container pagination pagination-sm justify-content-center">
-        {/* Botón anterior: solo se muestra si no estamos en la primera página */}
         {paginaActual > 1 && (
           <li className="page-item">
             <a
@@ -68,10 +67,8 @@ function Paginacion({
           </li>
         )}
 
-        {/* Botones numéricos */}
         {botonesCentrales}
 
-        {/* Botón siguiente: solo se muestra si no estamos en la última página */}
         {paginaActual < totalPaginas && (
           <li className="page-item">
             <a

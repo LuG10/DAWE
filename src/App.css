@@ -207,6 +207,10 @@ td, th {
     cursor: url("/imagenes/cursor_pulsado.png"), auto;
 }
 
+.btn:hover {
+    cursor: url("/imagenes/cursor_pulsado.png"), auto;
+}
+
 .mensaje-flash {
     position: absolute;
     top: 50px;

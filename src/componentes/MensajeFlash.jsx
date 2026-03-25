@@ -1,4 +1,3 @@
-// src/componentes/MensajeFlash.jsx
 import { useState, useEffect } from 'react';
 
 function MensajeFlash() {
@@ -14,7 +13,6 @@ function MensajeFlash() {
 
       if (temporizador) clearTimeout(temporizador);
 
-      // Desaparece a los 3 segundos
       temporizador = setTimeout(() => {
         setVisible(false);
       }, 3000); 
@@ -29,11 +27,7 @@ function MensajeFlash() {
   }, []);
 
   return (
-    // FORZAMOS position: 'fixed' y un zIndex alto para que flote sobre TODO Bootstrap
-    <div 
-      className={`mensaje-flash ${visible ? 'visible' : ''}`} 
-      style={{ position: 'fixed', zIndex: 9999 }}
-    >
+    <div className={`mensaje-flash ${visible ? 'visible' : ''}`} style={{ position: 'fixed', zIndex: 9999 }}>
       {mensaje}
     </div>
   );
