@@ -1,16 +1,22 @@
 Lucía:
+    - Adaptacion de la estructura generada a la plantilla css de la anterior entrega
     - Formulario para añadir nuevas clases
-    	- Dragdrop 
-    	- Aparición del campo funcionalidad extra
+    - Migracion de los metodos de utils.js a su componente
     - Funcionalidad extra: ramo personalizado
-    - Descripción extendida del producto
-    - Layout de la web
+    - Arreglos finales varios
+
 Maira:
-    -Paginación
-    -Clases
-    -Funcionalidad extra: cupón de descuento
+    - Genercion de la estructura principal del react
+    - Migracion de los metodos de utils.js a su componente
+    - Solucion de integracion de los elementos introducidos por usuarios al carrito
+    - Funcionalidad extra: cupón de descuento
+    - Paginación
+
+    
 Ana:
-    -Carro de la compra
-    -Funcionalidad extra: cupón de descuento
-    -Buscador
-    -Favicono
+    - Genercion de la estructura principal del react
+    - Migracion de los metodos de utils.js a su componente
+    - Solucion de integracion de los elementos introducidos por usuarios al carrito
+    - Funcionalidad extra: cupón de descuento
+    - Buscador
+
