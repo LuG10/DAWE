@@ -22,7 +22,6 @@ export const modoRamo = false;
 // Creamos instancias manualmente como pide el PDF (3 de cada tipo mínimo)
 
 export const listaProductos = [
-
     // ---------------- RAMOS ----------------
     new Ramo("Ramo de Rosas", 35.00, "Nuestro ramo clásico de 12 rosas rojas y blancas frescas es una elección elegante y atemporal que transmite sentimientos profundos con una combinación de colores llena de significado. Las rosas rojas simbolizan el amor, la pasión y la admiración, mientras que las rosas blancas representan pureza, respeto y sinceridad. Juntas crean un contraste armonioso y sofisticado que lo convierte en el detalle perfecto para cualquier ocasión especial.", "imagenes/ramos/ramo rosas.jpg", "Natural"),
     new Ramo("Ramo de Tulipanes", 28.50, "Ramo de 24 tulipanes amarillos.", "imagenes/ramos/ramotulipanes.jpg", "Natural"),
@@ -86,17 +85,17 @@ export function crearProducto(tipo, nombre, precio, descripcion, imagen, atribut
 //  BUSCADOR DE PRODUCTOS 
 // ======================================================
 
-export function buscarProductos(query) {
+export function buscarProductos(query, productos = listaProductos) {
 
     const queryLower = query.toLowerCase();
 
     if (modoRamo) {
-        const flores = listaProductos.filter(p => p instanceof Flor);
+        const flores = productos.filter(p => p instanceof Flor || p.categoria === 'Flor');
         return flores.filter(producto =>
             producto.nombre.toLowerCase().includes(queryLower)
         );
     } else {
-        return listaProductos.filter(producto =>
+        return productos.filter(producto =>
             producto.nombre.toLowerCase().includes(queryLower)
         );
     }
@@ -168,31 +167,3 @@ export function cargarCarrito() {
 // ======================================================
 // ITERACIÓN 2: funciones localstorage para el fromulario
 // ======================================================
-
-// Guarda el objeto JS como un string en localStorage usando 'producto_' + ID
-export function guardarElemento(producto) {
-    localStorage.setItem('catalogo_' + producto.id, JSON.stringify(producto));
-}
-
-export function cargarCatalogo() {
-  let catalogoArray = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const clave = localStorage.key(i);
-    if (clave.startsWith('catalogo_')) {
-      const productoStr = localStorage.getItem(clave);
-
-      try {
-        const producto = JSON.parse(productoStr);
-
-        if (producto && typeof producto === 'object') {
-          catalogoArray.push(producto);
-        } else {
-          localStorage.removeItem(clave);
-        }
-      } catch {
-        localStorage.removeItem(clave);
-      }
-    }
-  }
-  return catalogoArray;
-}

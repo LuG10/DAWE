@@ -1,25 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
-import { crearProducto, guardarElemento} from '../tienda.js'
+import { crearProducto } from '../tienda.js'
+import axios from 'axios';
 
 const tiposArchivo = ["JPG", "PNG", "GIF", "JPEG"];
 
 const placeholders = {Flor: "Color", Ramo: "Tipo de ramo", Planta: "Ubicación", Accesorio: "Tamaño", Regalo: "Comida o bebida"};
 
-const EstrellaSVG = ({ className }) => (
-  <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path className="fil0" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-  </svg>
-);
 
-function FormularioNuevosProductos({setVerSoloFlores, cambiarPagina}) {
+function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [atributoExtra, setAtributoExtra] = useState("");
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [precio, setPrecio] = useState(0);
-  const [estaOffline, setEstaOffline] = useState(!navigator.onLine);
   const [archivo, setArchivo] = useState(null);
+  const [mensajeError, setMensajeError] = useState('');
 
   const manejarCambioArchivo = (file) => {
     setArchivo(file);
@@ -36,39 +32,58 @@ function FormularioNuevosProductos({setVerSoloFlores, cambiarPagina}) {
 
   const añadirElemento = async (e) => {
     e.preventDefault();
-    let imagenFinal = "imagenes/sinfoto.png";
-    if (archivo) {
-      imagenFinal = await convertirA64(archivo);
-    }
-    const nuevoProducto = crearProducto( categoriaSeleccionada, nombre, precio, descripcion, imagenFinal, atributoExtra);
-    if (!nuevoProducto) return;
-    const productoPlano = nuevoProducto.toPlainObject();
-    guardarElemento(productoPlano);
-    window.dispatchEvent(new Event("productosActualizados"));
-    setNombre("");
-    setDescripcion("");
-    setAtributoExtra("");
-    setPrecio(0);
-    setArchivo(null);
-    setCategoriaSeleccionada("");
-  };
+    setMensajeError('');
 
-  useEffect(() => {
-    const manejarOffline = () => setEstaOffline(true);
-    const manejarOnline = () => setEstaOffline(false);
-    window.addEventListener('offline', manejarOffline);
-    window.addEventListener('online', manejarOnline);
-    return () => {
-      window.removeEventListener('offline', manejarOffline);
-      window.removeEventListener('online', manejarOnline);
-    };
-  }, []);
+    try {
+      let imagenFinal = "imagenes/sinfoto.png";
+      if (archivo) {
+        imagenFinal = await convertirA64(archivo);
+      }
+
+      const nuevoProducto = crearProducto(categoriaSeleccionada, nombre, precio, descripcion, imagenFinal, atributoExtra);
+      if (!nuevoProducto) {
+        setMensajeError('Selecciona una categoria valida.');
+        return;
+      }
+
+      const productoPlano = nuevoProducto.toPlainObject();
+
+      await axios.post('http://localhost:8000/api/productos/anadir', {
+        id: productoPlano.id,
+        nombre: productoPlano.nombre,
+        precio: productoPlano.precio,
+        descripcion: productoPlano.descripcion,
+        imagen: productoPlano.imagen,
+        categoria: productoPlano.categoria,
+        tipo: productoPlano.categoria
+      });
+
+      if (typeof onProductoCreado === 'function') {
+        onProductoCreado();
+      }
+
+      setNombre("");
+      setDescripcion("");
+      setAtributoExtra("");
+      setPrecio(0);
+      setArchivo(null);
+      setCategoriaSeleccionada("");
+    } catch (err) {
+      if (err?.response?.status === 409) {
+        setMensajeError('Ya existe un producto con ese nombre (id repetido).');
+      } else if (err?.response?.status === 404) {
+        setMensajeError('No se encuentra la ruta del backend. Reinicia el servidor backend.');
+      } else {
+        setMensajeError('No se pudo guardar el producto.');
+      }
+    }
+  };
 
   return (
     <div className="FormularioProd">
       <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemento}>
         <h2>Añadir productos</h2>
-        <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)}>
+        <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)} disabled={estaOffline} required>
             <option value="">Escoge un tipo</option>
             <option value="Flor">Flores</option>
             <option value="Ramo">Ramos</option>
@@ -77,7 +92,7 @@ function FormularioNuevosProductos({setVerSoloFlores, cambiarPagina}) {
             <option value="Regalo">Regalos</option>
         </select>
         <input type="text" name="NombreProducto" placeholder="Nombre" className="form-control mb-2" value={nombre} onChange={(e) => setNombre(e.target.value)} disabled={estaOffline} required/>
-        <input type="number"  name="precioProducto" placeholder="Precio" className="form-control mb-2" defaultValue={0}  onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>
+        <input type="number"  name="precioProducto" placeholder="Precio" className="form-control mb-2" value={precio} min="0" step="0.01" onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>
         <textarea id="descripcion" name="descripcion" placeholder="Descripción" className="form-control mb-2" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} required disabled={estaOffline}></textarea>  
         {(categoriaSeleccionada !== '') && (
           <div id="contenedorExtra"> <input type="text" id="atributoExtra" name="atributoExtra" placeholder={placeholders[categoriaSeleccionada]} className="form-control mb-2"  value={atributoExtra} onChange={(e) => setAtributoExtra(e.target.value)}disabled={estaOffline}/></div>
@@ -99,22 +114,8 @@ function FormularioNuevosProductos({setVerSoloFlores, cambiarPagina}) {
         </FileUploader>
 
         <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
+        {mensajeError && <div className="text-danger small mt-1">{mensajeError}</div>}
       </form>
-      <button 
-      type="button" 
-      className="btn-estrellas" 
-      onClick={() => {
-        cambiarPagina(1);
-        setVerSoloFlores(true);
-      }}>
-        Ramo personalizado +
-        <EstrellaSVG className="star-1" />
-        <EstrellaSVG className="star-2" />
-        <EstrellaSVG className="star-3" />
-        <EstrellaSVG className="star-4" />
-        <EstrellaSVG className="star-5" />
-        <EstrellaSVG className="star-6" />
-      </button>
     </div>
   );
 }

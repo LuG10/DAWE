@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { listaProductos, buscarProductos, DIVISA, guardarEnCarrito, cargarCatalogo } from '../tienda.js'; 
+import { buscarProductos, DIVISA, guardarEnCarrito } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
 import AvisoCupon from './AvisoCupon.jsx';
 import { Flor } from '../clases/Flor.js';
 
-function EscaparateProductos({verSoloFlores, paginaActual, cambiarPagina }) {
-  const [productosFiltrados, setProductosFiltrados] = useState(listaProductos);
+function EscaparateProductos({ verSoloFlores, paginaActual, cambiarPagina, productosBase }) {
+  const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   
   const [mensajeVisibleId, setMensajeVisibleId] = useState(null);
@@ -23,14 +23,13 @@ function EscaparateProductos({verSoloFlores, paginaActual, cambiarPagina }) {
   const totalProductos = productosFiltradosPorCategoria.length;
   const totalPaginas = Math.ceil(totalProductos / PRODUCTOS_POR_PAGINA); 
 
+  const obtenerCatalogoActual = () => productosBase;
+
   const manejarBusqueda = (texto) => {
-    const creados = cargarCatalogo();
-    const todos = [...listaProductos, ...creados];
-    const resultados = todos.filter(p =>
-      p.nombre.toLowerCase().includes(texto.toLowerCase())
-    );
+    const todos = obtenerCatalogoActual();
+    const resultados = buscarProductos(texto, todos);
     setProductosFiltrados(resultados);
-    setPaginaActual(1);
+    cambiarPagina(1);
   };
 
   const anadirCarro = (producto) => {
@@ -48,16 +47,16 @@ function EscaparateProductos({verSoloFlores, paginaActual, cambiarPagina }) {
 
   useEffect(() => {
     const actualizar = () => {
-      const creados = cargarCatalogo();
-      setProductosFiltrados([...listaProductos, ...creados]);
+      setProductosFiltrados(obtenerCatalogoActual());
     };
+
     actualizar();
     window.addEventListener("productosActualizados", actualizar);
     return () => window.removeEventListener("productosActualizados", actualizar);
-  }, []);
+  }, [productosBase]);
 
   return (
-    <main className="col-md-7">
+    <main className="col-md-8">
       <BuscadorProductos realizarBusqueda={manejarBusqueda} />
       <AvisoCupon/>
       <div id="contenedorProductos" className="row row-cols-3 g-4">

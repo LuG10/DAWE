@@ -322,6 +322,50 @@ td, th {
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
+.aside-panel {
+    background-color: rgba(255, 255, 255, 0.65) !important;
+    border: 2px solid rgba(109, 95, 84, 0.15) !important;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(2px);
+}
+
+.aside-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.aside-user-info {
+    text-align: left;
+    padding: 8px 10px;
+    gap: 14px;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 6px;
+}
+
+.aside-panel .btn {
+    margin-top: 10px;
+    background: rgb(250, 235, 215);
+    color: rgb(0, 0, 0);
+    border: 0.125em solid rgb(250, 235, 215);
+}
+
+.aside-login-form .btn {
+    margin-top: 10px;
+    background: rgb(250, 235, 215);
+    color: rgb(0, 0, 0);
+    border: 0.125em solid rgb(250, 235, 215);
+}
+
+.aside-login-form .btn:hover {
+    background: rgba(223, 241, 171, 0.8);
+    border-color: rgba(223, 241, 171, 0.8);
+    color: rgb(0, 0, 0);
+}
+
+
 .card-img-top:hover {
   cursor: url("/imagenes/cursor_pulsado.png"), pointer;
 }
@@ -420,3 +464,141 @@ td, th {
 .btn-estrellas:hover .star-6 { position: absolute; top: 5%; left: 60%; width: 5px; height: auto; filter: drop-shadow(0 0 20px #fffdef); z-index: 2; }
 
 .fil0 { fill: #e083d5; }
+
+.campo-flotante {
+    position: relative;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.campo-flotante input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1.5px solid rgb(209, 209, 209);
+    border-radius: 8px;
+    background-color: rgb(255, 255, 255);
+    outline: none;
+    transition: all 0.2s ease;
+    color: rgb(51, 51, 51);
+}
+
+.campo-flotante label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 4px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(153, 153, 153);
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.campo-flotante input:focus + label,
+.campo-flotante input:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 13px;
+    color: rgb(180, 140, 140);
+    font-weight: 600;
+}
+
+.campo-flotante input:focus {
+    border: 2px solid rgb(228, 196, 196);
+    box-shadow: 0 0 8px rgba(228, 196, 196, 0.3);
+}
+
+.campo-flotante input:disabled {
+    background-color: rgba(250, 235, 215, 0.55);
+    color: rgb(70, 70, 70);
+    border: 1.5px solid rgba(109, 95, 84, 0.35);
+    opacity: 1;
+    cursor: inherit;
+}
+
+.campo-flotante input:disabled + label {
+    top: 0;
+    font-size: 13px;
+    color: rgb(130, 95, 95);
+    font-weight: 600;
+}
+
+.lista-editar-productos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.fila-editar-producto {
+    display: grid;
+    grid-template-columns: 28px 56px 1fr auto;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.check-editar-producto {
+    width: 18px;
+    height: 18px;
+}
+
+.imagen-editar-producto {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nombre-editar-producto {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+
+.formulario-edicion-expandido {
+    padding: 15px;
+    background-color: rgba(240, 248, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    margin-top: 8px;
+    margin-left: 0;
+}
+
+.formulario-edicion-expandido .form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: rgb(80, 80, 80);
+}
+
+.formulario-edicion-expandido .form-control,
+.formulario-edicion-expandido .form-select {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 0.95rem;
+}
+
+.formulario-edicion-expandido .form-control:disabled,
+.formulario-edicion-expandido .form-select:disabled {
+    background-color: rgba(200, 200, 200, 0.2);
+    cursor: not-allowed;
+}
+
+.formulario-edicion-expandido .d-flex.gap-2 {
+    margin-top: 12px;
+}
+
+.formulario-edicion-expandido .btn {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+}

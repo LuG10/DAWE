@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { guardarEnCarrito } from '../tienda.js'; 
-import { listaProductos, cargarCatalogo } from '../tienda.js';
 import { RamoPersonalizado } from '../clases/RamoPersonalizado.js'
 
-function GenerarRamo({setVerSoloFlores, cambiarPagina }) {
+function GenerarRamo({ setVerSoloFlores, cambiarPagina, productosBase }) {
     
 
     const [ramo, setRamo] = useState(() => {
@@ -11,7 +10,7 @@ function GenerarRamo({setVerSoloFlores, cambiarPagina }) {
         const nuevoRamo = new RamoPersonalizado();
         if (guardado) {
             const datos = JSON.parse(guardado);
-            const catalogo = [...listaProductos, ...cargarCatalogo()];
+            const catalogo = [...productosBase];
             datos.forEach(item => {
                 const flor = catalogo.find(p => p.id === item.idFlor);
                 if (flor) {
@@ -28,7 +27,7 @@ function GenerarRamo({setVerSoloFlores, cambiarPagina }) {
     const dropFlor = (e) => {
         e.preventDefault();
         const id = e.dataTransfer.getData("idFlor");
-        const flor = [...listaProductos, ...cargarCatalogo()].find(p => p.id == id);
+        const flor = [...productosBase].find(p => p.id == id);
         if (!flor) return;
         if (ramo.agregarFlor(flor)) {
         setFloresRamo([...ramo.flores]);
