@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import { crearProducto } from '../tienda.js'
 import axios from 'axios';
@@ -15,7 +15,22 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
   const [precio, setPrecio] = useState(0);
   const [archivo, setArchivo] = useState(null);
+  const [previewImagen, setPreviewImagen] = useState('');
   const [mensajeError, setMensajeError] = useState('');
+
+  useEffect(() => {
+    if (!archivo) {
+      setPreviewImagen('');
+      return;
+    }
+
+    const url = URL.createObjectURL(archivo);
+    setPreviewImagen(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [archivo]);
 
   const manejarCambioArchivo = (file) => {
     setArchivo(file);
@@ -101,10 +116,16 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
             <div className={`zona-drag-drop ${estaOffline ? 'offline' : ''}`}>
                 {archivo ? (
                   <div className='d-flex align-items-center p-2 border rounded bg-light' > 
-                  <span style={{ fontSize: "2rem", marginRight: "10px" }}>📄</span>
+                    {previewImagen && (
+                      <img
+                        src={previewImagen}
+                        alt="Vista previa"
+                        style={{ width: '56px', height: '56px', objectFit: 'cover', borderRadius: '6px', marginRight: '10px', border: '1px solid rgba(0,0,0,0.15)' }}
+                      />
+                    )}
                     <div>
-                      <small className="d-block text-muted">Archivo seleccionado:</small>
-                      <strong>{archivo.name}</strong>
+                      <small className="d-block text-dark">Hemos subido:</small>
+                      <strong className="text-dark">{archivo.name}</strong>
                     </div>
                   </div>
                 ) : (
@@ -112,6 +133,12 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
                 )}
             </div>
         </FileUploader>
+
+        {archivo && (
+          <div className="small mt-2 text-dark">
+            Hemos subido: <strong>{archivo.name}</strong>
+          </div>
+        )}
 
         <button type="submit" className="form-control mb-2 btn btn-primary" disabled={estaOffline}>Enviar</button>
         {mensajeError && <div className="text-danger small mt-1">{mensajeError}</div>}

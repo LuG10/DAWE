@@ -20,11 +20,13 @@ export class Producto {
   get precio() { return this.#precio; }
   get descripcion() { return this.#descripcion; }
   get imagen() { return this.#imagen; }
+  get categoria() { return this.#categoria; }
 
   set nombre(v) { this.#nombre = v; }
   set precio(v) { this.#precio = v; }
   set descripcion(v) { this.#descripcion = v; }
   set imagen(v) { this.#imagen = v; }
+  set categoria(v) { this.#categoria = v; }
 
   #generarId(nombre) {
   // Ahora el ID será siempre igual para el mismo nombre (ej: "ramo-de-rosas")

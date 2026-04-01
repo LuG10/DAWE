@@ -61,9 +61,12 @@ router.delete('/eliminar/:id', (req, res) => {
     if (err) {
       return res.status(500).json({ error: 'Error al eliminar producto' });
     }
-    if (!result || result.deletedCount === 0) {
+
+    const eliminados = typeof result === 'number' ? result : (result?.deletedCount ?? result?.n ?? 0);
+    if (!eliminados) {
       return res.status(404).json({ error: 'Producto no encontrado' });
     }
+
     res.json({ message: 'Producto eliminado' });
   });
 });
