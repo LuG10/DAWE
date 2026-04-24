@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongojs = require('mongojs');
 
-const db = mongojs('mongodb://localhost:27017/tienda');
+const db = mongojs('mongodb://localhost:27017/flora');
 
 router.get('/', (req, res) => {
   db.productos.find({}, (err, productos) => {

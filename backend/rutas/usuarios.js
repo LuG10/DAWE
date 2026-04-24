@@ -3,7 +3,7 @@ const router = express.Router();
 const mongojs = require('mongojs');
 const bcrypt = require('bcrypt');
 
-const db = mongojs('mongodb://localhost:27017/tienda');
+const db = mongojs('mongodb://localhost:27017/flora', ['usuarios']);
 
 router.post('/register', async (req, res) => {
   const { nombre, email, password } = req.body;
@@ -23,27 +23,34 @@ router.post('/register', async (req, res) => {
     res.status(500).json({ error: 'Error' });
   }
 });
-
-
 router.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  db.usuarios.findOne({ email }, async (err, user) => {
-    if (err || !user) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+  // Limpiamos el email de espacios y lo pasamos a minúsculas
+  const emailRecibido = req.body.email ? req.body.email.trim().toLowerCase() : "";
+  
+  console.log("--- INTENTO DE LOGIN ---");
+  console.log("Email recibido del frontend:", `"${emailRecibido}"`);
+
+  db.usuarios.findOne({ email: emailRecibido }, (err, usuario) => {
+    if (err) {
+      console.log("Error en la DB:", err);
+      return res.status(500).json({ error: 'Error DB' });
     }
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-      return res.status(401).json({ error: 'Credenciales inválidas' });
+    
+    if (!usuario) {
+      console.log("RESULTADO: No existe en MongoDB");
+      // Listamos los emails que SÍ existen en la DB para comparar
+      db.usuarios.find({}, {email: 1}, (err, todos) => {
+        console.log("Emails registrados en tu DB actualmente:", todos.map(u => `"${u.email}"`));
+      });
+      return res.status(401).json({ error: 'Usuario no existe en MongoDB' });
     }
-    // Incrementar visitas
-    db.usuarios.update({ _id: user._id }, { $set: { visits: (user.visits || 0) + 1 } }, (err) => {
-      if (err) console.log('Error updating visits');
-    });
-    req.session.userId = user._id;
-    res.json({ message: 'Login exitoso' });
+
+    console.log("RESULTADO: Usuario encontrado, iniciando sesión para:", usuario.nombre);
+    req.session.userId = usuario._id;
+    req.session.user = usuario;
+    res.status(200).json({ message: 'OK' });
   });
 });
-
 
 router.post('/logout', (req, res) => {
   req.session.destroy();

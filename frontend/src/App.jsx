@@ -129,7 +129,7 @@ function App() {
                 productosBase={productosBase}
               />
             ) : (
-              <Aside setUser={setUser} user={user} estaOffline={estaOffline}/>
+              <Aside setUser={setUser} user={user} estaOffline={estaOffline} visits={visits} />
             )}
           </aside>
         )}

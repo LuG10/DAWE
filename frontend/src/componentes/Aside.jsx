@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
-function Aside({setUser, user, estaOffline }) {
+function Aside({ setUser, user, estaOffline, visits }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
@@ -19,28 +21,44 @@ function Aside({setUser, user, estaOffline }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/api/usuarios/login', { email, password });
+            // 1. Iniciamos sesión en Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            
+            // 2. Avisamos al backend para que inicie la sesión de Express
+            await axios.post('http://localhost:8000/api/usuarios/login', { 
+                email: userCredential.user.email 
+            });
+            
+            // 3. Obtenemos los datos del usuario desde MongoDB
             const res = await axios.get('http://localhost:8000/api/usuarios/me');
             setUser(res.data);
             localStorage.setItem('hadSession', '1');
             setEmail('');
             setPassword('');
         } catch (err) {
-            alert('Error en login');
+            console.error(err);
+            alert('Error en login: Credenciales incorrectas o problema de red');
             setPassword('');
         }
     };
 
     const cerrarSesion = async () => {
         try {
+            // 1. Cerramos sesión en Firebase
+            await signOut(auth);
+            
+            // 2. Cerramos sesión en el Backend
             await axios.post('http://localhost:8000/api/usuarios/logout');
+            
             setUser(null);
             localStorage.removeItem('hadSession');
             setEmail('');
             setPassword('');
         } catch (err) {
+            console.error(err);
             alert('Error en logout');
-        }   };  
+        }   
+    };  
 
     const renderizarAside = () => {
         if (!user) {
@@ -68,13 +86,13 @@ function Aside({setUser, user, estaOffline }) {
                     {user.role === 'admin' && (
                         <div>Rol: {user.role}</div>
                     )}
-                    <div>Visitas: {user.visits}</div>
+                    {/* Aquí mostramos las visitas de la sesión de Express recibidas por props */}
+                    <div>Visitas de sesión: {visits}</div>
                 </div>
-                <button  className="btn btn-primary" onClick={cerrarSesion} disabled={estaOffline}>Cerrar sesión</button>
+                <button className="btn btn-primary" onClick={cerrarSesion} disabled={estaOffline}>Cerrar sesión</button>
             </div>
         );
     };
-
 
     return (
         renderizarAside()
@@ -82,10 +100,3 @@ function Aside({setUser, user, estaOffline }) {
 }
 
 export default Aside;
-
-
-
-
-
-
-

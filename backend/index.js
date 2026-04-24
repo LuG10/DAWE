@@ -1,77 +1,64 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
-const { MongoStore } = require('connect-mongo');
-const { MongoClient } = require('mongodb');
+const MongoStore = require('connect-mongo').default;
+const mongojs = require('mongojs');
 
-// Importar rutas
+const app = express();
+const PORT = 8000;
+const MONGO_URI = 'mongodb://localhost:27017/flora';
+
+// 1. Configuración de la Base de Datos
+const db = mongojs(MONGO_URI, ['usuarios', 'productos']);
+
+// 2. IMPORTACIÓN DE RUTAS (Debe ir después de definir 'db' si las usas ahí)
 const usuariosRouter = require('./rutas/usuarios');
 const productosRouter = require('./rutas/productos');
 
-// Configuración
-const app = express();
-const PORT = process.env.PORT || 8000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/tienda';
-
-const mongojs = require('mongojs');
-const db = mongojs(MONGO_URI);
-
-// Middleware
+// 3. Middlewares básicos
 app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' })); // Para leer datos de formularios
 
-// CORS
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5000', 'http://frontend:3000'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    origin: 'http://localhost:3000',
+    credentials: true
 }));
 
-// Sesiones
+// 4. Configuración de Sesiones
 app.use(session({
-    secret: 'tu_secreto_aqui', // Cambia esto por algo seguro
+    secret: 'tu_secreto_aqui',
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({
         mongoUrl: MONGO_URI,
-        // Tiempo de vida de la sesión: 24 horas
-        ttl: 60 * 60 * 24,
-        // Guardar inmediatamente las sesiones
-        autoRemove: 'native'
-        }),
-    cookie: { secure: false } // Cambia a true en producción con HTTPS
+        collection: 'sesiones'
+    }),
+    cookie: { 
+        secure: false, 
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 
+    }
 }));
 
-// Rutas
+// 5. Definición de Rutas (Ahora que ya están importadas arriba)
 app.use('/api/usuarios', usuariosRouter);
 app.use('/api/productos', productosRouter);
 
-// Ruta de visitas
+// 6. Ruta de visitas por sesión (Punto 5.4 del PDF)
 app.get('/api/visits', (req, res) => {
-    db.visits.findOne({}, (err, doc) => {
-        if (err) return res.status(500).json({error: 'Error'});
-        if (!doc) {
-            db.visits.insert({count: 1}, (err, newDoc) => {
-                if (err) return res.status(500).json({error: 'Error'});
-                res.json({visits: 1});
-            });
-        } else {
-            const newCount = doc.count + 1;
-            db.visits.update({_id: doc._id}, {$set: {count: newCount}}, (err) => {
-                if (err) return res.status(500).json({error: 'Error'});
-                res.json({visits: newCount});
-            });
-        }
-    });
+    if (!req.session.visits) {
+        req.session.visits = 1;
+    } else {
+        req.session.visits += 1;
+    }
+    res.json({ visits: req.session.visits });
 });
 
-// Ruta de prueba
 app.get('/', (req, res) => {
-    res.send('Backend funcionando');
+    res.send('Backend funcionando en DB flora');
 });
 
-// Iniciar servidor
+// 7. Inicio del servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
