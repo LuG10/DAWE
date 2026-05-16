@@ -1,0 +1,137 @@
+[
+  {
+    "id": "ramo-de-rosas",
+    "tipo": "Ramo",
+    "nombre": "Ramo de Rosas",
+    "precio": 35.00,
+    "descripcion": "Nuestro ramo clásico de 12 rosas rojas y blancas frescas es una elección elegante y atemporal que transmite sentimientos profundos con una combinación de colores llena de significado. Las rosas rojas simbolizan el amor, la pasión y la admiración, mientras que las rosas blancas representan pureza, respeto y sinceridad. Juntas crean un contraste armonioso y sofisticado que lo convierte en el detalle perfecto para cualquier ocasión especial.",
+    "imagen": "imagenes/ramos/ramo rosas.jpg",
+    "categoria": "Natural"
+  },
+  {
+    "id": "ramo-de-tulipanes",
+    "tipo": "Ramo",
+    "nombre": "Ramo de Tulipanes",
+    "precio": 28.50,
+    "descripcion": "Ramo de 24 tulipanes amarillos.",
+    "imagen": "imagenes/ramos/ramotulipanes.jpg",
+    "categoria": "Natural"
+  },
+  {
+    "id": "centro-floral-seco",
+    "tipo": "Ramo",
+    "nombre": "Centro Floral Seco",
+    "precio": 40.00,
+    "descripcion": "Decoración duradera con flores temporada de verano.",
+    "imagen": "imagenes/ramos/centrofloressecas.jpg",
+    "categoria": "Seco"
+  },
+  {
+    "id": "rosa-violeta-individual",
+    "tipo": "Flor",
+    "nombre": "Rosa Violeta Individual",
+    "precio": 5.00,
+    "descripcion": "Una rosa de tallo largo.",
+    "imagen": "imagenes/sinfoto.png",
+    "categoria": "Rojo"
+  },
+  {
+    "id": "tulipán-blanco",
+    "tipo": "Flor",
+    "nombre": "Tulipán Blanco",
+    "precio": 3.50,
+    "descripcion": "Tulipán fresco de Holanda.",
+    "imagen": "imagenes/flores/tulipan blanco.jpg",
+    "categoria": "Blanco"
+  },
+  {
+    "id": "lirio-roso",
+    "tipo": "Flor",
+    "nombre": "Lirio Rosa",
+    "precio": 4.00,
+    "descripcion": "Lirio grande y brillante.",
+    "imagen": "imagenes/flores/lirio rosa.jpg",
+    "categoria": "Rosa"
+  },
+  {
+    "id": "bonsái-ficus",
+    "tipo": "Planta",
+    "nombre": "Bonsái Ficus",
+    "precio": 55.00,
+    "descripcion": "Bonsái de 5 años, fácil cuidado.",
+    "imagen": "imagenes/plantas/bonsai.jpg",
+    "categoria": "Interior"
+  },
+  {
+    "id": "palmera-datilera-pequeña",
+    "tipo": "Planta",
+    "nombre": "Palmera Datilera pequeña",
+    "precio": 25.00,
+    "descripcion": "Palmera datilera pequeña para exteriores.",
+    "imagen": "imagenes/plantas/plantaext.jpg",
+    "categoria": "Exterior"
+  },
+  {
+    "id": "sansevieria",
+    "tipo": "Planta",
+    "nombre": "Sansevieria",
+    "precio": 8.00,
+    "descripcion": "Sansevieria en maceta blanca.",
+    "imagen": "imagenes/plantas/plantainterior.png",
+    "categoria": "Interior"
+  },
+  {
+    "id": "oso-de-peluche",
+    "tipo": "Regalo",
+    "nombre": "Oso de Peluche",
+    "precio": 15.00,
+    "descripcion": "Peluche suave de 30cm.",
+    "imagen": "imagenes/regalos/osoblanco.jpg",
+    "categoria": "No"
+  },
+  {
+    "id": "caja-de-bombones",
+    "tipo": "Regalo",
+    "nombre": "Caja de Bombones",
+    "precio": 12.00,
+    "descripcion": "Surtido de chocolates belgas.",
+    "imagen": "imagenes/regalos/cajabombones.jpg",
+    "categoria": "Si"
+  },
+  {
+    "id": "botella-de-vino",
+    "tipo": "Regalo",
+    "nombre": "Botella de Vino",
+    "precio": 10.00,
+    "descripcion": "Botella de vino tinto para celebraciones.",
+    "imagen": "imagenes/regalos/vino.jpg",
+    "categoria": "Si"
+  },
+  {
+    "id": "jarrón-de-cerámica",
+    "tipo": "Accesorio",
+    "nombre": "Jarrón de Cerámica",
+    "precio": 20.00,
+    "descripcion": "Jarrón clásico de cerámica blanca.",
+    "imagen": "imagenes/accesorios/jarron.png",
+    "categoria": "Grande"
+  },
+  {
+    "id": "maceta",
+    "tipo": "Accesorio",
+    "nombre": "Maceta",
+    "precio": 10.00,
+    "descripcion": "Maceta de cerámica pintada a mano.",
+    "imagen": "imagenes/accesorios/maceta.jpg",
+    "categoria": "Pequeño"
+  },
+  {
+    "id": "herramientas-de-jardinería",
+    "tipo": "Accesorio",
+    "nombre": "Herramientas de Jardinería",
+    "precio": 16.50,
+    "descripcion": "Set de herramientas básicas para jardinería.",
+    "imagen": "imagenes/accesorios/herramientas.jpg",
+    "categoria": "Pequeño"
+  }
+]
