@@ -6,7 +6,7 @@ const mongojs = require('mongojs');
 
 const app = express();
 const PORT = 8000;
-const MONGO_URI = 'mongodb://localhost:27017/flora';
+const MONGO_URI = 'mongodb://localhost:27017/tienda';
 
 // 1. Configuración de la Base de Datos
 const db = mongojs(MONGO_URI, ['usuarios', 'productos']);

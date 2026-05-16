@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { buscarProductos, DIVISA, guardarEnCarrito } from '../tienda.js'; 
+import { buscarProductos, DIVISA, guardarEnCarrito, obtenerFloresParaRamo } from '../tienda.js'; 
 import BuscadorProductos from './BuscadorProductos.jsx';
 import Paginacion from './Paginacion.jsx';
 import DetallesProducto from './DetallesProducto.jsx';
@@ -14,7 +14,7 @@ function EscaparateProductos({ verSoloFlores, paginaActual, cambiarPagina, produ
 
   const PRODUCTOS_POR_PAGINA = 6;
 
-  const productosFiltradosPorCategoria = verSoloFlores ? productosFiltrados.filter(p => p instanceof Flor || p.categoria === "Flor"): productosFiltrados;
+  const productosFiltradosPorCategoria = verSoloFlores ? obtenerFloresParaRamo(productosFiltrados) : productosFiltrados;
 
   const indiceUltimoProducto = paginaActual * PRODUCTOS_POR_PAGINA;
   const indicePrimerProducto = indiceUltimoProducto - PRODUCTOS_POR_PAGINA;

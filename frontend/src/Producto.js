@@ -6,12 +6,13 @@ export class Producto {
   #imagen;
   #categoria;
 
+
   constructor(nombre, precio, descripcion, imagen, categoria) {
     this.#nombre = nombre;
     this.#precio = precio;
     this.#descripcion = descripcion;
     this.#imagen = imagen;
-    this.#id = this.#generarId(nombre);
+    this.#id = Producto.generarId(nombre);
     this.#categoria = categoria;
   }
 
@@ -28,10 +29,11 @@ export class Producto {
   set imagen(v) { this.#imagen = v; }
   set categoria(v) { this.#categoria = v; }
 
-  #generarId(nombre) {
-  // Ahora el ID será siempre igual para el mismo nombre (ej: "ramo-de-rosas")
-  return nombre.toLowerCase().trim().replace(/\s+/g, '-');
-}
+
+  static generarId(nombre) {
+    // Ahora el ID será siempre igual para el mismo nombre (ej: "ramo-de-rosas")
+    return String(nombre).toLowerCase().trim().replace(/\s+/g, '-');
+  }
 
   toPlainObject() {
     return {

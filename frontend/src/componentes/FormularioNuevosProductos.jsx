@@ -55,6 +55,7 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
         imagenFinal = await convertirA64(archivo);
       }
 
+      // tipo = categoriaSeleccionada
       const nuevoProducto = crearProducto(categoriaSeleccionada, nombre, precio, descripcion, imagenFinal, atributoExtra);
       if (!nuevoProducto) {
         setMensajeError('Selecciona una categoria valida.');
@@ -65,12 +66,12 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
 
       await axios.post('http://localhost:8000/api/productos/anadir', {
         id: productoPlano.id,
+        tipo: categoriaSeleccionada,
         nombre: productoPlano.nombre,
         precio: productoPlano.precio,
         descripcion: productoPlano.descripcion,
         imagen: productoPlano.imagen,
-        categoria: productoPlano.categoria,
-        tipo: productoPlano.categoria
+        categoria: categoriaSeleccionada
       });
 
       if (typeof onProductoCreado === 'function') {
@@ -99,12 +100,12 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
       <form style={{ opacity: estaOffline ? 0.6 : 1 }} onSubmit={añadirElemento}>
         <h2>Añadir productos</h2>
         <select id="categoria" name="categoria" className="form-control mb-2" value={categoriaSeleccionada} onChange={(e) => setCategoriaSeleccionada(e.target.value)} disabled={estaOffline} required>
-            <option value="">Escoge un tipo</option>
-            <option value="Flor">Flores</option>
-            <option value="Ramo">Ramos</option>
-            <option value="Planta">Plantas</option>
-            <option value="Accesorio">Accesorios</option>
-            <option value="Regalo">Regalos</option>
+          <option value="">Escoge un tipo</option>
+          <option value="Flor">Flor</option>
+          <option value="Ramo">Ramo</option>
+          <option value="Planta">Planta</option>
+          <option value="Accesorio">Accesorio</option>
+          <option value="Regalo">Regalo</option>
         </select>
         <input type="text" name="NombreProducto" placeholder="Nombre" className="form-control mb-2" value={nombre} onChange={(e) => setNombre(e.target.value)} disabled={estaOffline} required/>
         <input type="number"  name="precioProducto" placeholder="Precio" className="form-control mb-2" value={precio} min="0" step="0.01" onChange={(e) => setPrecio(Number(e.target.value))} required disabled={estaOffline}/>

@@ -104,6 +104,7 @@ function Editar_borrarProducto({productosBase, estaOffline, onProductoActualizad
           precio: precio,
           descripcion: formData.descripcion,
           categoria: formData.categoria,
+          tipo: formData.categoria,
           imagen: imagenFinal
         },
         { withCredentials: true }

@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState, useEffect } from 'react';
-import { listaProductos } from './tienda.js';
+
 
 import './App.css';
 
@@ -16,12 +16,9 @@ import DetallesUsuario from './componentes/DetallesUsuario.jsx';
 import Aside from './componentes/Aside.jsx';
 import axios from 'axios';
 import Editar_borrarProducto from './componentes/Editar_borrarProducto.jsx';
+import { crearProducto } from './tienda.js';
 
-const combinarCatalogo = (base, db) => {
-  const porId = new Map(base.map((p) => [p.id, p]));
-  (db || []).forEach((p) => porId.set(p.id, p));
-  return Array.from(porId.values());
-};
+
 
 function App() {
   const [verSoloFlores, setVerSoloFlores] = useState(false);
@@ -29,7 +26,7 @@ function App() {
   const [seccion, setSeccion] = useState("escaparate");
   const [user, setUser] = useState(null);
   const [visits, setVisits] = useState(0);
-  const [productosBase, setProductosBase] = useState(listaProductos);
+  const [productosBase, setProductosBase] = useState([]);
   const [estaOffline, setEstaOffline] = useState(!navigator.onLine);
 
   useEffect(() => {
@@ -49,13 +46,14 @@ function App() {
     axios.get('http://localhost:8000/api/productos')
       .then(res => {
         if (Array.isArray(res.data)) {
-          setProductosBase(combinarCatalogo(listaProductos, res.data));
+          const instancias = res.data.map(p =>crearProducto(p.tipo, p.nombre, p.precio, p.descripcion, p.imagen, p.color, p.atributoExtra));
+          setProductosBase(instancias);
           return;
         }
-        setProductosBase(listaProductos);
+        setProductosBase([]);
       })
       .catch(() => {
-        setProductosBase(listaProductos);
+        setProductosBase([]);
       });
   };
 
@@ -71,8 +69,15 @@ function App() {
             setUser(null);
             return;
           }
+          // Si es 404, simplemente no hay usuario logueado, no mostrar error en consola
+          if (err?.response?.status === 404) {
+            setUser(null);
+            return;
+          }
           console.log('Error checking logged user', err);
         });
+    } else {
+      setUser(null);
     }
 
     axios.get('http://localhost:8000/api/visits')
