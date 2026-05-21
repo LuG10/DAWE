@@ -43,7 +43,7 @@ function App() {
   }, []);
 
   const recargarProductos = () => {
-    axios.get('http://localhost:8000/api/productos')
+    axios.get('/api/productos')
       .then(res => {
         if (Array.isArray(res.data)) {
           const instancias = res.data.map(p =>crearProducto(p.tipo, p.nombre, p.precio, p.descripcion, p.imagen, p.color, p.atributoExtra));
@@ -61,7 +61,7 @@ function App() {
     axios.defaults.withCredentials = true;
     const hadSession = localStorage.getItem('hadSession') === '1';
     if (hadSession) {
-      axios.get('http://localhost:8000/api/usuarios/me')
+      axios.get('/api/usuarios/me')
         .then(res => setUser(res.data))
         .catch(err => {
           if (err?.response?.status === 401) {
@@ -80,7 +80,7 @@ function App() {
       setUser(null);
     }
 
-    axios.get('http://localhost:8000/api/visits')
+    axios.get('/api/visits')
       .then(res => setVisits(res.data.visits))
       .catch(err => console.log('Error getting visits', err));
 

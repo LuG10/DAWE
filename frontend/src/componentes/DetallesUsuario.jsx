@@ -25,12 +25,12 @@ function DetallesUsuario({ setUser, user, estaOffline }) {
     e.preventDefault();
     try {
       await axios.put(
-        'http://localhost:8000/api/usuarios/update',
+        '/api/usuarios/update',
         { nombre: formData.nombre, direccion: formData.direccion, telefono: formData.telefono, nacimiento: formData.nacimiento },
         { withCredentials: true }
       );
 
-      const res = await axios.get('http://localhost:8000/api/usuarios/me', { withCredentials: true });
+      const res = await axios.get('/api/usuarios/me', { withCredentials: true });
       setUser(res.data);
       setFormData((prev) => ({ ...prev, password: '' }));
     } catch (err) {

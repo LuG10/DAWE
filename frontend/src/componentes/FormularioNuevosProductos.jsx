@@ -64,7 +64,7 @@ function FormularioNuevosProductos({ onProductoCreado, estaOffline }) {
 
       const productoPlano = nuevoProducto.toPlainObject();
 
-      await axios.post('http://localhost:8000/api/productos/anadir', {
+      await axios.post('/api/productos/anadir', {
         id: productoPlano.id,
         tipo: categoriaSeleccionada,
         nombre: productoPlano.nombre,

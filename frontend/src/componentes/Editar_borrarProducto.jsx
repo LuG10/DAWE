@@ -98,7 +98,7 @@ function Editar_borrarProducto({productosBase, estaOffline, onProductoActualizad
       }
 
       await axios.put(
-        `http://localhost:8000/api/productos/update/${productoEnEdicion.id}`,
+        `/api/productos/update/${productoEnEdicion.id}`,
         {
           nombre: formData.nombre,
           precio: precio,
@@ -146,7 +146,7 @@ function Editar_borrarProducto({productosBase, estaOffline, onProductoActualizad
 
       const resultados = await Promise.allSettled(
         seleccionados.map((id) =>
-          axios.delete(`http://localhost:8000/api/productos/eliminar/${id}`, { withCredentials: true })
+          axios.delete(`/api/productos/eliminar/${id}`, { withCredentials: true })
         )
       );
 

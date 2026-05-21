@@ -25,12 +25,12 @@ function Aside({ setUser, user, estaOffline, visits }) {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             
             // 2. Avisamos al backend para que inicie la sesión de Express
-            await axios.post('http://localhost:8000/api/usuarios/login', { 
+            await axios.post('/api/usuarios/login', { 
                 email: userCredential.user.email 
             });
             
             // 3. Obtenemos los datos del usuario desde MongoDB
-            const res = await axios.get('http://localhost:8000/api/usuarios/me');
+            const res = await axios.get('/api/usuarios/me');
             setUser(res.data);
             localStorage.setItem('hadSession', '1');
             setEmail('');
@@ -48,7 +48,7 @@ function Aside({ setUser, user, estaOffline, visits }) {
             await signOut(auth);
             
             // 2. Cerramos sesión en el Backend
-            await axios.post('http://localhost:8000/api/usuarios/logout');
+            await axios.post('/api/usuarios/logout');
             
             setUser(null);
             localStorage.removeItem('hadSession');
