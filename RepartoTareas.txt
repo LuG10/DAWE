@@ -1,22 +1,18 @@
 Lucía:
-    - Adaptacion de la estructura generada a la plantilla css de la anterior entrega
-    - Formulario para añadir nuevas clases
-    - Migracion de los metodos de utils.js a su componente
-    - Funcionalidad extra: ramo personalizado
-    - Arreglos finales varios
+    - Formulario Mi Cuenta
+    - Servidor Express y estructura de rutas
+    - Panel de Usuario en el aside
+    - Control de estado sin conexión
 
 Maira:
-    - Genercion de la estructura principal del react
-    - Migracion de los metodos de utils.js a su componente
-    - Solucion de integracion de los elementos introducidos por usuarios al carrito
-    - Funcionalidad extra: cupón de descuento
-    - Paginación
+    - Fiberbase
+    - Autentificación personas
+    - Visitas
+    - Registro bd
+    - Droplet
 
     
 Ana:
-    - Genercion de la estructura principal del react
-    - Migracion de los metodos de utils.js a su componente
-    - Solucion de integracion de los elementos introducidos por usuarios al carrito
-    - Funcionalidad extra: cupón de descuento
-    - Buscador
-
+    - Editar/Borrar productos
+    - MenuNavegacion según rol
+    - Control de estado sin conexión
